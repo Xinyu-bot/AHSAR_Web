@@ -3,20 +3,20 @@ Development In Progress
 
 ## Introduction
 Web Application for AHSAR
-Check the sentiment analysis result of students commentary of the professor of your choice by entering the `tid` of a professor URL on RateMyProfessors.com website. 
+Check the sentiment analysis result of student's commentary on the professor of your choice by entering the `tid` in a professor URL from RateMyProfessors.com website. 
 
-For example, assume a "randomly-selected" professor URL is `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994` (Salute to Professor Adam Meyers, my professor for CS0002 and CS480 NLP), enter `2105994` but not the name of professor or the full URL. 
+For example, assume a "randomly-selected" professor URL is `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994` (Salute to Professor Adam Meyers from NYU, CS0002 ICP and CS480 NLP), enter `2105994` but not the name of professor or the full URL. 
 
 Notice that Sentiment Score (discrete) is computed based on individual comments, while Sentiment Score (continuous) is computed based on all comments.
 In other words, the higher the discrete score is, the more individual comments are positive. The higher the continuous score is, the larger proportion of all comments are positive.
 
 ## Application Structure (Not Finished)
-* Frontend (Undecided, potentially JavaScript or Python, Framework: React.js or Flask) 
+* Frontend (Undecided, potentially JavaScript Vue.js framework) 
 * Backend Server (Language: Go, Framework: Gin) 
-* Query Cache (MiddleWare: Redis) 
-* Message Queue (MiddleWare: Kafka) 
+* Query Cache (MiddleWare: Redis, written in C) 
+* Message Queue (MiddleWare: Kafka, written in Java) 
 * NLP Process: Modified Version of AHSAR NLP project (Language: Python) 
-* Language Environment Setup: C, Go, Python, Java. Check source file in this repository to find the actual Packages/Modules involved. 
+* Language Environment Setup: C, Go, Python, Java. Check source file in this repository to find the actual Packages/Modules involved. Full list of dependencies will be listed when air in production mode. 
 
 ## Application Setup (Not Finished)
 * Prepare Query Cache and Message Queue beforehand...!
@@ -38,7 +38,7 @@ In other words, the higher the discrete score is, the more individual comments a
 For the full implementation and reference of the NLP Algorithm Process behind, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
 
 ## License
-Project under MIT License. Basically, feel free to adopt any code from here for any usage, with no warranty, promise, or liability from the author Xinyu-Bot. But a little bit of credit/reference is very appreciated. 
+Project under MIT License. Basically, feel free to adopt any code from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
 
 ## History and TODOs:
 *   2021/08/17: 
@@ -47,7 +47,7 @@ Project under MIT License. Basically, feel free to adopt any code from here for 
         *   Simple Redis connection included. 
         *   Project runnable with basic funcionality. 
     *   TODO in mind (not ordered by any factor):
-        *   Rundimental Frontend implementation, potentially by Flask(Python) or React.js(JavaScript). 
+        *   Rundimental Frontend implementation, potentially Vue.js(JavaScript). 
         *   Simple Kafka connection. 
         *   NLP Process continuous modification, potentially on multi-processing / process pool / MPI. 
         *   Usage of Goroutine...Multi-everything! 
