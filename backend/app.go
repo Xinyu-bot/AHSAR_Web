@@ -33,6 +33,7 @@ func main() {
 	// get professor sentiment analysis score by professor ID
 	r.GET("/get_prof_by_id", func(c *gin.Context) {
 		input := c.Query("input")
+		fmt.Println("Client IP", c.ClientIP)
 		var res []string
 
 		// check redis (as a fast RAM-based cache) if the input query exists
