@@ -13,9 +13,6 @@ def load_models() -> tuple:
 
     return trigram_model, bigram_model, unigram_model, porterStemmer
 
-#def fetch_prof_info() -> tuple: 
-#    return scraper.get_comments(sys.argv[1])
-
 def analyze_sentiment(comments: list, trigram_model: dict, bigram_model: dict, unigram_model: dict, 
 porterStemmer: PorterStemmer, quality_score: float, difficulty_score: float, name: str) -> None: 
     pos, neg, count = 0, 0, 0
@@ -57,7 +54,7 @@ def main() -> None:
     except scraper.UrlException:
         return 
     if comments is None: 
-        print("Professor {0} does not have any comment. ".format(name))
+        print(name, quality_score, difficulty_score, -1, -1)
     else:
         name, quality_score, difficulty_score, sentiment_score_disc, sentiment_score_cont =\
             analyze_sentiment(comments, trigram_model, bigram_model, unigram_model, porterStemmer, quality_score, difficulty_score, name)
