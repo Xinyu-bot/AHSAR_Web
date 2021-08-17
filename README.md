@@ -35,7 +35,7 @@ In other words, the higher the discrete score is, the more individual comments a
 * Backend retrieves data from Query Cache and returns it to Frontend
 
 ## NLP Algorithm Process
-For the full implementation of the NLP Algorithm Process behind, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
+For the full implementation and reference of the NLP Algorithm Process behind, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
 
 ## License
 Project under MIT License. Basically, feel free to adopt any code from here for any usage, with no warranty, promise, or liability from the author Xinyu-Bot. But a little bit of credit/reference is very appreciated. 
