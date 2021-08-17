@@ -11,11 +11,12 @@ Notice that Sentiment Score (discrete) is computed based on individual comments,
 In other words, the higher the discrete score is, the more individual comments are positive. The higher the continuous score is, the larger proportion of all comments are positive.
 
 ## Application Structure (Not Finished)
-* Frontend (Undecided) 
+* Frontend (Undecided, potentially JavaScript or Python, Framework: React.js or Flask) 
 * Backend Server (Language: Go, Framework: Gin) 
 * Query Cache (MiddleWare: Redis) 
 * Message Queue (MiddleWare: Kafka) 
 * NLP Process: Modified Version of AHSAR NLP project (Language: Python) 
+* Language Environment Setup: C, Go, Python, Java. Check source file in this repository to find the actual Packages/Modules involved. 
 
 ## Application Setup (Not Finished)
 * Prepare Query Cache and Message Queue beforehand...!
@@ -45,7 +46,9 @@ Project under MIT License. In addition, feel free to adopt any code from here wi
         *   First push to GitHub Repository. 
         *   Simple Redis connection included. 
         *   Project runnable with basic funcionality. 
-    *   TODO in mind:
-        *   Rundimental Frontend. 
+    *   TODO in mind (not ordered by any factor):
+        *   Rundimental Frontend implementation, potentially by Flask(Python) or React.js(JavaScript). 
         *   Simple Kafka connection. 
-        *   NLP Process modification for potentially multi-processing / process pool
+        *   NLP Process continuous modification, potentially on multi-processing / process pool / MPI. 
+        *   Usage of Goroutine...Multi-everything! 
+        *   Air in production mode, potentially on AWS or TencentCloud. 
