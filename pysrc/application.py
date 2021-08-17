@@ -7,7 +7,7 @@ import sys
 ''' Modulability is everything '''
 def load_models() -> tuple: 
     # import models and setup for sentiment analysis process
-    unigram_model = unigram_lexicon_based.generate_lexicon("./pysrc/unigram_lexicon_extended.csv")
+    unigram_model = unigram_lexicon_based.generate_lexicon("../pysrc/unigram_lexicon_extended.csv")
     trigram_model, bigram_model = trigram.import_models()
     porterStemmer = PorterStemmer()
 

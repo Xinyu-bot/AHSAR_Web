@@ -11,7 +11,7 @@ import (
 func ObtainProfessor(input string) ([]string) {
 	var ret []string
 
-	args := []string{"./pysrc/application.py", input}
+	args := []string{"../pysrc/application.py", input}
 	cmd := exec.Command("python3", args...)
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
@@ -25,7 +25,7 @@ func ObtainProfessor(input string) ([]string) {
 	// if professor is not found 
 	fmt.Println("outStr in rmp.go/ObtainProfessor:", outStr)
 	if len(outStr) == 0 {
-		return []string{"-1", "-1", "-1", "-1", "-1"}
+		return []string{"-1", "-1", "-1", "-1", "-1", "-1"}
 	}
 
 	outStr = strings.Trim(outStr, "\n")

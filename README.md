@@ -1,7 +1,7 @@
 # AHSAR_Web
-## Development In Progress
+Development In Progress
 
-#### Introduction
+## Introduction
 Web Application for AHSAR
 Check the sentiment analysis result of students commentary of the professor of your choice by entering the `tid` of a professor URL on RateMyProfessors.com website. 
 
@@ -10,21 +10,21 @@ For example, assume a "randomly-selected" professor URL is `https://www.ratemypr
 Notice that Sentiment Score (discrete) is computed based on individual comments, while Sentiment Score (continuous) is computed based on all comments.
 In other words, the higher the discrete score is, the more individual comments are positive. The higher the continuous score is, the larger proportion of all comments are positive.
 
-#### Application Structure (Not Finished)
+## Application Structure (Not Finished)
 * Frontend (Undecided) 
 * Backend Server (Language: Go, Framework: Gin) 
 * Query Cache (MiddleWare: Redis) 
 * Message Queue (MiddleWare: Kafka) 
 * NLP Process: Modified Version of AHSAR NLP project (Language: Python) 
 
-#### Application Setup (Not Finished)
+## Application Setup (Not Finished)
 * Prepare Query Cache and Message Queue beforehand...!
 * Start Query Cache and Message Queue
 * Start NLP Process
 * Start Backend Server
 * Start Frontend / Access directly on browser
 
-#### Application Workflow (Not Finished)
+## Application Workflow (Not Finished)
 * Frontend sends query to Backend
 * Backend receives query and check if it is in Query Cache:
     * If in, retrieves the cached result and returns it to Frontend
@@ -33,13 +33,13 @@ In other words, the higher the discrete score is, the more individual comments a
 * Update the Query Cache with the analyzed result and notifies Backend Server to retrieve result from Query Cache
 * Backend retrieves data from Query Cache and returns it to Frontend
 
-#### NLP Algorithm Process
+## NLP Algorithm Process
 For the full implementation of the NLP Algorithm Process behind, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
 
-#### License
+## License
 Project under MIT License. In addition, feel free to adopt any code from here with no guarantee, promise, or liability from the author. 
 
-#### History and TODOs:
+## History and TODOs:
 *   2021/08/17: 
     *   Done:
         *   First push to GitHub Repository. 

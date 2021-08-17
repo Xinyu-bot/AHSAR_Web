@@ -107,9 +107,9 @@ def analyze_trigram(sentence: str, trigram_model: dict, bigram_model: dict, unig
 
 # helper function to import the previously exported model bytefiles
 def import_models() -> tuple: 
-    with open('./pysrc/trigram.model', 'rb') as handle:
+    with open('../pysrc/trigram.model', 'rb') as handle:
         trigram_model = pickle.load(handle)
-    with open('./pysrc/bigram.model', 'rb') as handle: 
+    with open('../pysrc/bigram.model', 'rb') as handle: 
         bigram_model = pickle.load(handle)
 
     return (trigram_model, bigram_model)
