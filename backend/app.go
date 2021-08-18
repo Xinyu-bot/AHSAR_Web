@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	//"net/http"
+	//"log"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
+	//"github.com/Shopify/sarama"
+	"github.com/segmentio/fasthash/fnv1a"
 )
 
 var redisClient *redis.Client
@@ -20,6 +22,22 @@ func main() {
 		DB: 0,
 	})
 	defer redisClient.Close()
+
+	/*
+	// Simple Kafka Connection
+	config := sarama.NewConfig()
+	config.Producer.Return.Successes = true
+	kafkaClient, err := sarama.NewClient([]string{"localhost:9092"}, config)
+	if err != nil {
+		log.Fatalf("unable to create kafka client: %q", err)
+	}
+	defer kafkaClient.Close()
+	producer, errk := sarama.NewAsyncProducerFromClient(kafkaClient)
+	if errk != nil {
+		log.Fatalf("unable to create kafka producer: %q", errk)
+	}
+	defer producer.Close()
+	*/
 
 	/*
 	APIs avail for frontend
@@ -47,7 +65,8 @@ func main() {
 				res is in form of 
 				[]string{name, quality_score, difficulty_score, sentiment_score_discrete, sentiment_score_continuous}
 			*/
-			res = ObtainProfessor(input)
+			seq := fnv1a.HashString64(input)
+			res = ObtainProfessor(/*producer, */seq, input)
 			fmt.Println("res from ObtainProfessor:", res)
 			// update Redis with the new data
 			RedisUpdateCache(redisClient, input, res)
@@ -63,7 +82,12 @@ func main() {
 
 		fmt.Println("returned message:", res)
 		c.JSON(200, gin.H{
-			"messgae": res,
+			profAttr[0]: res[0],
+			profAttr[1]: res[1],
+			profAttr[2]: res[2],
+			profAttr[3]: res[3],
+			profAttr[4]: res[4],
+			profAttr[5]: res[5],
 		})
 	})
 
