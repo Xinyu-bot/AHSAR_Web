@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"github.com/go-redis/redis"
+	"time"
 )
 
 // Check and Try to retrieve query entry from Redis
@@ -31,6 +32,12 @@ func RedisUpdateCache(redisClient *redis.Client, input string, values []string) 
 	if err != nil {
 		log.Fatalf("UpdateCache err:", err)
 	}
-	
+
+	// set the expiration time of cache --> 6 hours expiration time
+	_, expErr := redisClient.Expire(input, 60 * 60 * 6 * time.Second).Result()
+	if expErr != nil {
+		log.Fatalf("SetExpire err:", expErr)
+	}
+
 	return ok
 }
