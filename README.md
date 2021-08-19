@@ -43,16 +43,17 @@ For the full project (including datebase of __80k labeled RMP comments__ and oth
 Project under MIT License. Basically, feel free to adopt any code from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
 
 ## Project History:
-*   2021/08/17: 
-    *   First push to GitHub Repository. 
-    *   Simple Redis connection included. 
-    *   Project runnable with basic funcionality. 
+*   ...
+*   2021/08/19:
+    *   Redis cache set with expiration limit
 *   2021/08/18:
     *   Backend Server now communications with NLP Server through Naive Socket TCP Connection. 
     *   New NLP Server with Naive Socket TCP Connection and multi-processing pool. 
     *   Removal of Kafka dependency. 
-*   2021/08/19:
-    *   Redis cache set with expiration limit
+*   2021/08/17: 
+    *   First push to GitHub Repository. 
+    *   Simple Redis connection included. 
+    *   Project runnable with basic funcionality. 
 
 ## TODO
 Notice that this TODO list is not ordered by any factor (estimated finish time, importance, difficulty, etc.) and is not guaranteed to be implemented either:
