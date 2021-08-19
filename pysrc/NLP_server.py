@@ -42,6 +42,7 @@ porterStemmer: PorterStemmer, quality_score: float, difficulty_score: float, nam
 
 # retrieve comments from RMP, analyze sentimenet, and return result to Backend Server
 def func(comm_socket: socket.socket, pid: str) -> None:
+    func_start = time()
     ret = None
     try:
         comments, quality_score, difficulty_score, name = scraper.get_comments(pid) 
@@ -57,6 +58,7 @@ def func(comm_socket: socket.socket, pid: str) -> None:
                 )
     finally:
         comm_socket.send(" ".join(ret).encode())
+        print("Task pid#{0} done in {1} seconds".format(pid, round(time() - func_start, 3)))
     return
 
 
@@ -80,6 +82,7 @@ def main() -> None:
     while True: 
         (comm_socket, client_addr) = sock.accept()
         pid = comm_socket.recv(128).decode()
+        print("Received pid:", pid)
         pool.apply_async(func, (comm_socket, pid, ))
 
     # quit elegantly
