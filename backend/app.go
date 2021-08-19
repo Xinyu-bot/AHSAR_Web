@@ -44,7 +44,9 @@ func main() {
 			// obtain data of the professor from RMP website and analyze by ../pysrc/NLP_server.py
 			res = ObtainProfessor(input)
 			// update Redis with the new data
-			RedisUpdateCache(redisClient, input, res)
+			if check := RedisCheckCache(redisClient, input); len(check) == 0 {
+				RedisUpdateCache(redisClient, input, res)
+			}
 		} else { // retrieve cached data from Redis
 			// populate res with the retrieved data
 			res = make([]string, 6)
@@ -60,5 +62,6 @@ func main() {
 		})
 	})
 
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run() 
 }

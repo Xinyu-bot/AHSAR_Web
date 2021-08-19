@@ -17,13 +17,14 @@ func ObtainProfessor(input string) ([]string) {
 	// send input to NLP Server
 	conn.Write([]byte(input))
 
+	// read result from NLP Server
 	buf := make([]byte, 1024)
 	n, errRead := conn.Read(buf)
 	if errRead != nil {
 		log.Fatalf("errRead:", errRead)
 	}
 
-	// read result from NLP Server
+	// format the read result
 	ret := strings.Split(string(buf[:n]), " ")
 	return ret
 }
