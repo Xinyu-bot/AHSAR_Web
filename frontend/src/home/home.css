@@ -1,6 +1,7 @@
 #searchByID_Intro {
     text-align: left;
-    width: 50vw;
+    width: 70vw;
     position: flex;
-    padding-left: 25vw;
+    padding-left: 15vw;
+    font-size: 120%;
 }

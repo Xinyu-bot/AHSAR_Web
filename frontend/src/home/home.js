@@ -83,7 +83,7 @@ function Home() {
         <div className = "Home">
             <h2>Hello, Welcome to AHSAR Website! Development in Progress...</h2>
             <span>
-                Visit <a href = "https://github.com/Xinyu-bot/AHSAR_Web">this GitHub repository</a> for the full project: Codebase, Database, Refernece List, etc. 
+                Visit <a href = "https://github.com/Xinyu-bot/AHSAR_Web">this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc. 
             </span>
 
             {/* Notice that this is commented out because -
@@ -96,18 +96,24 @@ function Home() {
                 <p id = "searchByID_Intro">
                     By entering the pid of a professor of your choice, 
                     get the Sentiment Analysis result of students' commentary 
-                    from RateMyProfessors.com on the professor right away!<br></br><br></br>
+                    from RateMyProfessors.com on the professor right away!
+                </p>
+
+                <p id = "searchByID_Intro">
                     For example, if the professor's URL on RateMyProfessors.com is 
-                    https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994 
-                    Then, enter 2105994 in the text box below. <br></br>
+                    https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994<br></br>
+                    Then, enter 2105994 in the text box below.
+                </p>
+
+                <p id = "searchByID_Intro">
                     Notice that Sentiment Score (discrete) is computed based on individual comments, 
                     while Sentiment Score (continuous) is computed based on all comments. 
                     In other words, the higher the discrete score is, the more individual comments are positive. 
                     The higher the continuous score is, the larger proportion of all comments are positive.
-                    <br></br>
+                    The sentiment score can be undeterministic, because of random tier-breaking.
                 </p>
             </span>
-            <textarea placeholder = "Please enter a PID" onInput={(e) => _setPID(e.target.value)} />
+            <input placeholder = "Please enter a PID" onInput={(e) => _setPID(e.target.value)} />
             <button onClick={(e) => {searchEnter(e)}}>Search</button>
             
             <div id = "result">
