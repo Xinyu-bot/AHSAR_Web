@@ -3,7 +3,9 @@ Development In Progress
 
 ## Introduction
 Web Application for AHSAR
-<br></br>
+
+Temporary Website under Development Mode: http://54.251.197.0:3000/
+
 Check the sentiment analysis result of student's commentary on the professor of your choice by entering the `tid` in a professor URL from RateMyProfessors.com website. 
 
 For example, assume a "randomly-selected" professor URL is `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994` (Salute to Professor Adam Meyers from NYU, CS0002 ICP and CS480 NLP), enter `2105994` but not the name of professor or the full URL. 
@@ -36,19 +38,24 @@ In other words, the higher the discrete score is, the more individual comments a
 * Backend updates Redis with the result and also returns result to Frontend
 
 ## NLP Server
-For the full project (including datebase of __80k labeled RMP comments__ and other imported data, codebase of __RMP scraper__ and __N-gram algorithm__, and __reference__ list for the imported data) of the NLP Server behind the screen, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
+For the full project (including datebase of __80k labeled RMP comments__ and other imported data, codebase of __RMP scraper__ and __N-gram algorithm__, and __reference__ list for the imported data) of the NLP Server behind the screen, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [GitHub Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
 
 ## License
 Project under MIT License. Basically, feel free to adopt anything (codebase, database, reference list, paper, etc. ) from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
 
 ## Project History
 *   ...
+*   2021/08/21:
+    *   Manual Deployment continued: 
+        *   Elastic IP address: http://54.251.197.0:3000/
+        *   The React App is still in development mode
+        *   Reduced the NLP multiprocessing pool size from 20 to 5 in the deployed version to save memory usage on the free AWS EC2 ubuntu server...
 *   2021/08/20:
-    *   Manual deployment on AWS EC2 Ubuntu server: 
+    *   Manual Deployment on AWS EC2 Ubuntu server: 
         *   Programs running by `screen` command so accessible 24/7. 
-        *   Now available at public IP address:Port http://18.142.108.23:8080/
+        *   Now available at public IP address:Port ~~http://18.142.108.23:8080/~~ __*No Longer In-Use*__
         *   Frontend is unimplemented yet, currently support query with URL only
-        *   Example: http://18.142.108.23:8080/get_prof_by_id?input=123456 where `123456` is the PID. 
+        *   Example: ~~http://18.142.108.23:8080/get_prof_by_id?input=123456~~ where `123456` is the PID. __*No Longer In-Use*__
 *   2021/08/19:
     *   Redis cache set with expiration limit. 
     *   AWS EC2 Ubuntu server setup. 
@@ -70,4 +77,5 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   Better handling of concurrent queries on a same professor. 
 *   Rundimental Frontend implementation, potentially Vue.js or React.js (JavaScript). 
 *   Usage of Goroutine... Multi-everything! 
+*   Human-readable domain address: maybe `www.ahsar.*`
 *   Air with Continuous Deployment on AWS. 
