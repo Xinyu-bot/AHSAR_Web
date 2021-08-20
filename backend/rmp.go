@@ -8,7 +8,7 @@ import (
 
 func ObtainProfessor(input string) ([]string) {
 	// Simple TCP Connection to NLP Server
-	conn, errTCP := net.Dial("tcp", "localhost:5000")
+	conn, errTCP := net.Dial("tcp", "localhost:5005")
 	if errTCP != nil {
 		log.Fatalf("errTCP:", errTCP)
 	}
