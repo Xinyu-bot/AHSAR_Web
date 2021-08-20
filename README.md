@@ -45,10 +45,10 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 *   ...
 *   2021/08/20:
     *   Manual deployment on AWS EC2 Ubuntu server: 
-        *   Programs running by `screen` command so accessible 27/7. 
-        *   Now available at public IP address:Port `http://18.142.108.23:8080/`
+        *   Programs running by `screen` command so accessible 24/7. 
+        *   Now available at public IP address:Port http://18.142.108.23:8080/
         *   Frontend is unimplemented yet, currently support query with URL only
-        *   Example: `http://18.142.108.23:8080/get_prof_by_id?input=123456` where `123456` is the PID. 
+        *   Example: http://18.142.108.23:8080/get_prof_by_id?input=123456 where `123456` is the PID. 
 *   2021/08/19:
     *   Redis cache set with expiration limit. 
     *   AWS EC2 Ubuntu server setup. 
