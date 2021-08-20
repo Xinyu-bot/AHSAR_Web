@@ -21,11 +21,10 @@ In other words, the higher the discrete score is, the more individual comments a
 * Language Environment Setup: C, Go, Python. Check source file in this repository to find the actual Packages/Modules involved. Full list of dependencies will be listed when air in production mode. 
 
 ## Application Setup (Not Finished)
-* Prepare Redis beforehand...!
-* Start Redis (in Redis directory, `src/redis-server`)
-* Start NLP Server (in base directory, `python3 pysrc/NLP_server.py`)
-* Start Backend Server (in base directory, `bash run.bash` Notice that this is not finalized)
-* Start Frontend / Access directly on browser
+* Start Redis (if compiled from source, in redis directory `/src/redis-server`; otherwise, `sudo service redis-server`)
+* Start NLP Server (in repository base directory, `python3 pysrc/NLP_server.py`)
+* Start Backend Server (in repository base directory, `./app`)
+* Start Frontend (Not implemented yet)/ Access directly on browser
 
 ## Application Workflow (Not Finished)
 * Frontend sends query to Backend
@@ -40,12 +39,19 @@ In other words, the higher the discrete score is, the more individual comments a
 For the full project (including datebase of __80k labeled RMP comments__ and other imported data, codebase of __RMP scraper__ and __N-gram algorithm__, and __reference__ list for the imported data) of the NLP Server behind the screen, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
 
 ## License
-Project under MIT License. Basically, feel free to adopt any code from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
+Project under MIT License. Basically, feel free to adopt anything (codebase, database, reference list, paper, etc. ) from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
 
-## Project History:
+## Project History
 *   ...
+*   2021/08/20:
+    *   Manual deployment on AWS EC2 Ubuntu server: 
+        *   Programs running by `screen` command so accessible 27/7. 
+        *   Now available at public IP address:Port `http://18.142.108.23:8080/`
+        *   Frontend is unimplemented yet, currently support query with URL only
+        *   Example: `http://18.142.108.23:8080/get_prof_by_id?input=123456` where `123456` is the PID. 
 *   2021/08/19:
-    *   Redis cache set with expiration limit
+    *   Redis cache set with expiration limit. 
+    *   AWS EC2 Ubuntu server setup. 
 *   2021/08/18:
     *   Backend Server now communications with NLP Server through Naive Socket TCP Connection. 
     *   New NLP Server with Naive Socket TCP Connection and multi-processing pool. 
@@ -59,8 +65,9 @@ Project under MIT License. Basically, feel free to adopt any code from here for 
 Notice that this TODO list is not ordered by any factor (estimated finish time, importance, difficulty, etc.) and is not guaranteed to be implemented either:
 *   ...
 *   Choice of force-fetching latest data from RMP website instead of using cached data. 
-*   TCP/Redis Connect pool. 
+*   Allow user to submit a paragraph of commentary and obtain sentiment analysis result. 
+*   TCP/Redis Connection pool. 
 *   Better handling of concurrent queries on a same professor. 
 *   Rundimental Frontend implementation, potentially Vue.js or React.js (JavaScript). 
 *   Usage of Goroutine... Multi-everything! 
-*   Air in production mode, potentially on AWS or TencentCloud. 
+*   Air with Continuous Deployment on AWS. 
