@@ -45,11 +45,11 @@ function Home() {
     }
 
     // handler of ENTER event
-    const searchEnter = (e) => {
+    const searchEnter = async (e) => {
         // input validation
         if (pid !== '' && isNum(pid)) {
             // retrieve from backend API /get_prof_by_id
-            axios.get('/get_prof_by_id', {
+            await axios.get('/get_prof_by_id', {
                 params: {
                     input: pid,
                 },
@@ -118,9 +118,10 @@ function Home() {
             
             <div id = "result">
                 {(() => {
-                    // evil switch case here, Oops
-                    switch(ready) {
-                        // user changes input or there is no input at all
+                    if (ret !== undefined ) {
+                        // evil switch case here, Oops
+                        switch(ready) {
+                                                    // user changes input or there is no input at all
                         case 0: return
                         // response code not 200, ERROR in backend
                         case -1: return (
@@ -155,6 +156,7 @@ function Home() {
                         )
                         // make compiler happy
                         default: return
+                        }
                     }
                 })()}
             </div>
