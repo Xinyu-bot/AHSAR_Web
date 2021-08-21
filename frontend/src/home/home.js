@@ -45,18 +45,20 @@ function Home() {
     }
 
     // handler of ENTER event
-    const searchEnter = async (e) => {
+    const searchEnter = (e) => {
         // input validation
         if (pid !== '' && isNum(pid)) {
             // retrieve from backend API /get_prof_by_id
-            await axios.get('/get_prof_by_id', {
+            axios.get('http://localhost:8080/get_prof_by_id', {
                 params: {
                     input: pid,
                 },
+                mode: {}
             })
             // process returned result
             .then((r) => {
                 if (r.status === 200) {
+                    console.log(r.data)
                     _setRet(r.data)
                 } else {
                     setReady(-1)
