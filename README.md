@@ -4,7 +4,7 @@ Development In Progress
 ## Introduction
 Web Application for AHSAR
 
-Temporary Website under Development Mode: http://54.251.197.0:3000/
+Temporary Website under Production Mode: http://54.251.197.0:5000/
 
 Check the sentiment analysis result of student's commentary on the professor of your choice by entering the `tid` in a professor URL from RateMyProfessors.com website. 
 
