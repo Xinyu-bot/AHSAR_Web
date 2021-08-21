@@ -71,7 +71,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(("localhost", 5005))
 sock.listen()
 # process pool
-pool = multiprocessing.Pool(processes = 5)
+pool = multiprocessing.Pool(processes = 3)
 
 # main function of the application
 def main() -> None: 
