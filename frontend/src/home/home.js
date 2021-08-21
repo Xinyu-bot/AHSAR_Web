@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import './Home.css'
-import Welcome from './welcome/Welcome'
+import Header from './header/Header'
+import Article from './article/Article'
 
 function isNum(s) {
 	if (s !== null && s !== '') {
@@ -81,8 +82,9 @@ function Home() {
 	}
 
 	return (
-		<div className='Home'>
-			<Welcome />
+		<div className='home'>
+			<Header />
+			<Article />
 			<input id='search-content' placeholder='Please enter a PID' onInput={(e) => _setPID(e.target.value)} />
 			<button
 				onClick={(e) => {

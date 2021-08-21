@@ -1,8 +1,10 @@
-.Welcome #main {
+.article {
 	padding: 5px;
+	max-width: 640px;
+	margin: 0 auto;
 }
 
-.Welcome #main span {
+.article #main span {
 	display: inline-block;
 	word-wrap: break-word;
 	word-break: break-all;

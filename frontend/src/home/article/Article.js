@@ -1,8 +1,8 @@
 import React from 'react'
-import './Welcome.css'
-function Welcome() {
+import './Article.css'
+function Article() {
 	return (
-		<div className='Welcome'>
+		<div className='article'>
 			<h2>Hello, Welcome to AHSAR Website! Development in Progress...</h2>
 			<span>
 				Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
@@ -35,4 +35,4 @@ function Welcome() {
 		</div>
 	)
 }
-export default Welcome
+export default Article
