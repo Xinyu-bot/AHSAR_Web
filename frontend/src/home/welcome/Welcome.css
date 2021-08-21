@@ -1,0 +1,11 @@
+.Welcome #main {
+	padding: 5px;
+}
+
+.Welcome #main span {
+	display: inline-block;
+	word-wrap: break-word;
+	word-break: break-all;
+	text-align: center;
+	width: 100%;
+}
