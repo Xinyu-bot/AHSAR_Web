@@ -1,14 +1,3 @@
 .Home #searchByID_Intro {
 	text-align: left;
 }
-.Home #main {
-	padding: 5px;
-}
-
-.Home #main span {
-	display: inline-block;
-	word-wrap: break-word;
-	word-break: break-all;
-	text-align: center;
-	width: 100%;
-}
