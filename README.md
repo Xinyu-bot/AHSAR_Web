@@ -47,9 +47,10 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 *   ...
 *   2021/08/21:
     *   Manual Deployment continued: 
-        *   Elastic IP address: http://54.251.197.0:3000/
-        *   The React App is still in development mode
-        *   Reduced the NLP multiprocessing pool size from 20 to 5 in the deployed version to save memory usage on the free AWS EC2 ubuntu server...
+        *   Elastic IP address: http://54.251.197.0:5000/ <-- notice that this `:5000` port means that the React App is in Production Mode
+        *   Using CORS to connect Backend Server and Frontend
+        *   Reduced the NLP multiprocessing pool size from 20 to ~~5~~ 3 in the deployed version to save memory usage on the free AWS EC2 ubuntu server...
+        *   Notice that in a local environment, the pool size should be significantly larger to maximize the ability of hanlding concurrent requests. 
 *   2021/08/20:
     *   Manual Deployment on AWS EC2 Ubuntu server: 
         *   Programs running by `screen` command so accessible 24/7. 
@@ -71,8 +72,10 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 ## TODO
 Notice that this TODO list is not ordered by any factor (estimated finish time, importance, difficulty, etc.) and is not guaranteed to be implemented either:
 *   ...
+*   Using an `.env` file to store the backend API, or maybe no needed because AWS security groop will take care of it
 *   Choice of force-fetching latest data from RMP website instead of using cached data. 
 *   Allow user to submit a paragraph of commentary and obtain sentiment analysis result. 
+*   More features / functions / tools
 *   TCP/Redis Connection pool. 
 *   Better handling of concurrent queries on a same professor. 
 *   Rundimental Frontend implementation, potentially Vue.js or React.js (JavaScript). 
