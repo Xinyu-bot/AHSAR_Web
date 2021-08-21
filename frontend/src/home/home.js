@@ -49,11 +49,10 @@ function Home() {
         // input validation
         if (pid !== '' && isNum(pid)) {
             // retrieve from backend API /get_prof_by_id
-            axios.get('http://localhost:8080/get_prof_by_id', {
+            axios.get('http://54.251.197.0:8080/get_prof_by_id', {
                 params: {
                     input: pid,
                 },
-                mode: {}
             })
             // process returned result
             .then((r) => {
@@ -64,7 +63,7 @@ function Home() {
                     setReady(-1)
                 }
             })
-            // 
+            // catch error
             .catch((err) => {
                 console.error(err)    
             })    
