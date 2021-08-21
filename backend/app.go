@@ -9,6 +9,7 @@ var redisClient *redis.Client
 var profAttr = [6]string{"first_name", "last_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous"}
 
 func main() {
+	// Backend Server CORS setting
 	r := gin.Default()
 
 	// Simple Redis Connection
@@ -18,6 +19,11 @@ func main() {
 		DB: 0,
 	})
 	defer redisClient.Close()
+
+	/*
+		MiddleWare
+	*/
+	r.Use(CORSMiddleware())
 
 	/*
 		APIs avail for frontend
@@ -62,6 +68,24 @@ func main() {
 		})
 	})
 
-	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	// serve on port 8080
 	r.Run() 
+}
+
+// CORS for all origins
+func CORSMiddleware() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        c.Writer.Header().Set("Content-Type", "application/json")
+        c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+        c.Writer.Header().Set("Access-Control-Max-Age", "86400")
+        c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-Max")
+        c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+
+        if c.Request.Method == "OPTIONS" {
+            c.AbortWithStatus(200)
+        } else {
+            c.Next()
+        }
+    }
 }
