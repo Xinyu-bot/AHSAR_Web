@@ -93,7 +93,7 @@ function Home() {
                 <p>Search Professor by ID</p>
             </Link>
             */}
-            <span>
+            <section id = "main">
                 <p id = "searchByID_Intro">
                     By entering the pid of a professor of your choice, 
                     get the Sentiment Analysis result of students' commentary 
@@ -101,8 +101,8 @@ function Home() {
                 </p>
 
                 <p id = "searchByID_Intro">
-                    For example, if the professor's URL on RateMyProfessors.com is 
-                    https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994<br></br>
+                    For example, if the professor's URL on RateMyProfessors.com is <br/>
+                    <span>https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994</span><br/>
                     Then, enter 2105994 in the text box below.
                 </p>
 
@@ -113,8 +113,8 @@ function Home() {
                     The higher the continuous score is, the larger proportion of all comments are positive.
                     The sentiment score can be undeterministic, because of random tier-breaking.
                 </p>
-            </span>
-            <input placeholder = "Please enter a PID" onInput={(e) => _setPID(e.target.value)} />
+            </section>
+            <input id="search-content" placeholder = "Please enter a PID" onInput={(e) => _setPID(e.target.value)} />
             <button onClick={(e) => {searchEnter(e)}}>Search</button>
             
             <div id = "result">
