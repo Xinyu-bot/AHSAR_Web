@@ -1,24 +1,21 @@
 import React from 'react'
 import './Article.css'
+import Result from './result/Result'
 
 function Article(props) {
-	/*document.addEventListener(
-		'DOMContentLoaded',
-		function () {
-			if (props.pid === '') {
-				document.getElementById('#result').style.display = ''
-			}
-			else {
-				document.getElementById('#result').style.display = 'block'
-			}
-		},
-		true
-	)*/
-	//if pid='', 不显示Result for
-
 	return (
 		<div className='article'>
-			<h2 id='result'>Result for {props.pid}</h2>
+			{/*jsx里面只能放js表达式，包括执行一个函数。如果pid不为空，显示下面的节点 */}
+			{(() => {
+				if (props.pid !== '') {
+					return (
+						<div>
+							<Result ret={props.ret} pid={props.pid} ready={props.ready} />
+						</div>
+					)
+				}
+			})()}
+
 			<span>
 				Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
 			</span>
