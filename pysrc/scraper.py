@@ -13,7 +13,6 @@ def get_prof(url):
         res = requests.get(url)
         dom = BeautifulSoup(res.text, features="html.parser")
 
-        print(16)
         # Professor name
         name = dom.select("div span")[2].text.strip() + ' ' + dom.select("div span")[3].text.strip()
         name = name.replace(' ', '?')
@@ -21,7 +20,7 @@ def get_prof(url):
         # Check if this professor has any rating 
         check_finder = dom.find('div', {'class': 'RatingValue__NumRatings-qw8sqy-0 jMkisx'})
         if check_finder != None and check_finder.text[0:10] == 'No ratings':
-            prof = {'name': name, 'overall_score': None, 'would_take_again': None, 'difficulty': None, 'comments': None}
+            prof = {'name': name, 'overall_score': -1, 'would_take_again': -1, 'difficulty': -1, 'comments': -1}
             return prof
         
         # Overall quantitative scores of this professor
@@ -34,7 +33,6 @@ def get_prof(url):
             would_take_again = temp_finder[0].text
             difficulty = float(temp_finder[1].text)
 
-        print(40)
         # Get all the comments of this professor
         comments_selector = dom.find('ul', {'class': 'RatingsList__RatingsUL-hn9one-0 cbdtns'}).select('li')
         quality_class = ['CardNumRating__CardNumRatingNumber-sc-17t4b9u-2 kMhQxZ', 'CardNumRating__CardNumRatingNumber-sc-17t4b9u-2 bUneqk', 'CardNumRating__CardNumRatingNumber-sc-17t4b9u-2 fJKuZx']
@@ -72,7 +70,7 @@ def get_prof(url):
 def get_comments(user_in: str) -> list:
     url = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid=" + user_in
     prof = get_prof(url)
-    comments = None
-    if prof['comments'] != None:
+    comments = -1
+    if prof['comments'] != -1:
         comments = [x[2] for x in prof['comments']]
     return [comments, prof['overall_score'], prof['difficulty'], prof['name'], prof['would_take_again']]
