@@ -26,5 +26,6 @@ func ObtainProfessor(input string) ([]string) {
 
 	// 	format the read result
 	ret := strings.Split(string(buf[:n]), " ")
+	ret[0] = strings.Replace(ret[0], "?", " ", -1)
 	return ret
 }

@@ -8,7 +8,7 @@ import (
 )
 
 var redisClient *redis.Client
-var profAttr = [8]string{"first_name", "last_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous", "would_take_again", "pid"}
+var profAttr = [7]string{"professor_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous", "would_take_again", "pid"}
 
 func main() {
 	// 	Backend Server CORS setting
@@ -57,7 +57,7 @@ func main() {
 			}
 		} else { //  retrieve cached data from Redis
 			// 	populate res with the retrieved data
-			res = make([]string, 6)
+			res = make([]string, 8)
 			for ind, key := range profAttr {
 				res[ind] = redisRes[key]
 			}
@@ -68,7 +68,7 @@ func main() {
 		c.JSON(200, gin.H{
 			profAttr[0]: res[0], profAttr[1]: res[1], profAttr[2]: res[2], 
 			profAttr[3]: res[3], profAttr[4]: res[4], profAttr[5]: res[5], 
-			profAttr[6]: res[6], profAttr[7]: res[7], "queryHash": hash,
+			profAttr[6]: res[6], "queryHash": hash,
 		})
 	})
 
