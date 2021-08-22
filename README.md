@@ -132,7 +132,6 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   More features / functions / tools
 *   TCP/Redis Connection pool. 
 *   Better handling of concurrent queries on a same professor. 
-*   Rundimental Frontend implementation, potentially Vue.js or React.js (JavaScript). 
 *   Usage of Goroutine... Multi-everything! 
 *   Human-readable domain address: maybe `www.ahsar.*`
 *   Air with Continuous Deployment on AWS. 
