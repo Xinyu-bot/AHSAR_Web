@@ -45,20 +45,24 @@ def func(comm_socket: socket.socket, pid: str) -> None:
     func_start = time()
     ret = None
     try:
-        comments, quality_score, difficulty_score, name = scraper.get_comments(pid) 
+        comments, quality_score, difficulty_score, name, would_take_again = scraper.get_comments(pid) 
     except scraper.UrlException:
-        ret = ("-1", "-1", "-1", "-1", "-1", "-1") 
+        ret = ("-1", "-1", "-1", "-1", "-1", "-1", "-1") 
     else:
         if comments is None: 
-            ret = (name, quality_score, difficulty_score, "-1", "-1")
+            ret = (name, quality_score, difficulty_score, "-1", "-1", would_take_again)
         else:
-            ret = analyze_sentiment(
+            ret = list(analyze_sentiment(
                 comments, trigram_model, bigram_model, unigram_model, 
                 porterStemmer, quality_score, difficulty_score, name
-                )
+                ))
+            ret.append(str(round(would_take_again, 3)) + '%')
+            ret.append(pid)
     finally:
+        print(ret)
         comm_socket.send(" ".join(ret).encode())
         print("Task pid#{0} done in {1} seconds".format(pid, round(time() - func_start, 3)))
+        comm_socket.close()
     return
 
 

@@ -29,7 +29,7 @@ def get_prof(url):
             would_take_again = 0
             difficulty = float(temp_finder[0].text)
         else:
-            would_take_again = float(temp_finder[0].text.split('%')[0])/100
+            would_take_again = float(temp_finder[0].text.split('%')[0])
             difficulty = float(temp_finder[1].text)
 
         # Get all the comments of this professor
@@ -72,4 +72,4 @@ def get_comments(user_in):
     comments = None
     if prof['comments'] != None:
         comments = [x[2] for x in prof['comments']]
-    return [comments, prof['overall_score'], prof['difficulty'], prof['name']]
+    return [comments, prof['overall_score'], prof['difficulty'], prof['name'], prof['would_take_again']]
