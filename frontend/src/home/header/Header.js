@@ -12,7 +12,7 @@ export default function Header(props) {
 		}
 
 		// 把Header组件里，用户输入的pid传给Home组件
-		props.getSearchedPid(target.value)
+		props.getSearchedPid(target.value.trim())
 		/* 清空输入框里面字
 		target.value = ''*/
 		target.style.color = 'grey'
