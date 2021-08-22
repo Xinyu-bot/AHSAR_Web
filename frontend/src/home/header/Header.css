@@ -1,0 +1,18 @@
+.header1 {
+	background-color: black;
+	/*实现search-box水平居中*/
+	text-align: center;
+	/*实现search-box垂直居中*/
+	line-height: 56px;
+	height: 56px; /*实现search-box垂直居中*/
+}
+
+/*input框*/
+.header1 #search-box {
+	box-sizing: border-box;
+	width: 80%;
+	height: 40px; /*实现search-box垂直居中*/
+	padding: 6px;
+	border-radius: 35px;
+	outline: none;
+}

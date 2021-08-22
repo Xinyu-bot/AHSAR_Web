@@ -1,12 +1,20 @@
 import React from 'react'
-import './Welcome.css'
-function Welcome() {
+import './Article.css'
+import Result from './result/Result'
+
+function Article(props) {
 	return (
-		<div className='Welcome'>
-			<h2>Hello, Welcome to AHSAR Website! Development in Progress...</h2>
-			<span>
-				Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
-			</span>
+		<div className='article'>
+			{/*jsx里面只能放js表达式，包括执行一个函数。如果pid不为空，显示下面的节点 */}
+			{(() => {
+				if (props.pid !== '') {
+					return (
+						<div>
+							<Result ret={props.ret} pid={props.pid} ready={props.ready} />
+						</div>
+					)
+				}
+			})()}
 
 			{/* Notice that this is commented out because -
             - there is no need to seperate the main function from the main page as for now
@@ -15,6 +23,9 @@ function Welcome() {
             </Link>
             */}
 			<section id='main'>
+				<span>
+					Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
+				</span>
 				<p id='searchByID_Intro'>
 					By entering the pid of a professor of your choice, get the Sentiment Analysis result of students' commentary from RateMyProfessors.com on the professor right away!
 				</p>
@@ -35,4 +46,4 @@ function Welcome() {
 		</div>
 	)
 }
-export default Welcome
+export default Article

@@ -1,3 +1,15 @@
+body {
+	margin: 0 auto;
+	width: 100%;
+	min-width: 320px;
+	background: #fff;
+	font-size: 14px;
+	font-family: -apple-system, Helvetica, sans-serif;
+	line-height: 1.5;
+	color: #666;
+}
+
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -21,18 +33,6 @@ html {
  * Remove the margin in all browsers.
  */
 
-body {
-  padding: 5px;
-	margin: 0 auto;
-	width: 100%;
-	max-width: 640px;
-	min-width: 320px;
-	background: #fff;
-	font-size: 14px;
-	font-family: -apple-system, Helvetica, sans-serif;
-	line-height: 1.5;
-	color: #666;
-}
 
 /**
  * Render the `main` element consistently in IE.
