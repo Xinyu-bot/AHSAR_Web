@@ -18,6 +18,7 @@
 	transform: translate(-50%, -50%);
 }
 
+/*input框*/
 .header1 #search-box {
 	/*实现search-wrap水平居中*/
 	box-sizing: border-box;

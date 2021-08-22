@@ -1,9 +1,24 @@
 import React from 'react'
 import './Article.css'
-function Article() {
+
+function Article(props) {
+	/*document.addEventListener(
+		'DOMContentLoaded',
+		function () {
+			if (props.pid === '') {
+				document.getElementById('#result').style.display = ''
+			}
+			else {
+				document.getElementById('#result').style.display = 'block'
+			}
+		},
+		true
+	)*/
+	//if pid='', 不显示Result for
+
 	return (
 		<div className='article'>
-			<h2>Hello, Welcome to AHSAR Website! Development in Progress...</h2>
+			<h2 id='result'>Result for {props.pid}</h2>
 			<span>
 				Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
 			</span>
