@@ -1,5 +1,16 @@
 # AHSAR_Web
 Development In Progress
+- [AHSAR_Web](#ahsar_web)
+  - [Introduction](#introduction)
+  - [Notice on Server Status](#notice-on-server-status)
+  - [Application Structure](#application-structure)
+  - [Application Setup (Locally)](#application-setup-locally)
+  - [Public API (To be Expanded)](#public-api-to-be-expanded)
+  - [Application Workflow](#application-workflow)
+  - [NLP Server](#nlp-server)
+  - [License](#license)
+  - [Project History](#project-history)
+  - [TODO](#todo)
 
 ## Introduction
 Web Application for AHSAR
@@ -13,12 +24,15 @@ For example, assume a "randomly-selected" professor URL is `https://www.ratemypr
 Notice that Sentiment Score (discrete) is computed based on individual comments, while Sentiment Score (continuous) is computed based on all comments.
 In other words, the higher the discrete score is, the more individual comments are positive. The higher the continuous score is, the larger proportion of all comments are positive.
 
+[Back to top](#ahsar_web)
+
 ## Notice on Server Status
 Server might be lagging, on and off, or unstable, because:
+*   ... 
 *   Server is under manual deployment. This usually takes only a few minutes. 
 *   Server is down because of flood requests, concurrency test, etc. Fix time is not guaranteed, but auto-restart is on the development schedule. 
 *   Server is down internally on AWS side, because of CPU/Memory shortage (this is a free version of EC2 Server, so the hardware is weak). Fix time is not guaranteed.
-*   ...
+[Back to top](#ahsar_web)
 
 ## Application Structure
 * Frontend (Language: JavaScript, Framework: React.js) 
@@ -34,16 +48,19 @@ Server might be lagging, on and off, or unstable, because:
     * Go: in `/backend` directory, `go mod download` should be enough
     * C: should not need any extra package
   * Full list of preparation procedure will be listed when air with Continuous Deployment on AWS. 
+[Back to top](#ahsar_web)
 
 ## Application Setup (Locally)
 * Start Redis (if compiled from source, in redis directory `/src/redis-server`; otherwise, `sudo service redis-server`)
 * Start NLP Server (in repository `/pysrc` directory, `python3 NLP_server.py`)
 * Start Backend Server (in repository `/backend` directory, `./app`, or, to recompile again, `bash run.bash`)
 * Start Frontend (in repository `/frontend` directory, for development mode `npm start`, or, for production mode first `npm run build` then follow the instruction on terminal)
+[Back to top](#ahsar_web)
 
 ## Public API (To be Expanded)
+* ...
 * `GET http://54.251.197.0:5000/get_prof_by_id?input={pid}` where pid is the user input
-
+[Back to top](#ahsar_web)
 
 ## Application Workflow 
 * Frontend sends query to Backend
@@ -53,12 +70,15 @@ Server might be lagging, on and off, or unstable, because:
 * NLP Server receives the query from TCP Socket and start analyzing
 * NLP Server returns the result to Backend Server through TCP Socket
 * Backend updates Redis with the result and also returns result to Frontend
+[Back to top](#ahsar_web)
 
 ## NLP Server
 For the full project (including datebase of __80k labeled RMP comments__ and other imported data, codebase of __RMP scraper__ and __N-gram algorithm__, and __reference__ list for the imported data) of the NLP Server behind the screen, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [GitHub Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
+[Back to top](#ahsar_web)
 
 ## License
 Project under MIT License. Basically, feel free to adopt anything (codebase, database, reference list, paper, etc. ) from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
+[Back to top](#ahsar_web)
 
 ## Project History
 *   ...
@@ -92,6 +112,7 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
     *   First push to GitHub Repository. 
     *   Simple Redis connection included. 
     *   Project runnable with basic funcionality. 
+[Back to top](#ahsar_web)
 
 ## TODO
 Notice that this TODO list is not ordered by any factor (estimated finish time, importance, difficulty, etc.) and is not guaranteed to be implemented either:
@@ -108,3 +129,4 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   Human-readable domain address: maybe `www.ahsar.*`
 *   Air with Continuous Deployment on AWS. 
 *   Auto-restart AWS Server when server is down because of internal issue: resource shortage, flood attack, TCP/Redis connection failure, etc. 
+[Back to top](#ahsar_web)
