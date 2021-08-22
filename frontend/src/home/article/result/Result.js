@@ -19,6 +19,7 @@ export default function Result(props) {
 					} else if (props.ret === 'non-numbers') {
 						return <div></div>
 					}
+					//如果用户输入内容符合条件，并且收到了服务器的返回内容。
 					switch (props.ready) {
 						// user changes input or there is no input at all
 						case 0:

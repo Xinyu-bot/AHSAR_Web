@@ -6,12 +6,13 @@ export default function Header(props) {
 	const handleKeyUp = (event) => {
 		const { keyCode, target } = event
 		if (keyCode !== 13) return
+		//检查用户输入的是否只是空格或者根本没输入
 		if (target.value.trim() === '') {
 			alert('输入不能为空')
 			return
 		}
 
-		// 把Header组件里，用户输入的pid传给Home组件
+		// 把Header组件里，用户输入的pid传给Home组件。把用户输入string前后的空格去掉。
 		props.getSearchedPid(target.value.trim())
 		/* 清空输入框里面字
 		target.value = ''*/

@@ -33,7 +33,8 @@ function Home() {
 	const getSearchedPid = (pid) => {
 		setPid(pid)
 		//console.log('here')
-		//下面axios发送请求，返回ret有延迟。在ret state被set之前，把ret state的内容清空，触发一次render渲染页面。ret被返回，在setRet，再触发render重新渲染
+		//下面axios发送请求，返回ret有延迟。在ret state被set之前，把ret state的内容设置为loading，触发一次render渲染页面。ret被返回，在setRet，再触发render重新渲染
+		//用户输入了非空的内容，Header重新渲染，显示正在加载。
 		setRet('loading')
 
 		// input validation
@@ -48,6 +49,7 @@ function Home() {
 				// process returned result3w4
 				.then((r) => {
 					if (r.status === 200) {
+						//正确的数据从服务器返回，Header重新渲染。
 						_setRet(r.data)
 					} else {
 						setReady(-1)
@@ -55,6 +57,7 @@ function Home() {
 				})
 				// catch error
 				.catch((err) => {
+					//服务器错误
 					setReady(-1)
 				})
 		}
@@ -62,6 +65,7 @@ function Home() {
 		// non-numbers (specifically non-positive integer) input
 		else {
 			alert('PID should only contain number 0 ~ 9')
+			//用户输入的内容包含数字，让Hedaer重新渲染，返回一个空div
 			setRet('non-numbers')
 			return
 		}
