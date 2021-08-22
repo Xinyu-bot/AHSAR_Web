@@ -32,6 +32,9 @@ function Home() {
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {
 		setPid(pid)
+		console.log('here')
+		//下面axios发送请求，返回ret有延迟。在ret state被set之前，把ret state的内容清空，触发一次render渲染页面。ret被返回，在setRet，再触发render重新渲染
+		setRet('')
 
 		// input validation
 		if (isNum(pid)) {
