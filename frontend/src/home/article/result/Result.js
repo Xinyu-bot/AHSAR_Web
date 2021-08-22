@@ -34,10 +34,12 @@ export default function Result(props) {
 									<span>
 										<h2 id='result'>Result for {props.pid}</h2>
 										<p>
-											Professor: {props.ret.first_name} {props.ret.last_name}
+											Professor: {props.ret.professor_name}
 										</p>
+										<p>PID: {props.ret.pid}</p>
 										<p>Difficulty Score: {props.ret.difficulty_score}</p>
 										<p>Quality Score: {props.ret.quality_score}</p>
+										<p>Would Take Again: {props.ret.would_take_again}</p>
 										<p>Sentiment Analysis Score (Discrete): {props.ret.sentiment_score_discrete}</p>
 										<p>Sentiment Analysis Score (Continuous): {props.ret.sentiment_score_continuous}</p>
 									</span>
