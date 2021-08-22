@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import './Home.css'
 import Header from './header/Header'
 import Article from './article/Article'
 import Result from './article/result/Result'
