@@ -12,13 +12,32 @@ function Home() {
 		return false
 	}
 	const _setRet = (data) => {
+		//pid不存在
 		if (data.professor_name === '-1') {
 			setReady(3)
-		} else if (data.sentiment_score_discrete === '-1') {
-			setReady(2)
+
+			//pid存在
 		} else {
-			setReady(1)
+			//pid存在，但是没有评论
+			if (data.sentiment_score_discrete === '-1') {
+				if (data.difficulty_score === '-1' && data.quality_score === '-1') {
+					//difficulty_score，quality_score都没有
+					console.log(4)
+					setReady(4)
+				} else {
+					//difficulty_score，quality_score都有
+					console.log(2)
+					setReady(2)
+				}
+				//pid存在，有评论，没有difficulty_score，没有quality_score
+			} else if (data.difficulty_score === '-1' && data.quality_score === '-1') {
+				setReady(5)
+			} else {
+				//全都有
+				setReady(1)
+			}
 		}
+
 		setRet(data)
 	}
 
