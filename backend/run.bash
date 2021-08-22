@@ -1,4 +1,1 @@
-go build -tags=go_json .
-echo "compiled..."
-echo ""
-./app
+go build -tags=go_json . && ./app
