@@ -28,7 +28,7 @@ export default function Result(props) {
 									</p>
 									<p>Difficulty Score: {props.ret.difficulty_score}</p>
 									<p>Quality Score: {props.ret.quality_score}</p>
-									<p>Sentiment Aanlysis Score (Discrete): {props.ret.sentiment_score_discrete}</p>
+									<p>Sentiment Analysis Score (Discrete): {props.ret.sentiment_score_discrete}</p>
 									<p>Sentiment Analysis Score (Continuous): {props.ret.sentiment_score_continuous}</p>
 								</span>
 							)
