@@ -12,7 +12,7 @@ function Home() {
 		return false
 	}
 	const _setRet = (data) => {
-		if (data.first_name === '-1') {
+		if (data.professor_name === '-1') {
 			setReady(3)
 		} else if (data.sentiment_score_discrete === '-1') {
 			setReady(2)
@@ -32,9 +32,10 @@ function Home() {
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {
 		setPid(pid)
-		console.log('here')
-		//下面axios发送请求，返回ret有延迟。在ret state被set之前，把ret state的内容清空，触发一次render渲染页面。ret被返回，在setRet，再触发render重新渲染
-		setRet('')
+		//console.log('here')
+		//下面axios发送请求，返回ret有延迟。在ret state被set之前，把ret state的内容设置为loading，触发一次render渲染页面。ret被返回，在setRet，再触发render重新渲染
+		//用户输入了非空的内容，Header重新渲染，显示正在加载。
+		setRet('loading')
 
 		// input validation
 		if (isNum(pid)) {
@@ -45,10 +46,10 @@ function Home() {
 						input: pid,
 					},
 				})
-				// process returned result
+				// process returned result3w4
 				.then((r) => {
 					if (r.status === 200) {
-						console.log(r.data)
+						//正确的数据从服务器返回，Header重新渲染。
 						_setRet(r.data)
 					} else {
 						setReady(-1)
@@ -56,13 +57,16 @@ function Home() {
 				})
 				// catch error
 				.catch((err) => {
-					console.error(err)
+					//服务器错误
+					setReady(-1)
 				})
 		}
 
 		// non-numbers (specifically non-positive integer) input
 		else {
 			alert('PID should only contain number 0 ~ 9')
+			//用户输入的内容包含数字，让Hedaer重新渲染，返回一个空div
+			setRet('non-numbers')
 			return
 		}
 	}
