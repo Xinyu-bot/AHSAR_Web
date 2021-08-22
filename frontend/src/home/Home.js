@@ -12,7 +12,7 @@ function Home() {
 		return false
 	}
 	const _setRet = (data) => {
-		if (data.first_name === '-1') {
+		if (data.professor_name === '-1') {
 			setReady(3)
 		} else if (data.sentiment_score_discrete === '-1') {
 			setReady(2)
@@ -32,9 +32,9 @@ function Home() {
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {
 		setPid(pid)
-		console.log('here')
+		//console.log('here')
 		//下面axios发送请求，返回ret有延迟。在ret state被set之前，把ret state的内容清空，触发一次render渲染页面。ret被返回，在setRet，再触发render重新渲染
-		setRet('')
+		setRet('loading')
 
 		// input validation
 		if (isNum(pid)) {
@@ -45,10 +45,9 @@ function Home() {
 						input: pid,
 					},
 				})
-				// process returned result
+				// process returned result3w4
 				.then((r) => {
 					if (r.status === 200) {
-						console.log(r.data)
 						_setRet(r.data)
 					} else {
 						setReady(-1)
@@ -56,13 +55,14 @@ function Home() {
 				})
 				// catch error
 				.catch((err) => {
-					console.error(err)
+					setReady(-1)
 				})
 		}
 
 		// non-numbers (specifically non-positive integer) input
 		else {
 			alert('PID should only contain number 0 ~ 9')
+			setRet('non-numbers')
 			return
 		}
 	}
