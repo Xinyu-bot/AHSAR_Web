@@ -12,7 +12,8 @@ export default function Result(props) {
 						return (
 							<div>
 								<h2 id='result'>Result for {props.pid}</h2>
-								<span>Loading data...</span>
+								<span>Loading data...</span> 
+								<span className="loader"></span>
 							</div>
 						)
 					} else {
