@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import './Header.css'
 import SearchedList from './searched_list/SearchedList'
 
@@ -21,9 +20,9 @@ export default function Header(props) {
 
 	return (
 		<div className='header1'>
-			<div className='search-wrap'>
+		
 				<input onKeyUp={handleKeyUp} id='search-box' autoComplete='off' placeholder='Please enter a PID' />
-			</div>
+			
 
 			<SearchedList searchedList={props.searchedList} />
 		</div>

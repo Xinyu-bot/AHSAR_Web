@@ -16,10 +16,6 @@ function Article(props) {
 				}
 			})()}
 
-			<span>
-				Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
-			</span>
-
 			{/* Notice that this is commented out because -
             - there is no need to seperate the main function from the main page as for now
             <Link to = '/get_prof_by_id'>
@@ -27,6 +23,9 @@ function Article(props) {
             </Link>
             */}
 			<section id='main'>
+				<span>
+					Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
+				</span>
 				<p id='searchByID_Intro'>
 					By entering the pid of a professor of your choice, get the Sentiment Analysis result of students' commentary from RateMyProfessors.com on the professor right away!
 				</p>

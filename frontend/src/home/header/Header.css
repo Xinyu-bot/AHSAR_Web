@@ -1,30 +1,17 @@
 .header1 {
-	background-color: red;
-	height: 56px;
 	background-color: black;
-	/*实现search-wrap垂直居中*/
-	position: relative;
-}
-
-.header1 .search-wrap {
-	/*实现search-wrap水平居中*/
-	margin: 0 auto;
-	width: 80%;
-
-	/*实现search-wrap垂直居中*/
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	/*实现search-box水平居中*/
+	text-align: center;
+	/*实现search-box垂直居中*/
+	line-height: 56px;
+	height: 56px; /*实现search-box垂直居中*/
 }
 
 /*input框*/
 .header1 #search-box {
-	/*实现search-wrap水平居中*/
 	box-sizing: border-box;
-	width: 100%;
-	/* */
-	height: 40px;
+	width: 80%;
+	height: 40px; /*实现search-box垂直居中*/
 	padding: 6px;
 	border-radius: 35px;
 	outline: none;
