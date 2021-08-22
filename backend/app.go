@@ -1,18 +1,20 @@
 package main
 
 import (
+	"hash/crc32"
+	"strconv"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
 )
 
 var redisClient *redis.Client
-var profAttr = [6]string{"first_name", "last_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous"}
+var profAttr = [8]string{"first_name", "last_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous", "would_take_again", "pid"}
 
 func main() {
-	// Backend Server CORS setting
+	// 	Backend Server CORS setting
 	r := gin.Default()
 
-	// Simple Redis Connection
+	// 	Simple Redis Connection
 	redisClient = redis.NewClient(&redis.Options{
 		Addr: "localhost:6379", 
 		Password: "",  
@@ -28,51 +30,53 @@ func main() {
 	/*
 		APIs avail for frontend
 	*/
-	// default GET for main page
+	// 	default GET for main page
 	r.GET("/", func(c *gin.Context) {
-		// return default response to frontend
+		// 	return default response to frontend
 		c.JSON(200, gin.H{
 			"message": "Welcome to AHSAR web page! ",
 		})
 	})
 
-	// get professor sentiment analysis score by professor ID
+	// 	get professor sentiment analysis score by professor ID
 	r.GET("/get_prof_by_id", func(c *gin.Context) {
-		// extract input from request query
+		// 	extract input from request query
 		input := c.Query("input")
-		// initialize res for storing result from NLP Server
+		// 	initialize res for storing result from NLP Server
 		var res []string
 
-		// check redis (as a fast RAM-based cache) if the input query exists
+		// 	check redis (as a fast RAM-based cache) if the input query exists
 		redisRes := RedisCheckCache(redisClient, input)
-		// data not cached in Redis
+		// 	data not cached in Redis
 		if (len(redisRes) == 0) {
-			// obtain data of the professor from RMP website and analyze by ../pysrc/NLP_server.py
+			// 	obtain data of the professor from RMP website and analyze by ../pysrc/NLP_server.py
 			res = ObtainProfessor(input)
-			// update Redis with the new data
+			// 	update Redis with the new data
 			if check := RedisCheckCache(redisClient, input); len(check) == 0 {
 				RedisUpdateCache(redisClient, input, res)
 			}
-		} else { // retrieve cached data from Redis
-			// populate res with the retrieved data
+		} else { //  retrieve cached data from Redis
+			// 	populate res with the retrieved data
 			res = make([]string, 6)
 			for ind, key := range profAttr {
 				res[ind] = redisRes[key]
 			}
 		}
 
-		// return response to frontend
+		// 	return response to frontend
+		hash := fastHash(c.ClientIP(), input)
 		c.JSON(200, gin.H{
 			profAttr[0]: res[0], profAttr[1]: res[1], profAttr[2]: res[2], 
-			profAttr[3]: res[3], profAttr[4]: res[4], profAttr[5]: res[5],
+			profAttr[3]: res[3], profAttr[4]: res[4], profAttr[5]: res[5], 
+			profAttr[6]: res[6], profAttr[7]: res[7], "queryHash": hash,
 		})
 	})
 
-	// serve on port 8080
+	// 	serve on port 8080
 	r.Run() 
 }
 
-// CORS for all origins
+// 	CORS for all origins
 func CORSMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
         c.Writer.Header().Set("Content-Type", "application/json")
@@ -88,4 +92,11 @@ func CORSMiddleware() gin.HandlerFunc {
             c.Next()
         }
     }
+}
+
+//	fastHash function
+func fastHash(ipAddr string, input string) string {
+	hash := int(crc32.ChecksumIEEE([]byte(ipAddr + input)))
+	res := strconv.Itoa(hash)
+	return res
 }
