@@ -47,7 +47,7 @@ def func(comm_socket: socket.socket, pid: str) -> None:
     try:
         comments, quality_score, difficulty_score, name, would_take_again = scraper.get_comments(pid) 
     except scraper.UrlException:
-        ret = ("-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1") 
+        ret = ("-1", "-1", "-1", "-1", "-1", "-1", "-1") 
     else:
         if comments is None: 
             ret = (name, quality_score, difficulty_score, "-1", "-1", would_take_again)
@@ -56,7 +56,7 @@ def func(comm_socket: socket.socket, pid: str) -> None:
                 comments, trigram_model, bigram_model, unigram_model, 
                 porterStemmer, quality_score, difficulty_score, name
                 ))
-            ret.append(str(round(would_take_again, 3)) + '%')
+            ret.append(would_take_again)
             ret.append(pid)
     finally:
         print(ret)
