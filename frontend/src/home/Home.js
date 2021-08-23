@@ -12,6 +12,64 @@ function Home() {
 		}
 	}, []) // only run it once!
 
+	// 初始化state
+	const [ret, setRet] = useState()
+	const [ready, setReady] = useState(0) // ready flag
+	// initialize pid state
+	const [pid, setPid] = useState('') // user input
+	// initialize searchedList state
+	const [searchedList, setSearchedList] = useState([]) //如果localStorage里有，就用localStorage里的
+
+	//监听searchedList是否通过setSearchedList改变成功。如果是，把改变成功的searchedList存到localStorage里
+	//must useEffect! setSearchedList会被异步执行，在主线程里面使用searchedList都不是更新过后的值。但是setSearchedList里面不能写callback，所以用useEffect
+	useEffect(() => {
+		//console.log('before', searchedList)
+		localStorage.setItem('searchedList', JSON.stringify(searchedList))
+	}, [searchedList]) //注意这里searchedList是一个object，地址没有变就不会触发useEffect
+
+	//如果用户搜索的pid有效，把从后端发回的与该pid有关的数据作为一个object的形式，用setSearchedList添加到searchedList
+	function addToSearchedList(data) {
+		const obj = {
+			id: data.queryHash,
+			name: data.professor_name,
+			pid: data.pid,
+		}
+		//把返回的有效pid相关内容，加入搜索历史记录。用到了id，提高react渲染效率
+		// Don't use JS array methods such as pop, push, shift, unshift
+		// as these will not tell React to trigger a re-render.
+		// Instead, make a copy of the array then add your new item onto the end
+		// To update an item in the array use .map.
+		// Assumes each array item is an object with an id.
+		//数据去重
+		const flag = searchedList.some((item, index) => {
+			//重复了
+			if (item.pid === data.pid) {
+				//删除当前元素，因为和pid重复了
+				searchedList.splice(index, 1)
+				//把当前pid添加到index[0]
+				/*searchedList.unshift(obj)
+				//触发重新渲染，让新元素显示在最上面。searchedList还是同一个object地址，所以不会触发useEffect[searchedList]...
+				*/
+				let newArr = [obj, ...searchedList] //必须return一个新的地址
+				setSearchedList(newArr)
+
+				return true //第一次true，some就结束迭代
+			} else {
+				return false
+			}
+		})
+		//没有重复
+		if (!flag) {
+			//添加当前pid对应的obj到searchedList
+			const newArr = [obj, ...searchedList]
+			//检查是否多于10个元素，如果多于10个删掉。
+			if (newArr.length > 10) {
+				newArr.splice(10)
+			}
+			setSearchedList(newArr) //触发重新渲染
+		}
+	}
+
 	function isNum(s) {
 		if (s !== null && s !== '') {
 			return !isNaN(s)
@@ -28,46 +86,8 @@ function Home() {
 		} else {
 			//pid存在，但是没有评论
 			setRet(data)
-
-			const obj = {
-				id: data.queryHash,
-				name: data.professor_name,
-				pid: data.pid,
-			}
-			//把返回的有效pid相关内容，加入搜索历史记录。用到了id，提高react渲染效率
-			// Don't use JS array methods such as pop, push, shift, unshift
-			// as these will not tell React to trigger a re-render.
-			// Instead, make a copy of the array then add your new item onto the end
-			// To update an item in the array use .map.
-			// Assumes each array item is an object with an id.
-			//数据去重
-			const flag = searchedList.some((item, index) => {
-				//重复了
-				if (item.pid === data.pid) {
-					//删除当前元素，因为和pid重复了
-					searchedList.splice(index, 1)
-					//把当前pid添加到index[0]
-					/*searchedList.unshift(obj)
-					//触发重新渲染，让新元素显示在最上面。searchedList还是同一个object地址，所以不会触发useEffect[searchedList]...
-					*/
-					let newArr = [obj, ...searchedList] //必须return一个新的地址
-					setSearchedList(newArr)
-
-					return true //第一次true，some就结束迭代
-				} else {
-					return false
-				}
-			})
-			//没有重复
-			if (!flag) {
-				//添加当前pid对应的obj到searchedList
-				const newArr = [obj, ...searchedList]
-				//检查是否多于10个元素，如果多于10个删掉。
-				if (newArr.length > 10) {
-					newArr.splice(10)
-				}
-				setSearchedList(newArr) //触发重新渲染
-			}
+			//把符合条件的data以object的形式存到localStorage里
+			addToSearchedList(data)
 
 			if (data.sentiment_score_discrete === '-1') {
 				if (data.difficulty_score === '-1' && data.quality_score === '-1') {
@@ -88,19 +108,6 @@ function Home() {
 			}
 		}
 	}
-
-	const [ret, setRet] = useState()
-	const [ready, setReady] = useState(0) // ready flag
-	// initialize pid state
-	const [pid, setPid] = useState('') // user input
-	// initialize searchedList state
-	const [searchedList, setSearchedList] = useState([]) //如果localStorage里有，就用localStorage里的
-
-	//must useEffect! setSearchedList会被异步执行，在主线程里面使用searchedList都不是更新过后的值。但是setSearchedList里面不能写callback，所以用useEffect
-	useEffect(() => {
-		//console.log('before', searchedList)
-		localStorage.setItem('searchedList', JSON.stringify(searchedList))
-	}, [searchedList]) //注意这里searchedList是一个object，地址没有变就不会触发useEffect
 
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {
