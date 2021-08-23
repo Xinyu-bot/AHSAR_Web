@@ -86,7 +86,7 @@ function Home() {
 		} else {
 			//pid存在，但是没有评论
 			setRet(data)
-			//把符合条件的data以object的形式存到localStorage里
+			//把符合条件的data以object的形式添加到searchedList
 			addToSearchedList(data)
 
 			if (data.sentiment_score_discrete === '-1') {
