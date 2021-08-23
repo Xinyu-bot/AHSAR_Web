@@ -21,7 +21,8 @@
 /*input框*/
 .header1 #search-box {
 	box-sizing: border-box;
-	width: 100%;
+	width: 95%;
+	margin-left: 5%;
 	height: 40px; /*实现search-box垂直居中*/
 	padding: 6px;
 	border-radius: 35px;
