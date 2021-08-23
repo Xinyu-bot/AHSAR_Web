@@ -74,3 +74,34 @@ def get_comments(user_in: str) -> list:
     if prof['comments'] != -1:
         comments = [x[2] for x in prof['comments']]
     return [comments, prof['overall_score'], prof['difficulty'], prof['name'], prof['would_take_again']]
+
+# This function takes a professor name as input, 
+# and returns the url of the RMP rating page of this professor
+def get_url(prof_name: str) -> list:
+    name_parts = prof_name.lower().split()
+    query = name_parts[0]
+    for i in range(1, len(name_parts)):
+        query = query + '+' + name_parts[i]
+
+    # Get the results of searching by this professor name
+    query_url = f'https://www.ratemyprofessors.com/search/teachers?query={query}'
+    query_res = requests.get(query_url)
+    query_dom = BeautifulSoup(query_res.text, features="html.parser")
+    
+    # If no professor found, return list of "-1"
+    if query_dom.find('div', {'class': 'NoResultsFoundArea__StyledNoResultsFound-mju9e6-0 iManHc'}) != None:
+        return None
+    # Else
+    else:
+        prof_selector = query_dom.find_all('a', {'class': 'TeacherCard__StyledTeacherCard-syjs0d-0 dLJIlx'})
+        prof_list = []
+        for prof in prof_selector:
+            name = prof.find('div', {'class': 'CardName__StyledCardName-sc-1gyrgim-0 cJdVEK'}).text
+            department = prof.find('div', {'class': 'CardSchool__Department-sc-19lmz2k-0 haUIRO'}).text
+            school = prof.find('div', {'class': 'CardSchool__School-sc-19lmz2k-1 iDlVGM'}).text
+            pid = prof['href'].split('=')[-1]
+
+            profStr = name.replace(' ', '?') + '&' + department.replace(' ', '?') + '&' + school.replace(' ', '?') + '&' + pid
+            prof_list.append(profStr)
+
+        return prof_list

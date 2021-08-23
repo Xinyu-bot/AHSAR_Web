@@ -41,7 +41,7 @@ porterStemmer: PorterStemmer, quality_score: float, difficulty_score: float, nam
     return name, str(quality_score), str(difficulty_score), str(sentiment_score_disc), str(sentiment_score_cont)
 
 # retrieve comments from RMP, analyze sentimenet, and return result to Backend Server
-def func(comm_socket: socket.socket, pid: str) -> None:
+def analyze(comm_socket: socket.socket, pid: str) -> None:
     func_start = time()
     ret = None
     try:
@@ -66,6 +66,21 @@ def func(comm_socket: socket.socket, pid: str) -> None:
         comm_socket.close()
     return
 
+def fetchPID(comm_socket: socket.socket, name: str) -> None:
+    func_start = time()
+    ret = None
+    try:
+        ret = scraper.get_url(name)
+    except:
+        pass
+    finally:
+        if ret == None or ret == []:
+            comm_socket.send("-1 -1".encode())
+        else:
+            comm_socket.send(' '.join(ret).encode())
+        print("Task name#{0} done in {1} seconds".format(name, round(time() - func_start, 3)))
+        comm_socket.close()
+    return
 
 ''' gloabl variables '''
 gv_start = time()
@@ -73,7 +88,7 @@ gv_start = time()
 trigram_model, bigram_model, unigram_model, porterStemmer = load_models()
 # start TCP server socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(("localhost", 5005))
+sock.bind(("localhost", 5004))
 sock.listen()
 # process pool
 pool = multiprocessing.Pool(processes = 3)
@@ -86,9 +101,13 @@ def main() -> None:
     # read query from Backend Server, process the query, and return result
     while True: 
         (comm_socket, client_addr) = sock.accept()
-        pid = comm_socket.recv(128).decode()
-        print("Received pid:", pid)
-        pool.apply_async(func, (comm_socket, pid, ))
+        data = comm_socket.recv(128).decode()
+        mode, query = data[0], data[1:]
+        print("Received mode:", mode + ", query:", query)
+        if mode == "0":
+            pool.apply_async(analyze, (comm_socket, query, ))
+        elif mode == "1":
+            pool.apply_async(fetchPID, (comm_socket, query, ))
 
     # quit elegantly
     pool.close()
