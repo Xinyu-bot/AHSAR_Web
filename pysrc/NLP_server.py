@@ -88,7 +88,7 @@ gv_start = time()
 trigram_model, bigram_model, unigram_model, porterStemmer = load_models()
 # start TCP server socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(("localhost", 5004))
+sock.bind(("localhost", 5005))
 sock.listen()
 # process pool
 pool = multiprocessing.Pool(processes = 3)

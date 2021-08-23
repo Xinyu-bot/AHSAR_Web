@@ -39,7 +39,7 @@ func ObtainProfessor(input string) ([]string) {
 // 	Obatin professor's PID by name
 func ObtainPID(input string) ([]string) {
 	// 	Simple TCP Connection to NLP Server
-	conn, errTCP := net.Dial("tcp", "localhost:5004")
+	conn, errTCP := net.Dial("tcp", "localhost:5005")
 	if errTCP != nil {
 		log.Fatalf("errTCP:", errTCP)
 	}
