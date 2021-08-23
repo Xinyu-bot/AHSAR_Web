@@ -10,19 +10,17 @@
 	position: absolute;
 	top: 0;
 	/*水平居中*/
-	left: 35px; /*父盒子宽度的一半*/
-	transform: translate(-28px); /*自身宽度的一半*/
 	text-align: center;
+	width: 110px; /*实现history水平居中*/
 }
 .header1 .search {
-	margin: 0 70px;
+	margin: 0 110px; /*pc端：给左右盒子留出110px*/
 }
 
 /*input框*/
 .header1 #search-box {
 	box-sizing: border-box;
 	width: 95%;
-	margin-left: 5%;
 	height: 40px; /*实现search-box垂直居中*/
 	padding: 6px;
 	border-radius: 35px;
@@ -30,9 +28,9 @@
 }
 
 .header1 span {
-	width: 70px;
+	width: 110px; /*实现history水平居中*/
 	color: white;
 	font-weight: 700;
 	/* 文本不能被选中 */
-	user-select:none;
+	user-select: none;
 }
