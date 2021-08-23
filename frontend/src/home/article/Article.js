@@ -1,4 +1,3 @@
-import React from 'react'
 import './Article.css'
 import Result from './result/Result'
 
