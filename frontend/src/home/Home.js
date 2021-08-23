@@ -2,9 +2,16 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Header from './header/Header'
 import Article from './article/Article'
-import Result from './article/result/Result'
 
 function Home() {
+	useEffect(() => {
+		// Check browser support
+		if (typeof Storage !== 'undefined' && localStorage.getItem('searchedList') !== null) {
+			// Retrieve and set
+			setSearchedList(JSON.parse(localStorage.getItem('searchedList')))
+		}
+	}, []) // only run it once!
+
 	function isNum(s) {
 		if (s !== null && s !== '') {
 			return !isNaN(s)
@@ -40,9 +47,12 @@ function Home() {
 					//删除当前元素，因为和pid重复了
 					searchedList.splice(index, 1)
 					//把当前pid添加到index[0]
-					searchedList.unshift(obj)
-					//触发重新渲染，让新元素显示在最上面
-					setSearchedList(searchedList)
+					/*searchedList.unshift(obj)
+					//触发重新渲染，让新元素显示在最上面。searchedList还是同一个object地址，所以不会触发useEffect[searchedList]...
+					*/
+					let newArr = [obj, ...searchedList] //必须return一个新的地址
+					setSearchedList(newArr)
+
 					return true //第一次true，some就结束迭代
 				} else {
 					return false
@@ -58,8 +68,6 @@ function Home() {
 				}
 				setSearchedList(newArr) //触发重新渲染
 			}
-
-			console.log('searchedList', searchedList)
 
 			if (data.sentiment_score_discrete === '-1') {
 				if (data.difficulty_score === '-1' && data.quality_score === '-1') {
@@ -86,7 +94,13 @@ function Home() {
 	// initialize pid state
 	const [pid, setPid] = useState('') // user input
 	// initialize searchedList state
-	const [searchedList, setSearchedList] = useState([])
+	const [searchedList, setSearchedList] = useState([]) //如果localStorage里有，就用localStorage里的
+
+	//must useEffect! setSearchedList是个callback，callback里面的值才是更新过后的值。但是setSearchedList不能写callback，所以用useEffect
+	useEffect(() => {
+		//console.log('before', searchedList)
+		localStorage.setItem('searchedList', JSON.stringify(searchedList))
+	}, [searchedList]) //注意这里searchedList是一个object，地址没有变就不会触发useEffect
 
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {

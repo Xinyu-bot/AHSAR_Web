@@ -6,7 +6,6 @@ export default function Header(props) {
 	const [show, setShow] = useState(false)
 	const handleClick = (event) => {
 		setShow(!show)
-		console.log(show)
 	}
 
 	const handleKeyUp = (event) => {
@@ -34,7 +33,7 @@ export default function Header(props) {
 	return (
 		<div className='header1'>
 			<div onClick={handleClick} className='history'>
-				<span style={{  color: show ? '#ccc' : 'white' }}>搜索历史</span> {/* 文字不能被选中。被选中时，成为灰色。 */}
+				<span style={{ color: show ? '#ccc' : 'white' }}>搜索历史</span> {/* 文字不能被选中。被选中时，成为灰色。 */}
 			</div>
 			<div className='search'>
 				<input onKeyUp={handleKeyUp} onFocus={focus} id='search-box' autoComplete='off' placeholder='Please enter a PID' />
