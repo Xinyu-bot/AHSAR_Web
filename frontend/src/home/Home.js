@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Header from './header/Header'
 import Article from './article/Article'
@@ -14,19 +14,36 @@ function Home() {
 	const _setRet = (data) => {
 		//pid不存在
 		if (data.professor_name === '-1') {
+			setRet('')
 			setReady(3)
 
 			//pid存在
 		} else {
 			//pid存在，但是没有评论
+			setRet(data)
+
+			const obj = {
+				id: data.queryHash,
+				name: data.professor_name,
+				pid: data.pid,
+			}
+			//把返回的有效pid相关内容，加入搜索历史记录。用到了id，提高react渲染效率
+			// Don't use JS array methods such as pop, push, shift, unshift
+			// as these will not tell React to trigger a re-render.
+			// Instead, make a copy of the array then add your new item onto the end
+			// To update an item in the array use .map.
+			// Assumes each array item is an object with an id.
+			setSearchedList([obj, ...searchedList])
+			console.log('searchedList', searchedList)
+
 			if (data.sentiment_score_discrete === '-1') {
 				if (data.difficulty_score === '-1' && data.quality_score === '-1') {
 					//difficulty_score，quality_score都没有
-					console.log(4)
+					//console.log(4)
 					setReady(4)
 				} else {
 					//difficulty_score，quality_score都有
-					console.log(2)
+					//console.log(2)
 					setReady(2)
 				}
 				//pid存在，有评论，没有difficulty_score，没有quality_score
@@ -37,8 +54,6 @@ function Home() {
 				setReady(1)
 			}
 		}
-
-		setRet(data)
 	}
 
 	const [ret, setRet] = useState()
@@ -46,7 +61,7 @@ function Home() {
 	// initialize pid state
 	const [pid, setPid] = useState('') // user input
 	// initialize searchedList state
-	const [searchedList, setSearchedList] = useState('')
+	const [searchedList, setSearchedList] = useState([])
 
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {
@@ -71,12 +86,14 @@ function Home() {
 						//正确的数据从服务器返回，Header重新渲染。
 						_setRet(r.data)
 					} else {
+						
 						setReady(-1)
 					}
 				})
 				// catch error
 				.catch((err) => {
-					//服务器错误
+					//上面的then block里面有问题
+					console.log(err)
 					setReady(-1)
 				})
 		}
@@ -93,7 +110,7 @@ function Home() {
 	return (
 		<div className='home'>
 			<Header getSearchedPid={getSearchedPid} searchedList={searchedList} />
-			<Result />
+
 			<Article pid={pid} ret={ret} ready={ready} />
 		</div>
 	)
