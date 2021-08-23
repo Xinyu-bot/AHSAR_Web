@@ -96,7 +96,7 @@ function Home() {
 	// initialize searchedList state
 	const [searchedList, setSearchedList] = useState([]) //如果localStorage里有，就用localStorage里的
 
-	//must useEffect! setSearchedList是个callback，callback里面的值才是更新过后的值。但是setSearchedList不能写callback，所以用useEffect
+	//must useEffect! setSearchedList会被异步执行，在主线程里面使用searchedList都不是更新过后的值。但是setSearchedList里面不能写callback，所以用useEffect
 	useEffect(() => {
 		//console.log('before', searchedList)
 		localStorage.setItem('searchedList', JSON.stringify(searchedList))
