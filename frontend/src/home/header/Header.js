@@ -13,7 +13,7 @@ export default function Header(props) {
 		if (keyCode !== 13) return
 		//检查用户输入的是否只是空格或者根本没输入
 		if (target.value.trim() === '') {
-			alert('输入不能为空')
+			alert('输入不能为空 Input cannot be empty')
 			return
 		}
 
@@ -33,7 +33,7 @@ export default function Header(props) {
 	return (
 		<div className='header1'>
 			<div onClick={handleClick} className='history'>
-				<span style={{ color: show ? '#ccc' : 'white' }}>搜索历史</span> {/* 文字不能被选中。被选中时，成为灰色。 */}
+				<span style={{ color: show ? '#ccc' : 'white' }}>搜索历史 Search History</span> {/* 文字不能被选中。被选中时，成为灰色。 */}
 			</div>
 			<div className='search'>
 				<input onKeyUp={handleKeyUp} onFocus={focus} id='search-box' autoComplete='off' placeholder='Please enter a PID' />
