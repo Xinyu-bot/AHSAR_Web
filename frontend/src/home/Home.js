@@ -33,7 +33,32 @@ function Home() {
 			// Instead, make a copy of the array then add your new item onto the end
 			// To update an item in the array use .map.
 			// Assumes each array item is an object with an id.
-			setSearchedList([obj, ...searchedList])
+			//数据去重
+			const flag = searchedList.some((item, index) => {
+				//重复了
+				if (item.pid === data.pid) {
+					//删除当前元素，因为和pid重复了
+					searchedList.splice(index, 1)
+					//把当前pid添加到index[0]
+					searchedList.unshift(obj)
+					//触发重新渲染，让新元素显示在最上面
+					setSearchedList(searchedList)
+					return true //第一次true，some就结束迭代
+				} else {
+					return false
+				}
+			})
+			//没有重复
+			if (!flag) {
+				//添加当前pid对应的obj到searchedList
+				const newArr = [obj, ...searchedList]
+				//检查是否多于10个元素，如果多于10个删掉。
+				if (newArr.length > 10) {
+					newArr.splice(10)
+				}
+				setSearchedList(newArr) //触发重新渲染
+			}
+
 			console.log('searchedList', searchedList)
 
 			if (data.sentiment_score_discrete === '-1') {
@@ -86,7 +111,6 @@ function Home() {
 						//正确的数据从服务器返回，Header重新渲染。
 						_setRet(r.data)
 					} else {
-						
 						setReady(-1)
 					}
 				})
