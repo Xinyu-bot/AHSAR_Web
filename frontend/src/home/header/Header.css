@@ -14,21 +14,33 @@
 	width: 110px; /*实现history水平居中*/
 }
 .header1 .search {
-	margin: 0 110px; /*pc端：给左右盒子留出110px*/
+	margin-left: 110px; /*pc端：给左盒子留出110px*/
+	margin-right: 200px;
+}
+
+.header1 .search_by {
+	position: absolute;
+	top: 0;
+	right: 0;
+	/*水平居中*/
+	text-align: center;
+	width: 200px; /*实现history水平居中*/
+	color: white;
+	font-weight: 700;
 }
 
 /*input框*/
-.header1 .search #search-box {
+.header1 .search .search-box {
 	box-sizing: border-box;
+	padding: 15px;
 	width: 100%;
 	height: 40px; /*实现search-box垂直居中*/
-	padding: 6px;
 	border-radius: 35px;
 	outline: none;
 }
 
-.header1 span {
-	width: 110px; /*实现history水平居中*/
+.header1 .history span {
+	width: 200px; /*实现history水平居中*/
 	color: white;
 	font-weight: 700;
 	/* 文本不能被选中 */

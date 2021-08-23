@@ -25,19 +25,36 @@ export default function Header(props) {
 		/* 失去焦点 */
 		target.blur()
 	}
-
-	/*文本全选*/
+	/*
 	const focus = (event) => {
-		event.target.select()
+		//文本全选
+		//event.target.select()
+		//另外一个文本框消失
+		if (event.target.id === 'pid') {
+			document.getElementById('name').style.width = '40%'
+		} else {
+			document.getElementById('pid').style.width = '40%'
+		}
+		//选中的文本框变长
+		event.target.style.width = '60%'
 	}
+*/
 	return (
 		<div className='header1'>
 			<div onClick={handleClick} className='history'>
 				<span style={{ color: show ? '#ccc' : 'white' }}>Search History</span> {/* 文字不能被选中。被选中时，成为灰色。 */}
 			</div>
 			<div className='search'>
-				<input onKeyUp={handleKeyUp} onFocus={focus} id='search-box' autoComplete='off' placeholder='Please enter a PID' />
+				<input onKeyUp={handleKeyUp} className='search-box' autoComplete='off' placeholder='Please enter a PID eg: 2105994' />
 			</div>
+			<form className='search_by'>
+				Search by: &nbsp;
+				<input type='radio' id='pid' name='searchby' value='pid' checked /> {/*name的值要一样才能单选 */}
+				<label for='pid'>pid</label>
+				&nbsp;
+				<input type='radio' id='pname' name='searchby' value='pname' />
+				<label for='pname'>name</label>
+			</form>
 			{/* 点击搜索历史节点，显示SearchedList */}
 			<SearchedList searchedList={props.searchedList} style={{ display: show ? 'block' : 'none' }} /> {/*style在component上不起作用，把style传给SearchedList组件，在里面的ul节点加上这个style */}
 		</div>

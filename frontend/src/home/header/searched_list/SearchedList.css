@@ -1,8 +1,13 @@
 .searchedList {
-	background-color: grey;
+	background-color: rgb(184, 180, 180);
+	opacity: 0.95;
 	width: 200px;
 	padding-left: 0;
 	margin: 0;
 	min-height: 100px;
+	position: absolute;
+	top: 56px;
 }
-
+.searchedList:hover {
+	opacity: 1;
+}
