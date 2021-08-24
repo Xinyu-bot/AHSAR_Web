@@ -13,12 +13,9 @@
 
 .searchedItem:hover {
 	opacity: 1;
-	background-color: rgba(117, 112, 112, 0.568);
+	background-color: rgba(80, 66, 66, 0.568);
 }
-
 
 .searchedItem #pid {
 	text-align: center;
 }
-
-
