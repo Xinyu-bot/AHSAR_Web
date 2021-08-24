@@ -3,9 +3,21 @@ import SearchedItem from './searched_item/SearchedItem'
 import './SearchedList.css'
 
 export default function SearchedList(props) {
+	const handleClick1 = (e) => {
+		const pid = e.target.innerHTML.split('&nbsp;')[1]
+		console.log(pid) //pid是string类型，我们要数字类型
+		props.getClickedPid(parseInt(pid))
+	}
+
+	const handleClick2 = (e) => {
+		const pid = e.target.innerHTML.split('&nbsp;')[1]
+		console.log(pid) //pid是string类型，我们要数字类型
+		props.getClickedPid2(parseInt(pid))
+	}
+
 	const splitName = (item, index) => {
 		const nameStr = item.split(' ')[index]
-		const newStr = nameStr.replaceAll('?', ' ')//replace只replace第一个。要用replaceAll。
+		const newStr = nameStr.replaceAll('?', ' ') //replace只replace第一个。要用replaceAll。
 		return newStr
 	}
 
@@ -14,7 +26,7 @@ export default function SearchedList(props) {
 			{(() => {
 				if (props.searchedList !== undefined) {
 					return (
-						<ul className='searchedList' style={props.style}>
+						<ul onClick={handleClick1} className='searchedList' style={props.style}>
 							{props.searchedList.map((item) => (
 								<SearchedItem key={item.id} name={item.name} pid={item.pid} />
 							))}
@@ -25,7 +37,7 @@ export default function SearchedList(props) {
 				//如果要求来自Result组件的searchedListByName
 				if (props.searchedListByName !== undefined) {
 					return (
-						<ul className='resultOfName' style={props.style}>
+						<ul onClick={handleClick2} className='resultOfName' style={props.style}>
 							{props.searchedListByName.map((item) => (
 								<SearchedItem
 									className='resultList'
