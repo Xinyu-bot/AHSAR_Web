@@ -79,8 +79,9 @@ function Home() {
 	const _setRet = (data) => {
 		//pid不存在
 		if (data.professor_name === '-1') {
-			setRet('')
 			setReady(3)
+			//ready must before ret 如果显示searchbyname，然后变成searchbyid
+			setRet('')
 			console.log('pid not')
 			//pid存在
 		} else {
@@ -118,13 +119,13 @@ function Home() {
 	const _setRetByName = (data) => {
 		//name不存在
 		if (data.hasResult === 'false') {
-			setRet('')
 			setReady(6)
+			setRet('')
 
 			//name存在
 		} else {
-			setRet(data.ret)
 			setReady(7)
+			setRet(data.ret)
 		}
 	}
 
