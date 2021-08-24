@@ -1,4 +1,4 @@
-.searchedList {
+.searched2 .searchedList {
 	background-color: rgb(184, 180, 180);
 	opacity: 0.95;
 	width: 200px;
@@ -8,6 +8,9 @@
 	position: absolute;
 	top: 56px;
 }
-.searchedList:hover {
+.searched2 .searchedList:hover {
 	opacity: 1;
+}
+.searched2 .resultOfName {
+	padding-left: 0;
 }

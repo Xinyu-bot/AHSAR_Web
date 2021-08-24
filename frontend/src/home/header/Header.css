@@ -24,7 +24,7 @@
 	right: 0;
 	/*水平居中*/
 	text-align: center;
-	width: 200px; /*实现history水平居中*/
+	width: 200px; /*实现search_by水平居中*/
 	color: white;
 	font-weight: 700;
 }
@@ -40,7 +40,7 @@
 }
 
 .header1 .history span {
-	width: 200px; /*实现history水平居中*/
+	width: 110px; /*实现history水平居中*/
 	color: white;
 	font-weight: 700;
 	/* 文本不能被选中 */
