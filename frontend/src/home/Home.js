@@ -109,6 +109,19 @@ function Home() {
 		}
 	}
 
+	const _setRetByName = (data) => {
+		//name不存在
+		if (data.hasResult === 'false') {
+			setRet('')
+			setReady(6)
+
+			//name存在
+		} else {
+			setRet(data.ret)
+			setReady(7)
+		}
+	}
+
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {
 		setPid(pid)
@@ -152,9 +165,47 @@ function Home() {
 		}
 	}
 
+	function hasNumber(myString) {
+		return /\d/.test(myString)
+	}
+	//Home传给Header一个函数，为了Header把name传给Home
+	const getSearchedName = (name) => {
+		setPid(name)
+		setRet('loading')
+		if (!hasNumber(name)) {
+			// retrieve from backend API /get_prof_by_id
+			axios
+				.get('http://54.251.197.0:8080/get_pid_by_name', {
+					params: {
+						input: name,
+					},
+				})
+				// process returned result3w4
+				.then((r) => {
+					if (r.status === 200) {
+						//正确的数据从服务器返回，Header重新渲染。
+						console.log(r.data)
+						_setRetByName(r.data)
+					} else {
+						setReady(-1)
+					}
+				})
+				// catch error
+				.catch((err) => {
+					//上面的then block里面有问题
+					console.log(err)
+					setReady(-1)
+				})
+		} else {
+			alert('Name should not contain number')
+			setRet('non-numbers')
+			return 
+		}
+	}
+
 	return (
 		<div className='home'>
-			<Header getSearchedPid={getSearchedPid} searchedList={searchedList} />
+			<Header getSearchedPid={getSearchedPid} getSearchedName={getSearchedName} searchedList={searchedList} />
 
 			<Article pid={pid} ret={ret} ready={ready} />
 		</div>

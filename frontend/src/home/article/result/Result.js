@@ -1,6 +1,6 @@
 import React from 'react'
 import './Result.css'
-
+import SearchedList from '../../../home/header/searched_list/SearchedList.js'
 export default function Result(props) {
 	return (
 		<div className='result'>
@@ -95,6 +95,23 @@ export default function Result(props) {
 									<p>Would Take Again: {props.ret.would_take_again}</p>
 									<p>Sentiment Analysis Score (Discrete): {props.ret.sentiment_score_discrete}</p>
 									<p>Sentiment Analysis Score (Continuous): {props.ret.sentiment_score_continuous}</p>
+								</span>
+							)
+
+						//for search by name
+						case 6:
+							return (
+								<span>
+									<h2 id='result'>Result for </h2>
+									<p>Sorry, this name is invalid. There is no such name on RateMyProfessors.com!</p>
+								</span>
+							)
+						case 7:
+							return (
+								<span>
+									<h2 id='result'>Result for </h2>
+
+									<SearchedList searchedListByName={props.ret} />
 								</span>
 							)
 						// make compiler happy
