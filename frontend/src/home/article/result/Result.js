@@ -102,14 +102,14 @@ export default function Result(props) {
 						case 6:
 							return (
 								<span>
-									<h2 id='result'>Result for </h2>
+									<h2 id='result'>Result for {props.pid}</h2>
 									<p>Sorry, this name is invalid. There is no such name on RateMyProfessors.com!</p>
 								</span>
 							)
 						case 7:
 							return (
 								<span>
-									<h2 id='result'>Result for </h2>
+									<h2 id='result'>Result for {props.pid}</h2>
 
 									<SearchedList searchedListByName={props.ret} />
 								</span>
