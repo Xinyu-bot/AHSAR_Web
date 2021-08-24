@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 )
 
 var redisClient *redis.Client
+var ctx context.Context
 
 func main() {
 	// 	Backend Server CORS setting
@@ -18,6 +20,7 @@ func main() {
 		DB: 0,
 	})
 	defer redisClient.Close()
+	ctx = context.Background()
 
 	/*
 		MiddleWare
