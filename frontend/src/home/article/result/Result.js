@@ -2,6 +2,11 @@ import React from 'react'
 import './Result.css'
 import SearchedList from '../../../home/header/searched_list/SearchedList.js'
 export default function Result(props) {
+	const getClickedPid2 = (pid) => {
+		console.log('here result', pid)
+		props.getClickedPid(pid)
+	}
+
 	return (
 		<div className='result'>
 			{(() => {
@@ -111,7 +116,7 @@ export default function Result(props) {
 								<span>
 									<h2 id='result'>Result for {props.pid}</h2>
 
-									<SearchedList searchedListByName={props.ret} />
+									<SearchedList searchedListByName={props.ret} getClickedPid2={getClickedPid2} />
 								</span>
 							)
 						// make compiler happy

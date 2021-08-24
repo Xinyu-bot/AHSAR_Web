@@ -81,14 +81,9 @@ function Home() {
 		if (data.professor_name === '-1') {
 			setRet('')
 			setReady(3)
-
+			console.log('pid not')
 			//pid存在
 		} else {
-			//pid存在，但是没有评论
-			setRet(data)
-			//把符合条件的data以object的形式添加到searchedList
-			addToSearchedList(data)
-
 			if (data.sentiment_score_discrete === '-1') {
 				if (data.difficulty_score === '-1' && data.quality_score === '-1') {
 					//difficulty_score，quality_score都没有
@@ -106,6 +101,17 @@ function Home() {
 				//全都有
 				setReady(1)
 			}
+
+			/*有一个case必须要先改变ready：当我们搜索by名字，然后点击某一个名字，如果没有先改变ready，ready还是=7，
+			ret会被props.searchedListByName.map((item)，这会报错，因为这个case服务器发回的data是get_prof_by_id发回来的ret（是个object）。
+			props.searchedListByName.map里面用的是get_pid_by_name发回来的object里面的ret（是个array）
+			所以先改变ready，再setRet(data)*/
+
+			//pid存在，但是没有评论
+			setRet(data)
+			//把符合条件的data以object的形式添加到searchedList
+			console.log('addtosearchlist')
+			addToSearchedList(data)
 		}
 	}
 
@@ -132,6 +138,8 @@ function Home() {
 
 		// input validation
 		if (isNum(pid)) {
+			console.log(pid, typeof pid)
+
 			// retrieve from backend API /get_prof_by_id
 			axios
 				.get('http://54.251.197.0:8080/get_prof_by_id', {
@@ -143,7 +151,9 @@ function Home() {
 				.then((r) => {
 					if (r.status === 200) {
 						//正确的数据从服务器返回，Header重新渲染。
+						console.log('inter then', r.data)
 						_setRet(r.data)
+						console.log('returned data', r.data)
 					} else {
 						setReady(-1)
 					}
@@ -151,7 +161,7 @@ function Home() {
 				// catch error
 				.catch((err) => {
 					//上面的then block里面有问题
-					console.log(err)
+					console.log('why', err)
 					setReady(-1)
 				})
 		}
@@ -199,7 +209,7 @@ function Home() {
 		} else {
 			alert('Name should not contain number')
 			setRet('non-numbers')
-			return 
+			return
 		}
 	}
 
@@ -207,7 +217,7 @@ function Home() {
 		<div className='home'>
 			<Header getSearchedPid={getSearchedPid} getSearchedName={getSearchedName} searchedList={searchedList} />
 
-			<Article pid={pid} ret={ret} ready={ready} />
+			<Article getSearchedPid={getSearchedPid} pid={pid} ret={ret} ready={ready} />
 		</div>
 	)
 }

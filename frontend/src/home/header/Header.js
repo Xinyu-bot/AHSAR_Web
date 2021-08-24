@@ -53,6 +53,12 @@ export default function Header(props) {
 		target.blur()
 	}
 
+	//Header传给SearchedList一个函数，为了SearchedList把pid传给Header,然后Header再传给Home
+	const getClickedPid = (pid) => {
+		console.log('here', pid)
+		props.getSearchedPid(pid)
+	}
+
 	return (
 		<div className='header1'>
 			<div onClick={handleClick} className='history'>
@@ -70,7 +76,8 @@ export default function Header(props) {
 				<label for='pname'>name</label>
 			</form>
 			{/* 点击搜索历史节点，显示SearchedList */}
-			<SearchedList searchedList={props.searchedList} style={{ display: show ? 'block' : 'none' }} /> {/*style在component上不起作用，把style传给SearchedList组件，在里面的ul节点加上这个style */}
+			<SearchedList getClickedPid={getClickedPid} searchedList={props.searchedList} style={{ display: show ? 'block' : 'none' }} />{' '}
+			{/*style在component上不起作用，把style传给SearchedList组件，在里面的ul节点加上这个style */}
 		</div>
 	)
 }

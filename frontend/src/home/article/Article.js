@@ -2,6 +2,10 @@ import './Article.css'
 import Result from './result/Result'
 
 function Article(props) {
+	const getClickedPid = (pid) => {
+		console.log('here article', pid)
+		props.getSearchedPid(pid)
+	}
 	return (
 		<div className='article'>
 			{/*jsx里面只能放js表达式，包括执行一个函数。如果pid不为空，显示下面的节点 */}
@@ -9,7 +13,7 @@ function Article(props) {
 				if (props.pid !== '') {
 					return (
 						<div>
-							<Result ret={props.ret} pid={props.pid} ready={props.ready} />
+							<Result getClickedPid={getClickedPid} ret={props.ret} pid={props.pid} ready={props.ready} />
 						</div>
 					)
 				}
