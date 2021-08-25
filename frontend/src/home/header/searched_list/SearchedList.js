@@ -1,6 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SearchedItem from './searched_item/SearchedItem'
 import './SearchedList.css'
+
+//对接收的props进行类型以及必要性的限制
+SearchedList.propTypes = {
+	getClickedPid: PropTypes.func,
+	getClickedPid2: PropTypes.func,
+}
 
 export default function SearchedList(props) {
 	const handleClick1 = (e) => {
