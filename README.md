@@ -57,13 +57,13 @@ AHSAR旨在为在美大学生提供一个量化评估教授的新角度。通过
 Server might be lagging, on and off, or unstable, because:
 *   ... 
 *   Server is under manual deployment. This usually takes only a few minutes. 
-*   Server is down because of flood requests, concurrency test, etc. Fix time is not guaranteed, but auto-recover is on the development schedule. 
-*   Server is down internally on AWS side, because of CPU/Memory shortage (this is a free version of EC2 Server, so the hardware is weak). Fix time is not guaranteed, but auto-restart is on the development schedule. 
+*   Server is temporarily down because of flood requests, concurrency test, etc. Fix time is not guaranteed, but auto-recover is on the development schedule. 
+*   Server is permanently down because of internal issue on AWS side, maybe due to CPU/Memory shortage (this is a free version of EC2 Server, so the hardware is weak). Fix time is not guaranteed, but auto-restart is on the development schedule. 
 
 服务器可能会卡顿、时好时坏、或者不稳定，因为以下几种原因：
 *   正在手动部署最新版本的代码（自动部署功能在计划中，但不确定完成时间），这一般只需要几分钟时间。
 *   服务器因为大量的访问或者并发测试而短暂挂起。修复时间不确定，但是自动恢复的功能也在计划中。
-*   服务器因为亚马逊云服务方面的问题而挂起，比如内存或者CPU不够用了。网站运行在免费的EC2服务器上，所以分配到的硬件条件比较弱。修复时间不确定。
+*   服务器因为亚马逊云服务方面的问题而宕机，比如内存或者CPU不够用了。网站运行在免费的EC2服务器上，所以分配到的硬件条件比较弱。修复时间不确定，但是自动重启的功能也在计划中。
 
 [Back to top 回到顶部](#ahsar-web)
 
