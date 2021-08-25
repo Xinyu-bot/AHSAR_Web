@@ -123,7 +123,7 @@ Server might be lagging, on and off, or unstable, because:
 *   Start NLP Server (in repository `/pysrc` directory, `python3 NLP_server.py`)
 *   Start Backend Server (in repository `/backend` directory, `./app`, or, to recompile again, `bash run.bash`)
 *   Start Frontend (in repository `/frontend` directory, for development mode `npm start`, or, for production mode first `npm run build` then follow the instruction on terminal)
-<br>
+*   ...
 *   启动Redis(如果是编译的源码，可以在Redis的目录下执行`/src/redis-server`；或者执行`sudo service redis-server`或直接`redis-server`)
 *   启动NLP服务器（在`/pysrc`目录下执行`python3 NLP_Server.py`）
 *   启动后端服务器（在`/backend`目录下执行`./app`，或者如果想重新编译的话，执行`bash run.bash`）
