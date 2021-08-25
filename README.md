@@ -91,9 +91,9 @@ Server might be lagging, on and off, or unstable, because:
 *   语言环境
     *   C, Go, Python (请选用最新的几个版本之一)
     *   可以阅读代码仓库中的源码并且找到真正需要下载的包、模组，不过一般来说：
-    *   Python需要执行`pip install nltk`和`pip install bs4`
-    *   Go需要在`/backend`目录下执行`go mod download`自动下载需要的包
-    *   C不需要额外的包
+    *   Python: 需要执行`pip install nltk`和`pip install bs4`
+    *   Go: 需要在`/backend`目录下执行`go mod download`自动下载需要的包
+    *   C: 不需要额外的包
     *   完整的准备环节的指引会在持续部署实现之后再列出。
 
 
