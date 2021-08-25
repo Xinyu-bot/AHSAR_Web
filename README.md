@@ -17,7 +17,7 @@ Web Application for AHSAR
 
 Temporary Website under Production Mode on AWS: http://54.251.197.0:5000/
 
-AHSAR tends to provide students with a different perspective on quatitatively evaluating their professors. Check the sentiment analysis result of other students' commentary on the professor of your choice by entering the `tid`(in AHSAR, it is called PID)+ in a professor URL from RateMyProfessors.com website, or the name (preferably full name) of professor. 
+AHSAR tends to provide students with a different perspective on quatitatively evaluating their professors. Check the sentiment analysis result of other students' commentary on the professor of your choice by entering the `tid`(in AHSAR, it is called PID) in a professor URL from RateMyProfessors.com website, or the name (preferably full name) of professor. 
 
 For example, assume a "randomly-selected" professor URL is `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994` (Salute to Professor Adam Meyers from NYU, CS0002 ICP and CS480 NLP): 
 *   select __Search by pid__, and enter `2105994`. 
@@ -25,12 +25,12 @@ For example, assume a "randomly-selected" professor URL is `https://www.ratemypr
 
 Sentiment Score (continuous) and Sentiment Score (discrete) are usually:
 *   close to each other in numbers, but sometimes they differ a lot... _be cautious when it happens_. 
-*   can be undeterministic in different queries, because of randomized tier-breaking. 
+*   can be undeterministic in different queries, because of randomized tie-breaking. 
 
 Notice that Sentiment Score (discrete) is computed based on the positive and negative weight of individual comments, while Sentiment Score (continuous) is computed based on the positive and negative weight of all comments.
 In other words, the higher the discrete score is, the more individual comments are positive. The higher the continuous score is, the larger proportion of all comments are positive. 
 
-For example, a professor having Sentiment Score (continuous) of 2.0 and Sentiment Score (discrete) of 4.0 might infer that more individual comments are classified as positive, but maybe the positive comments have really close weight on positivity and negativity, while the negative comments significantly skew to negativity. Why? Check the actual comments to find the reason. _Maybe the professor gives easy A, but the course is bad in many ways... or the other way around..._
+For example, a professor having Sentiment Score (continuous) of 2.0 and Sentiment Score (discrete) of 4.0 might imply that more individual comments are classified as positive, but maybe the positive comments have really close weight on positivity and negativity, while the negative comments significantly skew to negativity. Why? Check the actual comments to find the reason. _Maybe the professor gives easy A, but the course is bad in many ways... or the other way around..._
  
 [Back to top](#ahsar_web)
 

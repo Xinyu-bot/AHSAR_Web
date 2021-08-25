@@ -7,23 +7,23 @@ import (
 )
 
 func GetProfByID(c *gin.Context) {
-	// 	extract input from request query
+	// extract input from request query
 	input := c.Query("input")
 	noCache := c.Query("noCache")
-	// 	initialize res for storing result from NLP Server
+	// initialize res for storing result from NLP Server
 	var res []string
 	fmt.Println("[LOG] query input: " + input + ", noCache: " + noCache)
 
 	// if frontend enforces a no-cache-query, fetch latest data from RMP website
 	if noCache == "true" {
-		// 	obtain data of the professor from RMP website and analyze by ../pysrc/NLP_server.py
+		// obtain data of the professor from RMP website and analyze by ../pysrc/NLP_server.py
 		res = ObtainProfessor(input)
-		// 	update Redis with the new data
+		// update Redis with the new data
 		RedisUpdateResultCache(redisClient, input, res, ctx)
 	} else { // use cache if available
-		// 	check redis (as a fast RAM-based cache) if the input query exists
+		// check redis (as a fast RAM-based cache) if the input query exists
 		redisRes := RedisCheckResultCache(redisClient, input, ctx)
-		// 	data not cached in Redis
+		// data not cached in Redis
 		if (len(redisRes) == 0) {
 			// acquire mutex on the key in Redis
 			if ok, _ := redisClient.SetNX(ctx, input + "_mutex", 1, time.Duration(5) * time.Second).Result(); ok == true {
@@ -47,14 +47,14 @@ func GetProfByID(c *gin.Context) {
 				}
 				// obtain cached data from Redis
 				redisRes := RedisCheckResultCache(redisClient, input, ctx)
-				// 	populate res with the retrieved data
+				// populate res with the retrieved data
 				res = make([]string, 8)
 				for ind, key := range profAttr {
 					res[ind] = redisRes[key]
 				}
 			} 
-		} else { //  retrieve cached data from Redis
-			// 	populate res with the retrieved data
+		} else { // retrieve cached data from Redis
+			// populate res with the retrieved data
 			res = make([]string, 8)
 			for ind, key := range profAttr {
 				res[ind] = redisRes[key]
@@ -62,7 +62,7 @@ func GetProfByID(c *gin.Context) {
 		}
 	}
 
-	// 	return response to frontend with unique hash for each query
+	// return response to frontend with unique hash for each query
 	hash := fastHash(c.ClientIP(), input)
 	c.JSON(200, gin.H{
 		profAttr[0]: res[0], profAttr[1]: res[1], profAttr[2]: res[2], 

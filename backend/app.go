@@ -10,10 +10,10 @@ var redisClient *redis.Client
 var ctx context.Context
 
 func main() {
-	// 	Backend Server CORS setting
+	// Backend Server CORS setting
 	r := gin.Default()
 
-	// 	Simple Redis Connection
+	// Simple Redis Connection
 	redisClient = redis.NewClient(&redis.Options{
 		Addr: "localhost:6379", 
 		Password: "",  
@@ -30,23 +30,23 @@ func main() {
 	/*
 		APIs avail for frontend
 	*/
-	// 	default GET for main page
+	// default GET for main page
 	r.GET("/", func(c *gin.Context) {
-		// 	return default response to frontend
+		// return default response to frontend
 		c.JSON(200, gin.H{
 			"message": "Welcome to AHSAR web page! ",
 		})
 	})
-	// 	get professor sentiment analysis score by professor ID
+	// get professor sentiment analysis score by professor ID
 	r.GET("/get_prof_by_id", GetProfByID)
-	//	get professor's PID from RMP website by professor name
+	// get professor's PID from RMP website by professor name
 	r.GET("/get_pid_by_name", GetPidByName)
 
-	// 	serve on port 8080
+	// serve on port 8080
 	r.Run() 
 }
 
-// 	CORS for all origins
+// CORS for all origins
 func CORSMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
         c.Writer.Header().Set("Content-Type", "application/json")
