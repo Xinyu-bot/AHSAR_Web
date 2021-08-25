@@ -1,6 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './Result.css'
 import SearchedList from '../../../home/header/searched_list/SearchedList.js'
+
+Result.propTypes = {
+	getClickedPid: PropTypes.func,
+	//pid can be string and number 
+	//ret can be string and object
+	ready: PropTypes.number.isRequired,
+}
 export default function Result(props) {
 	const getClickedPid2 = (pid) => {
 		console.log('here result', pid)

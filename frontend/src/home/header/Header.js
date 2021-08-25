@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import './Header.css'
 import SearchedList from './searched_list/SearchedList'
 
+//对接收的props进行类型以及必要性的限制
+Header.propTypes = {
+	getSearchedPid: PropTypes.func,
+	getSearchedName: PropTypes.func,
+	searchedList: PropTypes.array,
+}
 export default function Header(props) {
 	useEffect(() => {
 		document.getElementById('pid').checked = true

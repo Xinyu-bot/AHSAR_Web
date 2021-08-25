@@ -1,6 +1,14 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import './Article.css'
 import Result from './result/Result'
 
+Article.prototype = {
+	getSearchedPid: PropTypes.func,
+	//pid can be string and number 点击搜索历史li和searchbyname的li时传来的是number，其他时候是string
+	//ret can be string and object
+	ready: PropTypes.number.isRequired,
+}
 function Article(props) {
 	const getClickedPid = (pid) => {
 		console.log('here article', pid)
