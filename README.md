@@ -1,18 +1,19 @@
 # AHSAR Web
 Development In Progress
+正在开发中
 - [AHSAR Web](#ahsar-web)
-  - [Introduction](#introduction)
-  - [Notice on Server Status](#notice-on-server-status)
-  - [Application Structure](#application-structure)
-  - [Application Setup (Locally)](#application-setup-locally)
-  - [Public API (To be Expanded)](#public-api-to-be-expanded)
-  - [Application Workflow](#application-workflow)
-  - [A Bit More About NLP Server](#a-bit-more-about-nlp-server)
-  - [License](#license)
-  - [Project History](#project-history)
-  - [TODO](#todo)
+  - [Introduction 介绍](#introduction-介绍)
+  - [Notice on Server Status 服务器状态](#notice-on-server-status-服务器状态)
+  - [Application Structure 服务器架构](#application-structure-服务器架构)
+  - [Application Workflow 应用流程](#application-workflow-应用流程)
+  - [Application Setup (Locally) 本地如何运行](#application-setup-locally-本地如何运行)
+  - [Public API (To be Expanded) 公开调用的API](#public-api-to-be-expanded-公开调用的api)
+  - [A Bit More About NLP Server 关于NLP服务器](#a-bit-more-about-nlp-server-关于nlp服务器)
+  - [License 授权证书](#license-授权证书)
+  - [Project History 项目历史](#project-history-项目历史)
+  - [TODO 待完成工作计划](#todo-待完成工作计划)
 
-## Introduction
+## Introduction 介绍
 Web Application for AHSAR
 
 Temporary Website under Production Mode on AWS: http://54.251.197.0:5000/
@@ -31,44 +32,106 @@ Notice that Sentiment Score (discrete) is computed based on the positive and neg
 In other words, the higher the discrete score is, the more individual comments are positive. The higher the continuous score is, the larger proportion of all comments are positive. 
 
 For example, a professor having Sentiment Score (continuous) of 2.0 and Sentiment Score (discrete) of 4.0 might imply that more individual comments are classified as positive, but maybe the positive comments have really close weight on positivity and negativity, while the negative comments significantly skew to negativity. Why? Check the actual comments to find the reason. _Maybe the professor gives easy A, but the course is bad in many ways... or the other way around..._
- 
-[Back to top](#ahsar_web)
 
-## Notice on Server Status
+AHSAR网页应用
+
+运行在亚马逊云服务器上的临时网址：http://54.251.197.0:5000/
+
+AHSAR旨在为在美大学生提供一个量化评估教授的新角度。通过输入RateMyProfessors.com网站上教授URL末位的`tid`或者教授名字（最好是全名），用户就可以得到其他学生对于该教授的评语的情绪分析结果。得分从低到高是1到5分。
+
+比如，纽约大学计算机系CS0002 ICP和CS480 NLP课程的授课教授Adam Meyers，他在RMP网站上的URL为`https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994`，那么可以通过以下方式进行查询：
+*   选择Search by pid，然后输入2105994
+*   选择Search by name，然后输入教授全名Adam Meyers，最后选择列表中`Adam Meyers 2105994 New York University ...`这个选项
+
+情绪分析的得分，分为“连续”和“离散”两种。一般来说：
+*   这两个分数会比较接近。但是少数情况两个分数会差距较大，这个时候就要多留一个心眼儿了
+*   多次查询的结果可能会有一些不一致，这是因为分析数据的时候，如果出现正、负的概率相同，程序会随机决定该句子的正负性 (randomized tie-breaking)。
+
+“连续”的情绪得分是基于单个评论的正负权重而计算的，“离散”的得分是基于所有评论汇总的正负权重而计算的。话句话说，离散分数越高，说明更多的评论是偏向正面的；而连续分数越高，则说明全部评论整体而言，偏向正面的比例更高。
+
+例如，一位教授的连续得分为2.0分而离散的分为4.0分，可能意味着更多的单个评论被归类为正面的，但也许在这些正面的评论中正负的占比非常接近，而在被归类为负面的评论中，负向的占比非常高。为什么呢？这就需要真正花时间去看一下实际的评论了。也许这个教授会给很多A，但是课程从各方面而言都很糟糕...或者正好相反...
+
+[Back to top 回到顶部](#ahsar-web)
+
+## Notice on Server Status 服务器状态
 Server might be lagging, on and off, or unstable, because:
 *   ... 
 *   Server is under manual deployment. This usually takes only a few minutes. 
 *   Server is down because of flood requests, concurrency test, etc. Fix time is not guaranteed, but auto-restart is on the development schedule. 
 *   Server is down internally on AWS side, because of CPU/Memory shortage (this is a free version of EC2 Server, so the hardware is weak). Fix time is not guaranteed.
 
-[Back to top](#ahsar_web)
+服务器可能会卡顿、时好时坏、或者不稳定，因为以下几种原因：
+*   正在手动部署最新版本的代码（自动部署功能在计划中，但不确定完成时间），这一般只需要几分钟时间。
+*   服务器因为大量的访问或者并发测试而短暂挂起。修复时间不确定，但是自动恢复的功能也在计划中。
+*   服务器因为亚马逊云服务方面的问题而挂起，比如内存或者CPU不够用了。网站运行在免费的EC2服务器上，所以分配到的硬件条件比较弱。修复时间不确定。
 
-## Application Structure
+[Back to top 回到顶部](#ahsar-web)
+
+## Application Structure 服务器架构
 *   Frontend (Language: JavaScript, Framework: React.js) 
 *   Backend
-    * Backend Server (Language: Go, Framework: Gin) 
-    * Query & Result Cache (MiddleWare: Redis, written in C) 
-    * Internal Communication: Naive Socket TCP Connection
-    * Server: Modified Version of AHSAR NLP project (Language: Python) 
+    *   HTTP Response Server, or in the project, simply called Backend Server (Language: Go, Framework: Gin) 
+    *   Query & Result Cache (MiddleWare: Redis, written in C) 
+    *   NLP Server: Modified Version of AHSAR NLP project (Language: Python) 
+    *   Internal Communication between Backend Server and NLP Server: Naive Socket TCP Connection
 *   Language Environment Setup: 
-    *   C, Go, Python. 
+    *   C, Go, Python (please choose from the most-recent/latest versions). 
     *   Check source file in this repository to find the actual Packages/Modules involved. 
     *   Python: `pip install nltk` and `pip install bs4` should be enough
     *   Go: in `/backend` directory, `go mod download` should be enough
     *   C: should not need any extra package
     *   Full list of preparation procedure will be listed when air with Continuous Deployment on AWS. 
+<br>
+*   前端 （JavaScript语言的React.js框架）
+*   后端
+    *   HTTP响应服务器（下称后端服务器，Go语言的Gin框架）
+    *   查询请求和响应结果的缓存（用C编写的中间件Redis）
+    *   NLP处理服务器（下称NLP服务器，Python语言）
+    *   后端服务器和NLP服务器的内部通信方式：简易的Socket TCP连接
+*   语言环境
+    *   C, Go, Python (请选用最新的几个版本之一)
+    *   可以阅读代码仓库中的源码并且找到真正需要下载的包、模组，不过一般来说：
+    *   Python需要执行`pip install nltk`和`pip install bs4`
+    *   Go需要在`/backend`目录下执行`go mod download`自动下载需要的包
+    *   C不需要额外的包
+    *   完整的准备环节的指引会在持续部署实现之后再列出。
 
-[Back to top](#ahsar_web)
 
-## Application Setup (Locally)
-*   Start Redis (if compiled from source, in redis directory `/src/redis-server`; otherwise, `sudo service redis-server`)
+[Back to top 回到顶部](#ahsar-web)
+
+## Application Workflow 应用流程
+*   Frontend sends query to Backend
+*   Backend receives query and check if it is in Redis:
+    *   If in, retrieves the cached result and returns it to Frontend
+    *   If not in, sends the query to NLP Server through TCP Socket
+*   NLP Server receives the query from TCP Socket and start analyzing
+*   NLP Server returns the result to Backend Server through TCP Socket, then close the TCP connecteion
+*   Backend updates Redis with the result and also returns result to Frontend
+<br>
+*   前端发请求给后端
+*   后端检查Redis缓存中是否有对应的数据，
+    *   如果有，直接获取缓存的数据并返回前端
+    *   如果没有，则将请求解析之后封装好再通过Socket TCP发给NLP服务器
+*   NLP服务器收到之后进行处理
+*   NLP处理完后将数据通过上次的TCP连接发回给后端，然后断开TCP连接
+*   后端将数据更新至缓存，并且返回给前端
+
+[Back to top 回到顶部](#ahsar-web)
+
+## Application Setup (Locally) 本地如何运行
+*   Start Redis (if compiled from source, in redis directory `/src/redis-server`; otherwise, `sudo service redis-server`, or simply `redis-server`)
 *   Start NLP Server (in repository `/pysrc` directory, `python3 NLP_server.py`)
 *   Start Backend Server (in repository `/backend` directory, `./app`, or, to recompile again, `bash run.bash`)
 *   Start Frontend (in repository `/frontend` directory, for development mode `npm start`, or, for production mode first `npm run build` then follow the instruction on terminal)
+<br>
+*   启动Redis(如果是编译的源码，可以在Redis的目录下执行`/src/redis-server`；或者执行`sudo service redis-server`或直接`redis-server`)
+*   启动NLP服务器（在`/pysrc`目录下执行`python3 NLP_Server.py`）
+*   启动后端服务器（在`/backend`目录下执行`./app`，或者如果想重新编译的话，执行`bash run.bash`）
+*   启动前端（在`/frontend`目录下执行`npm start`来开启开发模式的前端进程，或者如果想开启生产模式的进程，执行`npm run build`再根据命令行中显示的指引进行下一步操作）
 
-[Back to top](#ahsar_web)
+[Back to top 回到顶部](#ahsar-web)
 
-## Public API (To be Expanded)
+## Public API (To be Expanded) 公开调用的API
 *   ...
 *   `GET http://54.251.197.0:5000/get_prof_by_id?input={numeric}&noCache={bool}`:
     *   Get sentiment analysis result by PID
@@ -78,32 +141,27 @@ Server might be lagging, on and off, or unstable, because:
     *   Get list of Professor Info and PID by Name
     *   parameters: `input` should be alphabetic professor name and is __*mandatory*__, `noCache` means "do not use cached result but fetch latest data" and is __*optional*__. 
     *   sample usage: `/get_pid_by_name?input=adam%20meyers&noCache=true` --> returns newly fetched professor entries on RMP website with name like "adam meyers", and user can choose from the entries
+<br>
+*   不翻译了，懂的都懂
 
-[Back to top](#ahsar_web)
+[Back to top 回到顶部](#ahsar-web)
 
-## Application Workflow 
-*   Frontend sends query to Backend
-*   Backend receives query and check if it is in Redis:
-    *   If in, retrieves the cached result and returns it to Frontend
-    *   If not in, sends the query to NLP Server through TCP Socket
-*   NLP Server receives the query from TCP Socket and start analyzing
-*   NLP Server returns the result to Backend Server through TCP Socket
-*   Backend updates Redis with the result and also returns result to Frontend
-
-[Back to top](#ahsar_web)
-
-## A Bit More About NLP Server
+## A Bit More About NLP Server 关于NLP服务器
 For the full project (including datebase of __80k labeled RMP comments__ and other imported data, codebase of __RMP scraper__ and __N-gram algorithm__, and __reference__ list for the imported data) of the NLP Server behind the screen, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [GitHub Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
+<br>
+关于NLP服务器背后的AHSAR项目（包括8万条标记过的RMP评论和其他引用数据的数据库，RMP爬虫和N-gram算法的代码库，以及引用数据的引用参考列表），我们称之为 __AHSAR__ _Ad-Hoc Sentiment Analysis on RateMyProfessors_，欢迎访问[此GitHub代码仓库](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP)。代码优化质量较差，敬请谅解。
 
-[Back to top](#ahsar_web)
+[Back to top 回到顶部](#ahsar-web)
 
-## License
+## License 授权证书
 Project under MIT License. Basically, feel free to adopt anything (codebase, database, reference list, paper, etc. ) from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
 
-[Back to top](#ahsar_web)
+项目授权MIT证书。只要不犯法，随便玩。但是本代码仓库的拥有者、管理员、贡献者不对项目的内容作出任何拥有法律效益的保证和担保。如果能在您的项目中提到我们，不胜感激。
 
-## Project History
-*   ...
+[Back to top 回到顶部](#ahsar-web)
+
+## Project History 项目历史
+*   ... 只做简单的翻译
 
 *   2021/08/24:
     *   Backend:
@@ -115,6 +173,7 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
             *   Better handling of concurrent queries as the same query will only need one process in NLP Server, and the other processes can work on queries with different PID or name. 
         *   Change to go-redis/v8
         *   Usage of randomized TTL in range of 1 to 6 hours instead of fixed 6 hours, so that it is much less likely to happen when majority of cached data suddenly go expired at the same time and Server gets flooded with queries on those cached data. 
+        *   简单来说，随机Redis缓存的TTL来减少缓存雪崩的危害，空值储存来减少缓存穿透的危害，互斥锁来解决缓存击穿（并发的、针对同一个数据的请求）的问题
     *   Frontend:
         *   Options of __Search by PID__ and __Search by Name__
         *   Display adaption for portable devices
@@ -128,7 +187,7 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
             *   Search by Name API `/get_pid_by_name`:
                 *   parameters: `input` should be alphabetic professor name and is __*mandatory*__, `noCache` means "do not use cached result but fetch latest data" and is __*optional*__. 
                 *   sample usage: `/get_pid_by_name?input=adam%20meyers&noCache=true` --> returns newly fetched professor entries on RMP website with name like "adam meyers", and user can choose from the entries
-                *   Frontend part for this API has not done yet
+                *   Frontend part for this API has not done yet   
         *   Split API handler functions into different files for better modulability. 
     *   Frontend:
         *   Use localStorage to store the latest 10 query history
@@ -147,6 +206,7 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
         *   Using CORS to connect Backend Server and Frontend
         *   Reduced the NLP multiprocessing pool size from 20 to ~~5~~ 3 in the deployed version to save memory usage on the free AWS EC2 ubuntu server...
         *   Notice that in a local environment, the pool size should be significantly larger to maximize the ability of hanlding concurrent requests. 
+        *   加入了跨域资源共享的中间件，所以在亚马逊云服务器上可以使用生产模式的React前端进程了
 
 *   2021/08/20:
     *   Manual Deployment on AWS EC2 Ubuntu server: 
@@ -154,6 +214,7 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
         *   Now available at public IP address:Port ~~http://18.142.108.23:8080/~~ __*No Longer In-Use*__
         *   Frontend is unimplemented yet, currently support query with URL only
         *   Example: ~~http://18.142.108.23:8080/get_prof_by_id?input=123456~~ where `123456` is the PID. __*No Longer In-Use*__
+        *   服务器24小时全天候运行
 
 *   2021/08/19:
     *   Redis cache set with expiration limit. 
@@ -163,15 +224,16 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
     *   Backend Server now communications with NLP Server through Naive Socket TCP Connection. 
     *   New NLP Server with Naive Socket TCP Connection and multi-processing pool. 
     *   Removal of Kafka dependency. 
+    *   NLP服务器中使用进程池提升并发效率
 
 *   2021/08/17: 
     *   First push to GitHub Repository. 
     *   Simple Redis connection included. 
     *   Project runnable with basic funcionality. 
 
-[Back to top](#ahsar_web)
+[Back to top 回到顶部](#ahsar-web)
 
-## TODO
+## TODO 待完成工作计划
 Notice that this TODO list is not ordered by any factor (estimated finish time, importance, difficulty, etc.) and is not guaranteed to be implemented either:
 *   ...
 *   Optimization, Modularization, Robustness...
@@ -186,5 +248,19 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   Human-readable domain address: maybe `www.ahsar.*` is a good name. 
 *   Air with Continuous Deployment on AWS. 
 *   Auto-restart AWS Server when server is down because of internal issue: resource shortage, flood attack, etc. 
+<br>
+*   更多功能
+*   代码优化、模块化、提升健壮性
+*   多线程Goroutine爬虫，拆分爬虫和NLP分析部分
+*   针对学校、院系内所有教授的搜索，为什么RMP不提供这个功能呢？？
+*   服务器自动恢复，应对TCP或者Redis连接断开的情况
+*   注册和登录（感觉不是很需要）
+*   用户可以上传一段评论，服务器处理之后返回该评论的情绪分析结果
+*   TCP/Redis连接使用连接池（现在是用后即弃）
+*   更多Goroutine的应用，并发搞起来
+*   更好记的域名，比如`www.ahsar.*`
+*   持续部署
+*   服务器内部错误后的自动重启
 
-[Back to top](#ahsar_web)
+
+[Back to top 回到顶部](#ahsar-web)
