@@ -38,7 +38,7 @@ function Article(props) {
 					Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
 				</span>
 				<p id='searchByID_Intro'>
-				AHSAR tends to provide students with a different perspective on quatitatively evaluating their professors. 
+				AHSAR intends to provide students with a different perspective on quatitatively evaluating their professors. 
 				Check the sentiment analysis result of other students' commentary on the professor of your choice right away, 
 				by entering the tid (in AHSAR, it is called PID) inside a professor URL from RateMyProfessors.com website, 
 				or the name (preferably full name) of a professor. 
