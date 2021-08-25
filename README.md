@@ -17,7 +17,7 @@ Web Application for AHSAR
 
 Temporary Website under Production Mode on AWS: http://54.251.197.0:5000/
 
-AHSAR intends to provide students with a different perspective on quatitatively evaluating their professors. Check the sentiment analysis result of other students' commentary on the professor of your choice by entering the `tid`(in AHSAR, it is called PID) in a professor URL from RateMyProfessors.com website, or the name (preferably full name) of professor. 
+AHSAR intends to provide students with a different perspective on quatitatively evaluating their professors. Check the sentiment analysis result (in scale of 1 to 5) of other students' commentary on the professor of your choice by entering the `tid`(in AHSAR, it is called PID) in a professor URL from RateMyProfessors.com website, or the name (preferably full name) of professor. 
 
 For example, assume a "randomly-selected" professor URL is `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2105994` (Salute to Professor Adam Meyers from NYU, CS0002 ICP and CS480 NLP): 
 *   select __Search by pid__, and enter `2105994`. 
