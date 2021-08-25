@@ -81,7 +81,7 @@ Server might be lagging, on and off, or unstable, because:
     *   Go: in `/backend` directory, `go mod download` should be enough
     *   C: should not need any extra package
     *   Full list of preparation procedure will be listed when air with Continuous Deployment on AWS. 
-<br>
+*   ...
 *   前端 （JavaScript语言的React.js框架）
 *   后端
     *   HTTP响应服务器（下称后端服务器，Go语言的Gin框架）
@@ -107,7 +107,7 @@ Server might be lagging, on and off, or unstable, because:
 *   NLP Server receives the query from TCP Socket and start analyzing
 *   NLP Server returns the result to Backend Server through TCP Socket, then close the TCP connecteion
 *   Backend updates Redis with the result and also returns result to Frontend
-<br>
+*   ...
 *   前端发请求给后端
 *   后端检查Redis缓存中是否有对应的数据，
     *   如果有，直接获取缓存的数据并返回前端
@@ -141,7 +141,7 @@ Server might be lagging, on and off, or unstable, because:
     *   Get list of Professor Info and PID by Name
     *   parameters: `input` should be alphabetic professor name and is __*mandatory*__, `noCache` means "do not use cached result but fetch latest data" and is __*optional*__. 
     *   sample usage: `/get_pid_by_name?input=adam%20meyers&noCache=true` --> returns newly fetched professor entries on RMP website with name like "adam meyers", and user can choose from the entries
-<br>
+*   ...
 *   不翻译了，懂的都懂
 
 [Back to top 回到顶部](#ahsar-web)
@@ -248,7 +248,7 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   Human-readable domain address: maybe `www.ahsar.*` is a good name. 
 *   Air with Continuous Deployment on AWS. 
 *   Auto-restart AWS Server when server is down because of internal issue: resource shortage, flood attack, etc. 
-<br>
+*   ... 
 *   更多功能
 *   代码优化、模块化、提升健壮性
 *   多线程Goroutine爬虫，拆分爬虫和NLP分析部分
