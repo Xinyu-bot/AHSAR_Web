@@ -63,17 +63,15 @@ export default function Header(props) {
 			history.push({
 				pathname: `/result`,
 				search: `?pid=${target.value.trim()}`,
-			
 			})
 		} else {
 			//search by name
 			console.log(searchBy)
 			//props.getSearchedName(target.value.trim())
-		
+
 			history.push({
 				pathname: `/search_by_name`,
 				search: `?name=${target.value.trim()}`,
-				
 			})
 		}
 

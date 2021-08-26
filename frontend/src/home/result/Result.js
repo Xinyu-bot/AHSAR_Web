@@ -20,7 +20,7 @@ export default function Result(props) {
 	}, [props.location.search]) //must 监听history对象里面的内容（也就是url是否变了）
 	//如果用户搜索的pid有效，把从后端发回的与该pid有关的数据作为一个object的形式，用setSearchedList添加到searchedList
 
-	const [searchedList, setSearchedList] = useState(JSON.parse(localStorage.getItem('searchedList'))||[]) //如果localStorage里有，就用localStorage里的.现在Result是路由组件，之前在Home普通组件里写可以只写([]),现在不能直接用【】，只有localstorage里面没有的时候才行，这是什么毛病？？？
+	const [searchedList, setSearchedList] = useState(JSON.parse(localStorage.getItem('searchedList')) || []) //如果localStorage里有，就用localStorage里的.现在Result是路由组件，之前在Home普通组件里写可以只写([]),现在不能直接用【】，只有localstorage里面没有的时候才行，这是什么毛病？？？
 
 	useEffect(() => {
 		console.log('props', props)
@@ -60,7 +60,7 @@ export default function Result(props) {
 		// Assumes each array item is an object with an id.
 		//数据去重
 		const flag = searchedList.some((item, index) => {
-			//重复了 
+			//重复了
 			if (item.pid === data.pid) {
 				//删除当前元素，因为和pid重复了
 				searchedList.splice(index, 1)
@@ -134,19 +134,6 @@ export default function Result(props) {
 		}
 	}
 
-	const _setRetByName = (data) => {
-		//name不存在
-		if (data.hasResult === 'false') {
-			setReady(6)
-			setRet('')
-
-			//name存在
-		} else {
-			setReady(7)
-			setRet(data.ret)
-		}
-	}
-
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {
 		setPid(pid)
@@ -187,44 +174,6 @@ export default function Result(props) {
 
 		// non-numbers (specifically non-positive integer) input
 		else {
-			setRet('non-numbers')
-			return
-		}
-	}
-
-	function hasNumber(myString) {
-		return /\d/.test(myString)
-	}
-	//Home传给Header一个函数，为了Header把name传给Home
-	const getSearchedName = (name) => {
-		setPid(name)
-		setRet('loading')
-		if (!hasNumber(name)) {
-			// retrieve from backend API /get_prof_by_id
-			axios
-				.get('http://54.251.197.0:8080/get_pid_by_name', {
-					params: {
-						input: name,
-					},
-				})
-				// process returned result3w4
-				.then((r) => {
-					if (r.status === 200) {
-						//正确的数据从服务器返回，Header重新渲染。
-						console.log(r.data)
-						_setRetByName(r.data)
-					} else {
-						setReady(-1)
-					}
-				})
-				// catch error
-				.catch((err) => {
-					//上面的then block里面有问题
-					console.log(err)
-					setReady(-1)
-				})
-		} else {
-			alert('Name should not contain number')
 			setRet('non-numbers')
 			return
 		}
@@ -323,15 +272,6 @@ export default function Result(props) {
 									<p>Would Take Again: {ret.would_take_again}</p>
 									<p>Sentiment Analysis Score (Discrete): {ret.sentiment_score_discrete}</p>
 									<p>Sentiment Analysis Score (Continuous): {ret.sentiment_score_continuous}</p>
-								</span>
-							)
-
-						//for search by name
-						case 6:
-							return (
-								<span>
-									<h2 id='result'>Result for {pid}</h2>
-									<p>Sorry, this name is invalid. There is no such name on RateMyProfessors.com!</p>
 								</span>
 							)
 

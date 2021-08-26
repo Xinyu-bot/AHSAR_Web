@@ -33,7 +33,7 @@ export default function SearchedList(props) {
 	return (
 		<div className='searched2'>
 			{(() => {
-				if (a ) {
+				if (a) {
 					return (
 						<ul onClick={handleClick1} className='searchedList' style={props.style}>
 							{a.map((item) => (
@@ -42,7 +42,6 @@ export default function SearchedList(props) {
 						</ul>
 					)
 				}
-			
 			})()}
 		</div>
 	)
