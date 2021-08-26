@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { MenuOutlined } from '@ant-design/icons'
+import { DownOutlined } from '@ant-design/icons'
 import './Header.css'
 import SearchedList from './searched_list/SearchedList'
 
@@ -17,7 +19,10 @@ export default function Header(props) {
 	}, []) // only run it once!
 
 	const [show, setShow] = useState(false)
+	const [showName, setShowName] = useState(false)
 	const [searchBy, setSearchBy] = useState('pid')
+
+	const [category, setCategory] = useState('pid')
 
 	const handleClick = (event) => {
 		setShow(!show)
@@ -35,6 +40,20 @@ export default function Header(props) {
 		document.getElementsByClassName('search-box')[0].setAttribute('placeholder', 'Please enter a name eg: Adam Meyers')
 
 		setSearchBy('name')
+	}
+
+	const handleClick4 = (event) => {
+		setShowName(!showName)
+	}
+	const handleClick5 = (event) => {
+		let current = event.target.innerHTML
+		console.log(current)
+		let result = current === 'name' ? 'name' : 'pid'
+		setCategory(result)
+		let a = result === 'name' ? 'Please enter a name eg: Adam Meyers' : 'Please enter a PID eg: 2105994' //这里要用result，不用category（还没更新呢）
+		document.getElementsByClassName('search-box')[0].setAttribute('placeholder', a)
+		setSearchBy(result)
+		setShowName(!showName)
 	}
 
 	function isNum(s) {
@@ -90,13 +109,7 @@ export default function Header(props) {
 
 	return (
 		<div className='header1'>
-			<div onClick={handleClick} className='history'>
-				<span style={{ color: show ? '#ccc' : 'white' }}>Search History</span> {/* 文字不能被选中。被选中时，成为灰色。 */}
-			</div>
-			<div className='search'>
-				<input onKeyUp={handleKeyUp} className='search-box' autoComplete='off' placeholder='Please enter a PID eg: 2105994' />
-			</div>
-			<form className='search_by'>
+			<form className='search_by tablet'>
 				Search by: &nbsp;
 				<input type='radio' id='pid' name='searchby' value='pid' onClick={handleClick2} /> {/*name的值要一样才能单选 */}
 				<label for='pid'>pid</label>
@@ -104,9 +117,30 @@ export default function Header(props) {
 				<input type='radio' id='pname' name='searchby' value='pname' onClick={handleClick3} />
 				<label for='pname'>name</label>
 			</form>
-			{/* 点击搜索历史节点，显示SearchedList */}
-			<SearchedList getClickedPid={getClickedPid} searchedList={props.searchedList} style={{ display: show ? 'block' : 'none' }} />{' '}
+			<div className='search_by mobile'>
+				<span onClick={handleClick4}>
+					{category} <DownOutlined />{' '}
+				</span>
+
+				<span className='select_name' onClick={handleClick5} style={{ display: showName ? 'block' : 'none' }}>
+					{category === 'name' ? 'pid' : 'name'}
+				</span>
+			</div>
+			<div className='search'>
+				<input onKeyUp={handleKeyUp} className='search-box' autoComplete='off' placeholder='Please enter a PID eg: 2105994' />
+			</div>
 			{/*style在component上不起作用，把style传给SearchedList组件，在里面的ul节点加上这个style */}
+			<div onClick={handleClick} className='history'>
+				<span style={{ color: show ? '#ccc' : 'white' }} className='tablet'>
+					Search History
+				</span>
+				{/* 文字不能被选中。被选中时，成为灰色。 */}
+				<span className='mobile'>
+					<MenuOutlined />
+				</span>
+			</div>
+			{/* 点击搜索历史节点，显示SearchedList */}
+			<SearchedList className='history-list' getClickedPid={getClickedPid} searchedList={props.searchedList} style={{ display: show ? 'block' : 'none' }} />{' '}
 		</div>
 	)
 }
