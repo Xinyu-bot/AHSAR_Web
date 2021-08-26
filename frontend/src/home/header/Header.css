@@ -12,12 +12,12 @@
 	right: 0;
 	/*水平居中*/
 	text-align: center;
-	width: 110px; /*实现history水平居中*/
+	width: 140px; /*实现history水平居中*/
 }
 
 .header1 .search {
 	margin-left: 200px; /*pc端：给左盒子留出110px*/
-	margin-right: 110px;
+	margin-right: 140px;
 }
 
 .header1 .search_by {
@@ -53,14 +53,18 @@
 	border-radius: 35px;
 	outline: none;
 }
+.header1 .history .downoutlined {
+	padding: 3px;
+}
 
-.header1 .history span {
-	width: 110px; /*实现history水平居中*/
+.header1 .history .tablet {
+	width: 170px; /*实现history水平居中*/
 	color: white;
 	font-weight: 700;
 	/* 文本不能被选中 */
 	user-select: none;
 }
+
 .mobile {
 	display: none;
 }

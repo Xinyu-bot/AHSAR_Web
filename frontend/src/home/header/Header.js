@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { MenuOutlined } from '@ant-design/icons'
 import { DownOutlined } from '@ant-design/icons'
+import { CaretDownOutlined } from '@ant-design/icons'
 import './Header.css'
 import SearchedList from './searched_list/SearchedList'
 
@@ -148,6 +149,9 @@ export default function Header(props) {
 			<div onClick={handleClick} className='history'>
 				<span style={{ color: show ? '#ccc' : 'white' }} className='tablet'>
 					Search History
+					<span className='downoutlined'>
+						<CaretDownOutlined />{' '}
+					</span>
 				</span>
 				{/* 文字不能被选中。被选中时，成为灰色。 */}
 				<span className='mobile'>
