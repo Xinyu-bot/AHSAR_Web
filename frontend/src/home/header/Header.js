@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { MenuOutlined } from '@ant-design/icons'
+import { MenuOutlined, RotateLeftOutlined } from '@ant-design/icons'
 import { DownOutlined } from '@ant-design/icons'
 import { CaretDownOutlined } from '@ant-design/icons'
 import './Header.css'
@@ -150,12 +150,12 @@ export default function Header(props) {
 				<span style={{ color: show ? '#ccc' : 'white' }} className='tablet'>
 					Search History
 					<span className='downoutlined'>
-						<CaretDownOutlined />{' '}
+						<CaretDownOutlined />
 					</span>
 				</span>
 				{/* 文字不能被选中。被选中时，成为灰色。 */}
 				<span className='mobile'>
-					<MenuOutlined />
+					<MenuOutlined style={{ color: 'white', fontSize: '17px' }} />
 				</span>
 			</div>
 			{/* 点击搜索历史节点，显示SearchedList */}
