@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import PubSub from 'pubsub-js'
 import SearchedItem from './searched_item/SearchedItem'
 import './SearchedList.css'
@@ -6,6 +7,7 @@ import './SearchedList.css'
 //对接收的props进行类型以及必要性的限制
 
 export default function SearchedList(props) {
+	let history = useHistory()
 	const [a, setA] = useState([])
 	useEffect(() => {
 		// componentDidMount
@@ -27,7 +29,10 @@ export default function SearchedList(props) {
 	const handleClick1 = (e) => {
 		const pid = e.target.innerHTML.split('&nbsp;')[1]
 		console.log(pid) //pid是string类型，我们要数字类型
-		props.getClickedPid(parseInt(pid))
+		history.push({
+			pathname: `/result`,
+			search: `?pid=${parseInt(pid)}`,
+		})
 	}
 
 	return (
