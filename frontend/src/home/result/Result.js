@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import PubSub from 'pubsub-js'
 import axios from 'axios'
 import qs from 'querystring'
