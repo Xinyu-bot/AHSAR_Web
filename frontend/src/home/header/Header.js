@@ -45,8 +45,23 @@ export default function Header(props) {
 	const handleClick4 = (event) => {
 		setShowName(!showName)
 	}
+	//我服了，翻译成中文后，不管之前这个字有没有被font包裹，都会新加font标签。。
+	//英文版我们用event.target=event.currentTarget,因为最小点击节点就是span。然而翻译成中文版就不一样了。最小点击节点是<font>姓名</font>。
+	//所以我们这里用currentTarget，这样的话中文版点击<span>内任意一点currentTarget都是<span>。然后我们在span里面找font再找姓名/进程号就行了
 	const handleClick5 = (event) => {
-		let current = event.target.innerHTML
+		let current = event.currentTarget.innerHTML
+		if (current.includes('<font')) {
+			current = current.split('>')[2].split('<')[0]
+			if (current === '姓名') {
+				//手动改（英文版的不用改，current状态更新了它会自动改。但是这个翻译版，他不会自动改。。什么毛病。所以我这里手动改。
+				event.currentTarget.previousSibling.firstChild.firstChild.innerHTML = `${current}`
+				current = 'name'
+			} else {
+				//手动改 为翻译版。。
+				event.currentTarget.previousSibling.firstChild.firstChild.innerHTML = `${current}`
+				current = 'pid'
+			}
+		}
 		console.log(current)
 		let result = current === 'name' ? 'name' : 'pid'
 		setCategory(result)
@@ -119,7 +134,7 @@ export default function Header(props) {
 			</form>
 			<div className='search_by mobile'>
 				<span onClick={handleClick4}>
-					{category} <DownOutlined />{' '}
+					{category} <DownOutlined />
 				</span>
 
 				<span className='select_name' onClick={handleClick5} style={{ display: showName ? 'block' : 'none' }}>
