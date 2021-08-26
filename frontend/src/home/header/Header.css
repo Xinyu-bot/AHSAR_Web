@@ -16,8 +16,8 @@
 }
 
 .header1 .search {
-	margin-left: 110px; /*pc端：给左盒子留出110px*/
-	margin-right: 200px;
+	margin-left: 200px; /*pc端：给左盒子留出110px*/
+	margin-right: 110px;
 }
 
 .header1 .search_by {
