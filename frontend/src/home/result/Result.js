@@ -21,7 +21,7 @@ export default function Result(props) {
 	}, [props.location.search]) //must 监听history对象里面的内容（也就是url是否变了）
 	//如果用户搜索的pid有效，把从后端发回的与该pid有关的数据作为一个object的形式，用setSearchedList添加到searchedList
 
-	const [searchedList, setSearchedList] = useState([]) //如果localStorage里有，就用localStorage里的
+	const [searchedList, setSearchedList] = useState(JSON.parse(localStorage.getItem('searchedList'))||[]) //如果localStorage里有，就用localStorage里的.现在Result是路由组件，之前在Home普通组件里写可以只写([]),现在不能直接用【】，只有localstorage里面没有的时候才行，这是什么毛病？？？
 
 	useEffect(() => {
 		console.log('props', props)
@@ -36,14 +36,16 @@ export default function Result(props) {
 			setSearchedList(JSON.parse(localStorage.getItem('searchedList')))
 		}
 	}, []) // only run it once!
+	// initialize searchedList state
+
 	//监听searchedList是否通过setSearchedList改变成功。如果是，把改变成功的searchedList存到localStorage里
 	//must useEffect! setSearchedList会被异步执行，在主线程里面使用searchedList都不是更新过后的值。但是setSearchedList里面不能写callback，所以用useEffect
 	useEffect(() => {
 		//console.log('before', searchedList)
 		localStorage.setItem('searchedList', JSON.stringify(searchedList))
-		PubSub.publish('searchedList', searchedList)
+		PubSub.publishSync('searchedList', searchedList)
 	}, [searchedList]) //注意这里searchedList是一个object，地址没有变就不会触发useEffect
-	
+
 	//如果用户搜索的pid有效，把从后端发回的与该pid有关的数据作为一个object的形式，用setSearchedList添加到searchedList
 	function addToSearchedList(data) {
 		const obj = {
@@ -59,7 +61,7 @@ export default function Result(props) {
 		// Assumes each array item is an object with an id.
 		//数据去重
 		const flag = searchedList.some((item, index) => {
-			//重复了
+			//重复了 
 			if (item.pid === data.pid) {
 				//删除当前元素，因为和pid重复了
 				searchedList.splice(index, 1)
