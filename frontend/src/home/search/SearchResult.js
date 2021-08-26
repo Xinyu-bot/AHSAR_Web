@@ -25,7 +25,7 @@ export default function SearchResult(props) {
 				//如果要求来自Result组件的searchedListByName
 				if (props.searchedListByName !== undefined) {
 					return (
-						<ul onClick={handleClick2} className='resultOfName'>
+						<ul style={{maxWidth:'640px', margin:'0 auto'}}onClick={handleClick2} className='resultOfName'>
 							{props.searchedListByName.map((item) => (
 								<SearchedItem
 									className='resultList'
