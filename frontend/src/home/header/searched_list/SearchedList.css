@@ -7,6 +7,7 @@
 	min-height: 100px;
 	position: absolute;
 	top: 56px;
+	right: 0;
 	z-index: 1;
 }
 .searched2 .searchedList:hover {

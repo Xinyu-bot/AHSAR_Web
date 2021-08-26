@@ -144,7 +144,7 @@ export default function Result(props) {
 
 		// input validation
 		if (isNum(pid)) {
-			console.log(pid, typeof pid)
+			//console.log(pid, typeof pid)
 
 			// retrieve from backend API /get_prof_by_id
 			axios

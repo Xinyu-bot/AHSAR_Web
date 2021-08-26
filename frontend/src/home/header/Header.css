@@ -9,10 +9,12 @@
 .header1 .history {
 	position: absolute;
 	top: 0;
+	right: 0;
 	/*水平居中*/
 	text-align: center;
 	width: 110px; /*实现history水平居中*/
 }
+
 .header1 .search {
 	margin-left: 110px; /*pc端：给左盒子留出110px*/
 	margin-right: 200px;
@@ -21,12 +23,25 @@
 .header1 .search_by {
 	position: absolute;
 	top: 0;
-	right: 0;
+	left: 0;
 	/*水平居中*/
 	text-align: center;
 	width: 200px; /*实现search_by水平居中*/
 	color: white;
 	font-weight: 700;
+}
+
+.header1 .select_name {
+	background-color: rgba(0, 0, 0, 0.603);
+	padding-left: 0;
+	margin-left: 0;
+	height: 56px;
+	width: 85px;
+	position: absolute;
+	top: 56px;
+	left: 0;
+	z-index: 1;
+	border-radius: 10px;
 }
 
 /*input框*/
@@ -45,4 +60,33 @@
 	font-weight: 700;
 	/* 文本不能被选中 */
 	user-select: none;
+}
+.mobile {
+	display: none;
+}
+
+@media screen and (max-width: 568px) {
+	.tablet {
+		display: none;
+	}
+
+	.mobile {
+		display: block;
+	}
+
+	.header1 .history {
+		width: 50px;
+	}
+	.header1 .history span {
+		width: 50px;
+	}
+
+	.header1 .search_by {
+		width: 60px;
+	}
+
+	.header1 .search {
+		margin-left: 60px; /*mobile端：给左盒子留出50px*/
+		margin-right: 50px;
+	}
 }
