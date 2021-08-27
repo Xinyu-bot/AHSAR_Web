@@ -124,42 +124,44 @@ export default function Header(props) {
 	}
 
 	return (
-		<div className='header1'>
-			<form className='search_by tablet'>
-				Search by: &nbsp;
-				<input type='radio' id='pid' name='searchby' value='pid' onClick={handleClick2} /> {/*name的值要一样才能单选 */}
-				<label for='pid'>pid</label>
-				&nbsp;
-				<input type='radio' id='pname' name='searchby' value='pname' onClick={handleClick3} />
-				<label for='pname'>name</label>
-			</form>
-			<div className='search_by mobile'>
-				<span onClick={handleClick4}>
-					{category} <DownOutlined />
-				</span>
-
-				<span className='select_name' onClick={handleClick5} style={{ display: showName ? 'block' : 'none' }}>
-					{category === 'name' ? 'pid' : 'name'}
-				</span>
-			</div>
-			<div className='search'>
-				<input onKeyUp={handleKeyUp} className='search-box' autoComplete='off' placeholder='Please enter a PID eg: 2105994' />
-			</div>
-			{/*style在component上不起作用，把style传给SearchedList组件，在里面的ul节点加上这个style */}
-			<div onClick={handleClick} className='history'>
-				<span style={{ color: show ? '#ccc' : 'white' }} className='tablet'>
-					Search History
-					<span className='downoutlined'>
-						<CaretDownOutlined />
+		<div className='header1-wrap'>
+			<div className='header1'>
+				<form className='search_by tablet'>
+					Search by: &nbsp;
+					<input type='radio' id='pid' name='searchby' value='pid' onClick={handleClick2} /> {/*name的值要一样才能单选 */}
+					<label for='pid'>pid</label>
+					&nbsp;
+					<input type='radio' id='pname' name='searchby' value='pname' onClick={handleClick3} />
+					<label for='pname'>name</label>
+				</form>
+				<div className='search_by mobile'>
+					<span onClick={handleClick4}>
+						{category} <DownOutlined />
 					</span>
-				</span>
-				{/* 文字不能被选中。被选中时，成为灰色。 */}
-				<span className='mobile'>
-					<MenuOutlined style={{ color: 'white', fontSize: '17px' }} />
-				</span>
+
+					<span className='select_name' onClick={handleClick5} style={{ display: showName ? 'block' : 'none' }}>
+						{category === 'name' ? 'pid' : 'name'}
+					</span>
+				</div>
+				<div className='search'>
+					<input onKeyUp={handleKeyUp} className='search-box' autoComplete='off' placeholder='Please enter a PID eg: 2105994' />
+				</div>
+				{/*style在component上不起作用，把style传给SearchedList组件，在里面的ul节点加上这个style */}
+				<div onClick={handleClick} className='history'>
+					<span style={{ color: show ? '#ccc' : 'white' }} className='tablet'>
+						Search History
+						<span className='downoutlined'>
+							<CaretDownOutlined />
+						</span>
+					</span>
+					{/* 文字不能被选中。被选中时，成为灰色。 */}
+					<span className='mobile'>
+						<MenuOutlined style={{ color: 'white', fontSize: '17px' }} />
+					</span>
+				</div>
+				{/* 点击搜索历史节点，显示SearchedList */}
+				<SearchedList className='history-list' getClickedPid={getClickedPid} searchedList={props.searchedList} style={{ display: show ? 'block' : 'none' }} />{' '}
 			</div>
-			{/* 点击搜索历史节点，显示SearchedList */}
-			<SearchedList className='history-list' getClickedPid={getClickedPid} searchedList={props.searchedList} style={{ display: show ? 'block' : 'none' }} />{' '}
 		</div>
 	)
 }

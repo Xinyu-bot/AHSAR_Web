@@ -1,11 +1,19 @@
 .header1 {
-	position: relative;
 	background-color: black;
 	/*实现search-box, history垂直居中*/
 	line-height: 56px;
 	height: 56px; /*实现search-box垂直居中*/
+	/*置顶*/
+	position: fixed;
+	top: 0;
+	width: 100%;
 }
-
+/*置顶的header1是定位的，脱离普通流，后面的普通流盒子不会被影响，还是从顶部开始排布。
+为了给后面的盒子从header1底部开始排布，给header1加个普通盒子。*/
+.header1-wrap {
+	height: 56px;
+	position: relative;
+}
 .header1 .history {
 	position: absolute;
 	top: 0;
