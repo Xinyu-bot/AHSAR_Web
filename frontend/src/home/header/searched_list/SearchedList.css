@@ -1,8 +1,8 @@
 .searched2 .searchedList {
 	background-color: rgb(184, 180, 180);
 	opacity: 0.95;
-	width: 200px;
-	padding-left: 0;
+	width: 175px;
+	padding-left: 0px;
 	margin: 0;
 	min-height: 100px;
 	position: absolute;
@@ -15,4 +15,10 @@
 }
 .searched2 .resultOfName {
 	padding-left: 0;
+}
+
+@media screen and (max-width: 568px) {
+	.searched2 .searchedList {
+		opacity: 1;
+	}
 }

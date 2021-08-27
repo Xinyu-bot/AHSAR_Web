@@ -4,12 +4,18 @@
 	width: 100%;
 	/*去除圆点*/
 	list-style: none;
-	padding-left: 0px;
+	padding-left: 5px;
 	/**/
 	color: white;
 	background-color: rgb(177, 171, 171);
 	opacity: 0.95;
+	/*溢出文字...*/
+	height: 40px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
+
 
 .searchedItem:hover {
 	opacity: 1;
