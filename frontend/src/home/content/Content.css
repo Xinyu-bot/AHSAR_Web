@@ -1,6 +1,10 @@
 .content .header-wrap {
 	height: 84px;
 }
+.content a {
+	text-decoration: none;
+	color: black;
+}
 
 .content .header-wrap .header2 {
 	position: fixed;
@@ -62,13 +66,12 @@
 }
 
 .content .search-wrap {
-	height: 300px;
 	width: 600px;
 	position: absolute;
 	/*水平垂直居中*/
 	top: 300px;
 	left: 50%;
-	transform: translate(-300px, -150px);
+	transform: translate(-50%, -50%);
 	z-index: 3;
 	text-align: center;
 }
@@ -96,6 +99,10 @@
 		height: 400px;
 		background-size: cover;
 	}
+	.content .search-wrap {
+		top: 200px;
+		transform: translate(-50%, -50%);
+	}
 }
 
 @media screen and (max-width: 568px) {
@@ -108,5 +115,10 @@
 	}
 	.content .search .search-box {
 		width: 300px;
+	}
+
+	.content .search-wrap {
+		top: 200px;
+		transform: translate(-50%, -50%);
 	}
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, NavLink } from 'react-router-dom'
 import './Content.css'
 import Article from '../result/Article'
 export default function Content() {
@@ -53,8 +53,12 @@ export default function Content() {
 		<div className='content'>
 			<div className='header-wrap'>
 				<div className='header2'>
-					<span id='home'>Home</span>
-					<span id='about'>ABOUT</span>
+					<a id='home' href='#'>
+						Home
+					</a>
+					<a id='about' href='#main'>
+						ABOUT
+					</a>
 				</div>
 			</div>
 
