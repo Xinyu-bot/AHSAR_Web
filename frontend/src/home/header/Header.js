@@ -148,7 +148,7 @@ export default function Header(props) {
 				</div>
 				{/*style在component上不起作用，把style传给SearchedList组件，在里面的ul节点加上这个style */}
 				<div onClick={handleClick} className='history'>
-					<span style={{ color: show ? 'rgba(0, 0, 0, 0.7)' : 'black' }} className='tablet'>
+					<span style={{ color: show ? 'rgba(0, 0, 0, 0.7)' : 'black' }} className='history-span tablet'>
 						Search History
 						<span className='downoutlined'>
 							<CaretDownOutlined />
