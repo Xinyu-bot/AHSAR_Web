@@ -1,5 +1,5 @@
 .header1 {
-	background-color: black;
+	background-color: white;
 	/*实现search-box, history垂直居中*/
 	line-height: 56px;
 	height: 56px; /*实现search-box垂直居中*/
@@ -7,6 +7,8 @@
 	position: fixed;
 	top: 0;
 	width: 100%;
+	z-index: 3;
+	box-shadow: 0 0 15px rgb(0 0 0 / 10%);
 }
 /*置顶的header1是定位的，脱离普通流，后面的普通流盒子不会被影响，还是从顶部开始排布。
 为了给后面的盒子从header1底部开始排布，给header1加个普通盒子。*/
@@ -21,6 +23,7 @@
 	/*水平居中*/
 	text-align: center;
 	width: 140px; /*实现history水平居中*/
+	color: black;
 }
 
 .header1 .search {
@@ -35,12 +38,13 @@
 	/*水平居中*/
 	text-align: center;
 	width: 200px; /*实现search_by水平居中*/
-	color: white;
+	color: black;
 	font-weight: 700;
 }
 
 .header1 .select_name {
-	background-color: rgba(0, 0, 0, 0.603);
+	background-color: rgb(184, 180, 180);
+	color: white;
 	padding-left: 0;
 	margin-left: 0;
 	height: 56px;
@@ -60,6 +64,8 @@
 	height: 40px; /*实现search-box垂直居中*/
 	border-radius: 35px;
 	outline: none;
+	border: 1px solid grey;
+	max-width: 700px;
 }
 .header1 .history .downoutlined {
 	padding: 3px;
@@ -67,7 +73,7 @@
 
 .header1 .history .tablet {
 	width: 170px; /*实现history水平居中*/
-	color: white;
+	color: black;
 	font-weight: 700;
 	/* 文本不能被选中 */
 	user-select: none;
@@ -77,6 +83,30 @@
 	display: none;
 }
 
+@media screen and (min-width: 930px) {
+	.header1 .search {
+		margin-left: 25%;
+		margin-right: 20%;
+		position: relative;
+	}
+
+	.header1 .search .search-box {
+		width: 100%;
+		position: absolute;
+		left: 10px;
+		top: 28px;
+		transform: translate(0, -20px);
+	}
+
+	.header1 .search_by {
+		width: 25%;
+		text-align: right;
+	}
+
+	.header1 .history {
+		width: 20%;
+	}
+}
 @media screen and (max-width: 568px) {
 	.tablet {
 		display: none;

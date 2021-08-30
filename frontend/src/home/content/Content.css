@@ -1,0 +1,112 @@
+.content .header-wrap {
+	height: 84px;
+}
+
+.content .header-wrap .header2 {
+	position: fixed;
+	height: 84px;
+	width: 100%;
+	line-height: 84px;
+	top: 0px;
+	z-index: 4;
+	background-color: white;
+	box-sizing: content-box;
+}
+.content .header2 #home {
+	font-size: 20px;
+	color: black;
+	padding-left: 6%;
+	user-select: none;
+}
+.content .header2 #about {
+	font-size: 12px;
+	position: absolute;
+	right: 0;
+	user-select: none;
+	padding-right: 10%;
+}
+
+.content .content-wrap {
+	background-image: url('https://wp-media.petersons.com/blog/wp-content/uploads/2019/03/10123432/iStock-946556568.jpg');
+	background-size: 100%;
+	background-repeat: no-repeat;
+	height: 600px;
+	width: 100%;
+	color: rgba(0, 0, 0, 0.3);
+	position: relative;
+}
+.content .content-wrap:hover {
+	color: rgba(0, 0, 0, 0.4);
+}
+.content .content-wrap:before {
+	content: '';
+	position: absolute;
+	top: 0px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+	background-color: currentColor;
+}
+
+.content .content {
+	/* Added padding top and bottom to prevent top/bottom content from getting hidden under titleNav/footer */
+	position: relative;
+	text-align: center;
+	width: 100%;
+	margin: 0 auto;
+	color: white;
+	top: 0px;
+	padding-bottom: 40px; /* prevent the the bottom of the content from getting hidden under the fixed footer */
+	z-index: 2;
+}
+
+.content .search-wrap {
+	height: 300px;
+	width: 600px;
+	position: absolute;
+	/*水平垂直居中*/
+	top: 300px;
+	left: 50%;
+	transform: translate(-300px, -150px);
+	z-index: 3;
+	text-align: center;
+}
+.content .search {
+	color: white;
+	width: 70%;
+	margin: 0 auto;
+	font-size: 16px;
+}
+/*input框*/
+.content .search .search-box {
+	box-sizing: border-box;
+	padding: 15px;
+	width: 100%;
+	height: 40px; /*实现search-box垂直居中*/
+	border-radius: 35px;
+	outline: none;
+	border: 1px solid transparent;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+@media screen and (max-width: 923px) {
+	.content .content-wrap {
+		height: 400px;
+		background-size: cover;
+	}
+}
+
+@media screen and (max-width: 568px) {
+	.content .header-wrap {
+		height: 62px;
+	}
+	.content .header-wrap .header2 {
+		height: 62px;
+		line-height: 62px;
+	}
+	.content .search .search-box {
+		width: 300px;
+	}
+}

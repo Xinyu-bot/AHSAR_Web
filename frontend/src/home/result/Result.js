@@ -3,6 +3,7 @@ import PubSub from 'pubsub-js'
 import axios from 'axios'
 import qs from 'querystring'
 import './Result.css'
+import Header from '../header/Header'
 
 export default function Result(props) {
 	// 初始化state
@@ -181,6 +182,8 @@ export default function Result(props) {
 
 	return (
 		<div className='result'>
+			<Header />
+
 			{(() => {
 				if (ret !== undefined) {
 					// evil switch case here, Oops

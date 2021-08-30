@@ -148,7 +148,7 @@ export default function Header(props) {
 				</div>
 				{/*style在component上不起作用，把style传给SearchedList组件，在里面的ul节点加上这个style */}
 				<div onClick={handleClick} className='history'>
-					<span style={{ color: show ? '#ccc' : 'white' }} className='tablet'>
+					<span style={{ color: show ? 'rgba(0, 0, 0, 0.7)' : 'black' }} className='tablet'>
 						Search History
 						<span className='downoutlined'>
 							<CaretDownOutlined />
@@ -156,7 +156,7 @@ export default function Header(props) {
 					</span>
 					{/* 文字不能被选中。被选中时，成为灰色。 */}
 					<span className='mobile'>
-						<MenuOutlined style={{ color: 'white', fontSize: '17px' }} />
+						<MenuOutlined style={{ color: 'black', fontSize: '17px' }} />
 					</span>
 				</div>
 				{/* 点击搜索历史节点，显示SearchedList */}

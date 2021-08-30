@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import qs from 'querystring'
 import SearchResult from './SearchResult'
+import Header from '../header/Header'
 
 export default function Search(props) {
 	// 初始化state
@@ -71,6 +72,7 @@ export default function Search(props) {
 
 	return (
 		<div className='result'>
+			<Header />
 			{(() => {
 				if (ret !== undefined) {
 					// evil switch case here, Oops
