@@ -4,6 +4,8 @@
 .content a {
 	text-decoration: none;
 	color: black;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 .content .header-wrap .header2 {

@@ -53,12 +53,16 @@ export default function Content() {
 		<div className='content'>
 			<div className='header-wrap'>
 				<div className='header2'>
-					<a id='home' href='#'>
-						Home
-					</a>
-					<a id='about' href='#main'>
-						ABOUT
-					</a>
+					<span id='home'>
+						<a  href='#'>
+							Home
+						</a>
+					</span>
+					<span id='about'>
+						<a href='#main'>
+							ABOUT
+						</a>
+					</span>
 				</div>
 			</div>
 
