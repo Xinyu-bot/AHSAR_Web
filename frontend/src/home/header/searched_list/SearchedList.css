@@ -23,3 +23,10 @@
 		opacity: 1;
 	}
 }
+
+@media screen and (min-width: 930px) {
+	.searched2 .searchedList {
+		right: 26%;
+		transform: translate(175px);
+	}
+}
