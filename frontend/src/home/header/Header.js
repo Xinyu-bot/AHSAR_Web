@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { MenuOutlined, RotateLeftOutlined } from '@ant-design/icons'
 import { DownOutlined } from '@ant-design/icons'
@@ -136,7 +136,8 @@ export default function Header(props) {
 				</form>
 				<div className='search_by mobile'>
 					<span onClick={handleClick4}>
-						{category} <DownOutlined />
+						{category}
+						<DownOutlined />
 					</span>
 
 					<span className='select_name' onClick={handleClick5} style={{ display: showName ? 'block' : 'none' }}>
