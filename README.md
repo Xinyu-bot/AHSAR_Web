@@ -162,7 +162,21 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 
 ## Project History 项目历史
 *   ... 只做简单的翻译
-
+*   2021/09/04:
+    *   Backend:
+        *   Implementation of Searching by School and Department (Not done yet):
+            *   SDP scraper using process pool nested with thread pool
+            *   Fully structured School-Department-Professor model obtained brutally from RMP website and dumped into byte file using `Python3 pickle`
+            *   `/ get_schools_by_initial` and `/get_prof_by_department` on schedule
+            *   `/get_departments_by_school` is finished
+            *   related updates on involved files
+        *   新功能的API：根据校名+系名搜索任职教授列表（未全部完成）
+            *   进程池嵌套线程池的爬虫，用于获取SDP模型。模型通过`Python3 pickle`保存为二进制文件
+            *   三个新的API，如英文部分所提及
+    *   Frontend:
+        *   rework and optimization
+        *   home page picture
+        *   in the future, frontend updates will be explained in a more detailed way
 *   2021/08/24:
     *   Backend:
         *   Redis usage rework: 
@@ -237,7 +251,8 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 Notice that this TODO list is not ordered by any factor (estimated finish time, importance, difficulty, etc.) and is not guaranteed to be implemented either:
 *   ...
 *   Optimization, Modularization, Robustness...
-*   Search by school / department, Hey, why doesn't RMP website provide this feature? 
+*   Use SQL for the storing and reading the SDP model
+*   Continuous and automatic update SDP model slowly
 *   Concurrent Scraper written in Go and split up the python scraper and NLP analyzer. 
 *   Server auto-recovering from fatal error of NLP or Redis processes. 
 *   Login / Registration (don't see a reason for that at the moment). 
@@ -249,10 +264,11 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   Air with Continuous Deployment on AWS. 
 *   Auto-restart AWS Server when server is down because of internal issue: resource shortage, flood attack, etc. 
 *   ... 
-*   更多功能
+*   更多功能（排序不分先后且仅供参考，完成时间无保证）
 *   代码优化、模块化、提升健壮性
+*   使用SQL进行SDP模型的保存和读取
+*   慢慢地、持续地、自动化更新SDP模型
 *   多线程Goroutine爬虫，拆分爬虫和NLP分析部分
-*   针对学校、院系内所有教授的搜索，为什么RMP不提供这个功能呢？？
 *   服务器自动恢复，应对TCP或者Redis连接断开的情况
 *   注册和登录（感觉不是很需要）
 *   用户可以上传一段评论，服务器处理之后返回该评论的情绪分析结果
