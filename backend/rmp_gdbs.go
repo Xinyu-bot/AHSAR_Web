@@ -30,7 +30,7 @@ func GetDepartmentsBySchool(c *gin.Context) {
 				hasResult = "true"
 				ret = res
 			}
-			RedisUpdateNameCache(redisClient, school, ret, ctx)
+			RedisUpdateDepartmentList(redisClient, school, ret, ctx)
 			// release mutex
 			redisClient.Del(ctx, school + "_mutex")
 		} else {
