@@ -16,7 +16,7 @@ Development In Progress
 ## Introduction 介绍
 Web Application for AHSAR
 
-Temporary Website under Production Mode on AWS: http://54.251.197.0:5000/
+Temporary Website at Tencent Cloud: http://1.14.137.215:5000/
 
 AHSAR intends to provide students with a different perspective on quatitatively evaluating their professors. Check the sentiment analysis result (in scale of 1 to 5) of other students' commentary on the professor of your choice by entering the `tid`(in AHSAR, it is called PID) in a professor URL from RateMyProfessors.com website, or the name (preferably full name) of professor. 
 
@@ -58,12 +58,12 @@ Server might be lagging, on and off, or unstable, because:
 *   ... 
 *   Server is under manual deployment. This usually takes only a few minutes. 
 *   Server is temporarily down because of flood requests, concurrency test, etc. Fix time is not guaranteed, but auto-recover is on the development schedule. 
-*   Server is permanently down because of internal issue on AWS side, maybe due to CPU/Memory shortage (this is a free version of EC2 Server, so the hardware is weak). Fix time is not guaranteed, but auto-restart is on the development schedule. 
+*   Server is permanently down because of internal issue on Tencent Cloud side, maybe due to CPU/Memory shortage. Fix time is not guaranteed, but auto-restart is on the development schedule. 
 
 服务器可能会卡顿、时好时坏、或者不稳定，因为以下几种原因：
 *   正在手动部署最新版本的代码（自动部署功能在计划中，但不确定完成时间），这一般只需要几分钟时间。
 *   服务器因为大量的访问或者并发测试而短暂挂起。修复时间不确定，但是自动恢复的功能也在计划中。
-*   服务器因为亚马逊云服务方面的问题而宕机，比如内存或者CPU不够用了。网站运行在免费的EC2服务器上，所以分配到的硬件条件比较弱。修复时间不确定，但是自动重启的功能也在计划中。
+*   服务器因为腾讯云服务方面的问题而宕机，比如内存或者CPU不够用了。修复时间不确定，但是自动重启的功能也在计划中。
 
 [Back to top 回到顶部](#ahsar-web)
 
@@ -80,7 +80,6 @@ Server might be lagging, on and off, or unstable, because:
     *   Python: `pip install nltk` and `pip install bs4` should be enough
     *   Go: in `/backend` directory, `go mod download` should be enough
     *   C: should not need any extra package
-    *   Full list of preparation procedure will be listed when air with Continuous Deployment on AWS. 
 *   ...
 *   前端 （JavaScript语言的React.js框架）
 *   后端
@@ -94,8 +93,6 @@ Server might be lagging, on and off, or unstable, because:
     *   Python: 需要执行`pip install nltk`和`pip install bs4`
     *   Go: 需要在`/backend`目录下执行`go mod download`自动下载需要的包
     *   C: 不需要额外的包
-    *   完整的准备环节的指引会在持续部署实现之后再列出。
-
 
 [Back to top 回到顶部](#ahsar-web)
 
@@ -162,6 +159,8 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 
 ## Project History 项目历史
 *   ... 只做简单的翻译
+*   2021/09/05:
+    *   Deployment has been moved to Tencent Cloud at http://1.14.137.215:5000/
 *   2021/09/04:
     *   Backend:
         *   Implementation of Searching by School and Department:
@@ -216,7 +215,7 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 
 *   2021/08/21:
     *   Manual Deployment continued: 
-        *   Elastic IP address: http://54.251.197.0:5000/ <-- notice that this `:5000` port means that the React App is in Production Mode
+        *   Elastic IP address: ~~http://54.251.197.0:5000/~~ __*No Longer In-Use*__
         *   Using CORS to connect Backend Server and Frontend
         *   Reduced the NLP multiprocessing pool size from 20 to ~~5~~ 3 in the deployed version to save memory usage on the free AWS EC2 ubuntu server...
         *   Notice that in a local environment, the pool size should be significantly larger to maximize the ability of hanlding concurrent requests. 
@@ -261,8 +260,7 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   TCP/Redis Connection pool. 
 *   Usage of Goroutine... Multi-everything! But where to use it? 
 *   Human-readable domain address: maybe `www.ahsar.*` is a good name. 
-*   Air with Continuous Deployment on AWS. 
-*   Auto-restart AWS Server when server is down because of internal issue: resource shortage, flood attack, etc. 
+*   Auto-restart Tencent Cloud Server when server is down because of internal issue: resource shortage, flood attack, etc. 
 *   ... 
 *   更多功能（排序不分先后且仅供参考，完成时间无保证）
 *   代码优化、模块化、提升健壮性
