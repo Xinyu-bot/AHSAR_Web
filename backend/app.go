@@ -44,6 +44,8 @@ func main() {
 	r.GET("/get_schools_by_initial", GetSchoolsByInitial)
 	// get departments list by school name
 	r.GET("/get_departments_by_school", GetDepartmentsBySchool)
+	// get professors list by school and department names
+	r.GET("/get_prof_by_department", GetProfByDepartment)
 
 	// serve on port 8080
 	r.Run(":8080") 
