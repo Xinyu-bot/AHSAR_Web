@@ -1,8 +1,8 @@
 import trigram
 import scraper
 import unigram_lexicon_based
-import sys
 import socket
+import pickle
 import multiprocessing
 from nltk import PorterStemmer
 from time import time
@@ -13,8 +13,10 @@ def load_models() -> tuple:
     unigram_model = unigram_lexicon_based.generate_lexicon("../pysrc/unigram_lexicon_extended.csv")
     trigram_model, bigram_model = trigram.import_models()
     porterStemmer = PorterStemmer()
-
-    return trigram_model, bigram_model, unigram_model, porterStemmer
+    with open('../pysrc/sdp.model', 'rb') as instream:
+        SDP = pickle.load(instream)
+    
+    return trigram_model, bigram_model, unigram_model, SDP, porterStemmer
 
 # analyze sentiment given comments retrieved from RMP
 def analyze_sentiment(comments: list, trigram_model: dict, bigram_model: dict, unigram_model: dict, 
@@ -82,16 +84,32 @@ def fetchPID(comm_socket: socket.socket, name: str) -> None:
         comm_socket.close()
     return
 
+def fetchDepartments(comm_socket: socket.socket, school: str) -> None:
+    func_start = time()
+    ret = None
+    try:
+        ret = [x for x in SDP[school].keys()]
+    except Exception as e:
+        print(e)
+    finally:
+        if ret == None or ret == []:
+            comm_socket.send("-1".encode())
+        else:
+            comm_socket.send('$'.join(ret).encode())
+        print("Task name#{0} done in {1} seconds".format(school, round(time() - func_start, 3)))
+        comm_socket.close()
+    return
+
 ''' gloabl variables '''
 gv_start = time()
 # load models
-trigram_model, bigram_model, unigram_model, porterStemmer = load_models()
+trigram_model, bigram_model, unigram_model, SDP, porterStemmer = load_models()
 # start TCP server socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(("localhost", 5005))
 sock.listen()
 # process pool
-pool = multiprocessing.Pool(processes = 3)
+pool = multiprocessing.Pool(processes = 5)
 
 # main function of the application
 def main() -> None: 
@@ -108,6 +126,8 @@ def main() -> None:
             pool.apply_async(analyze, (comm_socket, query, ))
         elif mode == "1":
             pool.apply_async(fetchPID, (comm_socket, query, ))
+        elif mode == "2":
+            pool.apply_async(fetchDepartments, (comm_socket, query, ))
 
     # quit elegantly
     pool.close()
