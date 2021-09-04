@@ -118,6 +118,23 @@ def fetchPList(comm_socket: socket.socket, query: str) -> None:
         comm_socket.close()
     return
 
+def fetchSList(comm_socket: socket.socket, query: str) -> None:
+    func_start = time()
+    ret = None
+    try:
+        ret = [x for x in SDP.keys() if x[0] == query]
+    except Exception as e:
+        print(e)
+    finally:
+        if ret == None or ret == []:
+            comm_socket.send("-1".encode())
+        else:
+            comm_socket.send('$'.join(ret).encode())
+        print("Task name#{0} done in {1} seconds".format(query, round(time() - func_start, 3)))
+        comm_socket.close()
+    return
+
+
 ''' gloabl variables '''
 gv_start = time()
 # load models
@@ -148,6 +165,8 @@ def main() -> None:
             pool.apply_async(fetchDepartments, (comm_socket, query, ))
         elif mode == "3":
             pool.apply_async(fetchPList, (comm_socket, query, ))
+        elif mode == "4":
+            pool.apply_async(fetchSList, (comm_socket, query, ))
 
     # quit elegantly
     pool.close()
