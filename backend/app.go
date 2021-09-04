@@ -10,7 +10,6 @@ var redisClient *redis.Client
 var ctx context.Context
 
 func main() {
-	// Backend Server CORS setting
 	r := gin.Default()
 
 	// Simple Redis Connection
@@ -41,9 +40,13 @@ func main() {
 	r.GET("/get_prof_by_id", GetProfByID)
 	// get professor's PID from RMP website by professor name
 	r.GET("/get_pid_by_name", GetPidByName)
+	// TOOD: get schools list by initial
+	r.GET("/get_schools_by_initial", GetSchoolsByInitial)
+	// get departments list by school name
+	r.GET("/get_departments_by_school", GetDepartmentsBySchool)
 
 	// serve on port 8080
-	r.Run() 
+	r.Run(":8080") 
 }
 
 // CORS for all origins

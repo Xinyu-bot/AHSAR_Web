@@ -21,7 +21,8 @@ func ObtainProfessor(input string) ([]string) {
 	defer conn.Close()
 
 	// send input to NLP Server
-	conn.Write([]byte("0"+input))
+	// 0 is defined internally here meaning query parameter is PID and wants sentiment analysis result
+	conn.Write([]byte("0" + input))
 
 	// read result from NLP Server
 	buf := make([]byte, 2048)
@@ -46,7 +47,8 @@ func ObtainPID(input string) ([]string) {
 	defer conn.Close()
 
 	// send input to NLP Server
-	conn.Write([]byte("1"+input))
+	// 1 is defined internally here meaning query parameter is Name and wants list of relevant professor info
+	conn.Write([]byte("1" + input))
 
 	// read result from NLP Server
 	buf := make([]byte, 4096)
@@ -57,6 +59,31 @@ func ObtainPID(input string) ([]string) {
 
 	// format the read result
 	ret := strings.Split(string(buf[:n]), " ")
+	return ret
+}
+
+// Obtain departments list by school name
+func ObtainDepartments(school string) ([]string) {
+	// Simple TCP Connection to NLP Server
+	conn, errTCP := net.Dial("tcp", "localhost:5005")
+	if errTCP != nil {
+		log.Fatalf("errTCP:", errTCP)
+	}
+	defer conn.Close()
+
+	// send input to NLP Server
+	// 2 is defined internally here meaning query parameter is school name and wants departments list
+	conn.Write([]byte("2" + school))
+
+	// read result from NLP Server
+	buf := make([]byte, 32768)
+	n, errRead := conn.Read(buf)
+	if errRead != nil {
+		log.Fatalf("errRead:", errRead)
+	}
+
+	// format the read result
+	ret := strings.Split(string(buf[:n]), "$")
 	return ret
 }
 
