@@ -114,6 +114,32 @@ func ObtainProfessorList(school, department string) ([]string) {
 	return ret
 }
 
+// Obtain School list by letter initial
+func ObtainSchoolList(initial string) ([]string) {
+	// Simple TCP Connection to NLP Server
+	conn, errTCP := net.Dial("tcp", NLP_server_port)
+	if errTCP != nil {
+		log.Fatalf("errTCP:", errTCP)
+	}
+	defer conn.Close()
+
+	// send input to NLP Server
+	// 4 is defined internally here meaning 
+	// query parameter is letter initial and wants schools list
+	conn.Write([]byte("4" + initial))
+
+	// read result from NLP Server
+	buf := make([]byte, 32768)
+	n, errRead := conn.Read(buf)
+	if errRead != nil {
+		log.Fatalf("errRead:", errRead)
+	}
+
+	// format the read result
+	ret := strings.Split(string(buf[:n]), "$")
+	return ret
+}
+
 // fastHash function
 func fastHash(ipAddr string, input string) string {
 	hash := int(crc32.ChecksumIEEE([]byte(ipAddr + input)))
