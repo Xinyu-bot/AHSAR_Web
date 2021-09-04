@@ -167,7 +167,7 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
         *   Implementation of Searching by School and Department:
             *   SDP scraper using process pool nested with thread pool
             *   Fully structured School-Department-Professor model obtained brutally from RMP website and dumped into byte file using `Python3 pickle`
-            *   Three new APIs: `/ get_schools_by_initial`, `/get_prof_by_department`, and `/get_departments_by_school` 
+            *   Three new APIs: `/get_schools_by_initial`, `/get_prof_by_department`, and `/get_departments_by_school` 
             *   related updates on involved files
             *   fix a bug where the keys in Redis could potentially be the same for differnt types of query
         *   新功能的API：根据校名+系名搜索任职教授列表
