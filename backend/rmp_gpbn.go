@@ -67,7 +67,7 @@ func GetPidByName(c *gin.Context) {
 					}
 				}
 				// obtain cached data from Redis
-				redisRes := RedisCheckNameCache(redisClient, input, ctx)
+				redisRes = RedisCheckNameCache(redisClient, input, ctx)
 				// populate res with the retrieved data
 				if redisRes["0"] == "DNE" {
 					hasResult = "false"
