@@ -123,6 +123,7 @@ def fetchSList(comm_socket: socket.socket, query: str) -> None:
     ret = None
     try:
         ret = [x for x in SDP.keys() if x[0] == query]
+        ret.sort()
     except Exception as e:
         print(e)
     finally:
