@@ -89,6 +89,7 @@ def fetchDepartments(comm_socket: socket.socket, school: str) -> None:
     ret = None
     try:
         ret = [x for x in SDP[school].keys()]
+        ret.sort()
     except Exception as e:
         print(e)
     finally:
