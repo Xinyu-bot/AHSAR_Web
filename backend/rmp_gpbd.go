@@ -17,11 +17,11 @@ func GetProfByDepartment(c *gin.Context) {
 	log.Println("query input: school = {" + school + "}, department = {" + department + "}")
 
 	// check redis (as a fast RAM-based cache) if the input query exists
-	redisRes := RedisCheckDepartmentList(redisClient, school + department, ctx)
+	redisRes := RedisCheckDepartmentList(redisClient, "sd" + school + department, ctx)
 	// data not cached in Redis
 	if (len(redisRes) == 0) {
 		// acquire mutex on the key in Redis
-		if ok, _ := redisClient.SetNX(ctx, school + department + "_mutex", 1, time.Duration(5) * time.Second).Result(); ok == true {
+		if ok, _ := redisClient.SetNX(ctx, "sd" + school + department + "_mutex", 1, time.Duration(5) * time.Second).Result(); ok == true {
 			// obtain data of the professor from RMP website and analyze by ../pysrc/NLP_server.py
 			res = ObtainProfessorList(school, department)
 			if res[0] == "-1" {
@@ -32,15 +32,15 @@ func GetProfByDepartment(c *gin.Context) {
 				ret = res
 			}
 			// Reuse utils function for Department List here --> Maybe rename this total shyt
-			RedisUpdateDepartmentList(redisClient, school + department, ret, ctx)
+			RedisUpdateDepartmentList(redisClient, "sd" + school + department, ret, ctx)
 			// release mutex
-			redisClient.Del(ctx, school + department + "_mutex")
+			redisClient.Del(ctx, "sd" + school + department + "_mutex")
 		} else {
 			// fail to acquire, meaning other goroutine is holding the mutex... then sleep for 50ms
 			time.Sleep(50)
 			// check mutex every 50ms
 			for ;; {
-				checkMutex, _ := redisClient.Exists(ctx, school + department + "_mutex").Result()
+				checkMutex, _ := redisClient.Exists(ctx, "sd" + school + department + "_mutex").Result()
 				if checkMutex == 1 {
 					time.Sleep(50)
 				} else { // if mutex has been released, 
@@ -49,7 +49,7 @@ func GetProfByDepartment(c *gin.Context) {
 				}
 			}
 			// obtain cached data from Redis
-			redisRes = RedisCheckDepartmentList(redisClient, school + department, ctx)
+			redisRes = RedisCheckDepartmentList(redisClient, "sd" + school + department, ctx)
 			// populate res with the retrieved data
 			if res[0] == "-1" {
 				hasResult = "false"
@@ -71,6 +71,7 @@ func GetProfByDepartment(c *gin.Context) {
 			}
 		}
 	}
+
 	// return response to frontend with unique hash for each query
 	hash := fastHash(c.ClientIP(), school + department)
 	c.JSON(200, gin.H{

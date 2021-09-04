@@ -20,7 +20,7 @@ func GetDepartmentsBySchool(c *gin.Context) {
 	// data not cached in Redis
 	if (len(redisRes) == 0) {
 		// acquire mutex on the key in Redis
-		if ok, _ := redisClient.SetNX(ctx, school + "_mutex", 1, time.Duration(5) * time.Second).Result(); ok == true {
+		if ok, _ := redisClient.SetNX(ctx, "school" + school + "_mutex", 1, time.Duration(5) * time.Second).Result(); ok == true {
 			// obtain data of the professor from RMP website and analyze by ../pysrc/NLP_server.py
 			res = ObtainDepartments(school)
 			if res[0] == "-1" {
@@ -30,15 +30,15 @@ func GetDepartmentsBySchool(c *gin.Context) {
 				hasResult = "true"
 				ret = res
 			}
-			RedisUpdateDepartmentList(redisClient, school, ret, ctx)
+			RedisUpdateDepartmentList(redisClient, "school" + school, ret, ctx)
 			// release mutex
-			redisClient.Del(ctx, school + "_mutex")
+			redisClient.Del(ctx, "school" + school + "_mutex")
 		} else {
 			// fail to acquire, meaning other goroutine is holding the mutex... then sleep for 50ms
 			time.Sleep(50)
 			// check mutex every 50ms
 			for ;; {
-				checkMutex, _ := redisClient.Exists(ctx, school + "_mutex").Result()
+				checkMutex, _ := redisClient.Exists(ctx, "school" + school + "_mutex").Result()
 				if checkMutex == 1 {
 					time.Sleep(50)
 				} else { // if mutex has been released, 
@@ -47,7 +47,7 @@ func GetDepartmentsBySchool(c *gin.Context) {
 				}
 			}
 			// obtain cached data from Redis
-			redisRes = RedisCheckDepartmentList(redisClient, school, ctx)
+			redisRes = RedisCheckDepartmentList(redisClient, "school" + school, ctx)
 			// populate res with the retrieved data
 			if res[0] == "-1" {
 				hasResult = "false"
