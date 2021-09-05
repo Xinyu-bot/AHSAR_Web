@@ -1,13 +1,17 @@
 package main
 
 import (
+	"log"
 	"context"
+	"database/sql"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var redisClient *redis.Client
 var ctx context.Context
+var db *sql.DB
 
 func main() {
 	r := gin.Default()
@@ -20,6 +24,20 @@ func main() {
 	})
 	defer redisClient.Close()
 	ctx = context.Background()
+
+	// Simple MySQL connection
+	var err error
+	db, err = sql.Open("mysql", "root:123@tcp(127.0.0.1:3306)/ahsar?parseTime=true")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer db.Close()
+
+	db.SetMaxIdleConns(20)
+	db.SetMaxOpenConns(20)
+	if err := db.Ping(); err != nil{
+		log.Fatal("Failed to connect MySQL")
+	}
 
 	/*
 		MiddleWare
