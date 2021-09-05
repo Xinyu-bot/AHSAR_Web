@@ -5,7 +5,6 @@ Development In Progress
   - [Introduction 介绍](#introduction-介绍)
   - [Notice on Server Status 服务器状态](#notice-on-server-status-服务器状态)
   - [Application Structure 服务器架构](#application-structure-服务器架构)
-  - [Application Workflow 应用流程](#application-workflow-应用流程)
   - [Application Setup (Locally) 本地如何运行](#application-setup-locally-本地如何运行)
   - [Public API (To be Expanded) 公开调用的API](#public-api-to-be-expanded-公开调用的api)
   - [A Bit More About NLP Server 关于NLP服务器](#a-bit-more-about-nlp-server-关于nlp服务器)
@@ -35,7 +34,7 @@ For example, a professor having Sentiment Score (continuous) of 2.0 and Sentimen
 
 AHSAR网页应用
 
-运行在亚马逊云服务器上的临时网址：http://54.251.197.0:5000/
+运行在腾讯云服务器上的临时网址：http://1.14.137.215/:5000
 
 AHSAR旨在为在美大学生提供一个量化评估教授的新角度。通过输入RateMyProfessors.com网站上教授URL末位的`tid`或者教授名字（最好是全名），用户就可以得到其他学生对于该教授的评语的情绪分析结果。得分从低到高是1到5分。
 
@@ -72,6 +71,7 @@ Server might be lagging, on and off, or unstable, because:
 *   Backend
     *   HTTP Response Server, or in the project, simply called Backend Server (Language: Go, Framework: Gin) 
     *   Query & Result Cache (MiddleWare: Redis, written in C) 
+    *   Partial Mirror of RMP Database (Relational Database: MySQL, written in C)
     *   NLP Server: Modified Version of AHSAR NLP project (Language: Python) 
     *   Internal Communication between Backend Server and NLP Server: Naive Socket TCP Connection
 *   Language Environment Setup: 
@@ -85,6 +85,7 @@ Server might be lagging, on and off, or unstable, because:
 *   后端
     *   HTTP响应服务器（下称后端服务器，Go语言的Gin框架）
     *   查询请求和响应结果的缓存（用C编写的中间件Redis）
+    *   RMP网站的部分镜像数据（用C编写的关系型数据库MySQL）
     *   NLP处理服务器（下称NLP服务器，Python语言）
     *   后端服务器和NLP服务器的内部通信方式：简易的Socket TCP连接
 *   语言环境
@@ -96,32 +97,15 @@ Server might be lagging, on and off, or unstable, because:
 
 [Back to top 回到顶部](#ahsar-web)
 
-## Application Workflow 应用流程
-*   Frontend sends query to Backend
-*   Backend receives query and check if it is in Redis:
-    *   If in, retrieves the cached result and returns it to Frontend
-    *   If not in, sends the query to NLP Server through TCP Socket
-*   NLP Server receives the query from TCP Socket and start analyzing
-*   NLP Server returns the result to Backend Server through TCP Socket, then close the TCP connecteion
-*   Backend updates Redis with the result and also returns result to Frontend
-*   ...
-*   前端发请求给后端
-*   后端检查Redis缓存中是否有对应的数据，
-    *   如果有，直接获取缓存的数据并返回前端
-    *   如果没有，则将请求解析之后封装好再通过Socket TCP发给NLP服务器
-*   NLP服务器收到之后进行处理
-*   NLP处理完后将数据通过上次的TCP连接发回给后端，然后断开TCP连接
-*   后端将数据更新至缓存，并且返回给前端
-
-[Back to top 回到顶部](#ahsar-web)
-
 ## Application Setup (Locally) 本地如何运行
-*   Start Redis (if compiled from source, in redis directory `/src/redis-server`; otherwise, `sudo service redis-server`, or simply `redis-server`)
+*   Start Redis `redis-server`
+*   Start MySQL `service MySQL start`
 *   Start NLP Server (in repository `/pysrc` directory, `python3 NLP_server.py`)
 *   Start Backend Server (in repository `/backend` directory, `./app`, or, to recompile again, `bash run.bash`)
 *   Start Frontend (in repository `/frontend` directory, for development mode `npm start`, or, for production mode first `npm run build` then follow the instruction on terminal)
 *   ...
-*   启动Redis(如果是编译的源码，可以在Redis的目录下执行`/src/redis-server`；或者执行`sudo service redis-server`或直接`redis-server`)
+*   启动Redis `redis-server`
+*   启动MySQL `service MySQL start`
 *   启动NLP服务器（在`/pysrc`目录下执行`python3 NLP_Server.py`）
 *   启动后端服务器（在`/backend`目录下执行`./app`，或者如果想重新编译的话，执行`bash run.bash`）
 *   启动前端（在`/frontend`目录下执行`npm start`来开启开发模式的前端进程，或者如果想开启生产模式的进程，执行`npm run build`再根据命令行中显示的指引进行下一步操作）
@@ -130,14 +114,18 @@ Server might be lagging, on and off, or unstable, because:
 
 ## Public API (To be Expanded) 公开调用的API
 *   ...
-*   `GET http://54.251.197.0:5000/get_prof_by_id?input={numeric}&noCache={bool}`:
+*   `GET http://1.14.137.215:8080/get_prof_by_id?input={numeric}&noCache={bool}`:
     *   Get sentiment analysis result by PID
     *   parameters: `input` should be numeric PID and is __*mandatory*__, `noCache` means "do not use cached result but fetch latest data" and is __*optional*__. 
     *   sample usage: `/get_pid_by_name?input=2105994&noCache=true` --> returns sentiment analysis result of newly fetched professor data of PID 2105994 on RMP website
-*   `GET http://54.251.197.0:5000/get_pid_by_name?input={alphabetic}&noCache={bool}`:
+*   `GET http://1.14.137.215:8080/get_pid_by_name?input={alphabetic}&noCache={bool}`:
     *   Get list of Professor Info and PID by Name
     *   parameters: `input` should be alphabetic professor name and is __*mandatory*__, `noCache` means "do not use cached result but fetch latest data" and is __*optional*__. 
     *   sample usage: `/get_pid_by_name?input=adam%20meyers&noCache=true` --> returns newly fetched professor entries on RMP website with name like "adam meyers", and user can choose from the entries
+*   `GET http://1.14.137.215:8080/get_schools_by_initial?initial=N`
+*   `GET http://1.14.137.215:8080/get_departments_by_school?school=New%20York%20University`
+*   `GET http://1.14.137.215:8080/get_prof_by_department?school=New%20York%20University&department=Computer%20Science`
+
 *   ...
 *   不翻译了，懂的都懂
 
@@ -159,6 +147,16 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 
 ## Project History 项目历史
 *   ... 只做简单的翻译
+*   2021/09/06:
+    *   Backend:
+        *   Use MySQL for SDP -- decoupling: 
+            *   remove SDP-related code from NLP Server; also larger pool size of 10 since the removal of SDP frees some CPU and RAM resources
+            *   remove Redis involvement from SDP, since MySQL connection pool and indexed query make the response time (< 5ms) short enough (as for now)
+            *   add SDP-relatede code in Backend Server
+        *   使用MySQL提供SDP功能的支持 —— 系统解耦：
+            *   从NLP服务器中移除了SDP相关代码，并且由于移除之后空余了更多系统资源，进程池扩大到10
+            *   从Redis缓存中移除SDP相关代码，因为MySQL连接池和索引查询已经让响应时间(< 5ms)足够快（目前来看）
+            *   SDP相关代码已经被移到后端HTTP响应服务器
 *   2021/09/05:
     *   Deployment has been moved to Tencent Cloud at http://1.14.137.215:5000/
     *   SDP model updated with difficulty score, quality score, and would take again percentage information
@@ -254,7 +252,6 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 Notice that this TODO list is not ordered by any factor (estimated finish time, importance, difficulty, etc.) and is not guaranteed to be implemented either:
 *   ...
 *   Optimization, Modularization, Robustness...
-*   Use SQL for the storing and reading the SDP model -- decoupling
 *   Continuous and automatic update SDP model slowly
 *   Concurrent Scraper written in Go and split up the python scraper and NLP analyzer. 
 *   Server auto-recovering from fatal error of NLP or Redis processes. 
@@ -268,7 +265,6 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   ... 
 *   更多功能（排序不分先后且仅供参考，完成时间无保证）
 *   代码优化、模块化、提升健壮性
-*   使用SQL进行SDP模型的保存和读取 —— 系统解耦
 *   慢慢地、持续地、自动化更新SDP模型
 *   多线程Goroutine爬虫，拆分爬虫和NLP分析部分
 *   服务器自动恢复，应对TCP或者Redis连接断开的情况
