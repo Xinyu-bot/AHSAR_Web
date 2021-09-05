@@ -161,7 +161,11 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 *   ... 只做简单的翻译
 *   2021/09/05:
     *   Deployment has been moved to Tencent Cloud at http://1.14.137.215:5000/
-*   2021/09/04:
+    *   SDP model updated with difficulty score, quality score, and would take again percentage information
+    *   Professor list by searching school and department is now returned sorted by quality score then difficulty score
+    *   迁移至腾讯云新地址：http://1.14.137.215:5000/
+    *   全网站重爬，教授列表将以quality和difficulty两个分数进行预排序。
+*   2021/09/04: 
     *   Backend:
         *   Implementation of Searching by School and Department:
             *   SDP scraper using process pool nested with thread pool
