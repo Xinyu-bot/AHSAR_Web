@@ -2,7 +2,7 @@ import trigram
 import scraper
 import unigram_lexicon_based
 import socket
-import pickle
+import json
 import multiprocessing
 from nltk import PorterStemmer
 from time import time
@@ -13,8 +13,9 @@ def load_models() -> tuple:
     unigram_model = unigram_lexicon_based.generate_lexicon("../pysrc/unigram_lexicon_extended.csv")
     trigram_model, bigram_model = trigram.import_models()
     porterStemmer = PorterStemmer()
-    with open('../pysrc/sdp.model', 'rb') as instream:
-        SDP = pickle.load(instream)
+    SDP = {}
+    with open('../pysrc/SDP.json', 'r') as instream:
+        SDP = json.load(instream)
     
     return trigram_model, bigram_model, unigram_model, SDP, porterStemmer
 
@@ -106,7 +107,10 @@ def fetchPList(comm_socket: socket.socket, query: str) -> None:
     ret = None
     try:
         school, department = query.split("$")
-        ret = ['#'.join([str(i) for i in x]) for x in SDP[school][department]]
+        ret = [x for x in SDP[school][department]]
+        ret.sort(key = lambda x: (x[2], 5.0 - x[3]), reverse = True)
+        ret = ['#'.join([str(i) for i in x]) for x in ret]
+
     except Exception as e:
         print(e)
     finally:
