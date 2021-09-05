@@ -4,6 +4,7 @@ import (
 	"net"
 	"log"
 	"strings"
+	"database/sql"
 	"hash/crc32"
 	"strconv"
 )
@@ -64,80 +65,66 @@ func ObtainPID(input string) ([]string) {
 }
 
 // Obtain departments list by school name
-func ObtainDepartments(school string) ([]string) {
-	// Simple TCP Connection to NLP Server
-	conn, errTCP := net.Dial("tcp", NLP_server_port)
-	if errTCP != nil {
-		log.Fatalf("errTCP:", errTCP)
-	}
-	defer conn.Close()
+func ObtainDepartmentList(school string, db *sql.DB) ([]string, error) {
+	rows, err := db.Query("SELECT DISTINCT department FROM prof WHERE school = ?", school)
+	defer rows.Close()
 
-	// send input to NLP Server
-	// 2 is defined internally here meaning query parameter is school name and wants departments list
-	conn.Write([]byte("2" + school))
-
-	// read result from NLP Server
-	buf := make([]byte, 32768)
-	n, errRead := conn.Read(buf)
-	if errRead != nil {
-		log.Fatalf("errRead:", errRead)
+	ret := []string{}
+	for rows.Next() {
+		var department string
+        err = rows.Scan(&department)
+		if err != nil {
+            log.Fatal(err)
+        }
+		ret = append(ret, department)
 	}
 
-	// format the read result
-	ret := strings.Split(string(buf[:n]), "$")
-	return ret
-}
-
-// Obtain professors list by school and department name
-func ObtainProfessorList(school, department string) ([]string) {
-	// Simple TCP Connection to NLP Server
-	conn, errTCP := net.Dial("tcp", NLP_server_port)
-	if errTCP != nil {
-		log.Fatalf("errTCP:", errTCP)
-	}
-	defer conn.Close()
-
-	// send input to NLP Server
-	// 3 is defined internally here meaning 
-	// query parameter is school and department name and wants departments list
-	conn.Write([]byte("3" + school + "$" + department))
-
-	// read result from NLP Server
-	buf := make([]byte, 32768)
-	n, errRead := conn.Read(buf)
-	if errRead != nil {
-		log.Fatalf("errRead:", errRead)
-	}
-
-	// format the read result
-	ret := strings.Split(string(buf[:n]), "$")
-	return ret
+	return ret, err
 }
 
 // Obtain School list by letter initial
-func ObtainSchoolList(initial string) ([]string) {
-	// Simple TCP Connection to NLP Server
-	conn, errTCP := net.Dial("tcp", NLP_server_port)
-	if errTCP != nil {
-		log.Fatalf("errTCP:", errTCP)
-	}
-	defer conn.Close()
+func ObtainSchoolList(initial string, db *sql.DB) ([]string, error) {
+	rows, err := db.Query("SELECT DISTINCT school FROM prof WHERE school LIKE ?", initial + "%")
+	defer rows.Close()
 
-	// send input to NLP Server
-	// 4 is defined internally here meaning 
-	// query parameter is letter initial and wants schools list
-	conn.Write([]byte("4" + initial))
-
-	// read result from NLP Server
-	buf := make([]byte, 32768)
-	n, errRead := conn.Read(buf)
-	if errRead != nil {
-		log.Fatalf("errRead:", errRead)
+	ret := []string{}
+	for rows.Next() {
+		var school string
+        err = rows.Scan(&school)
+		if err != nil {
+            log.Fatal(err)
+        }
+		ret = append(ret, school)
 	}
 
-	// format the read result
-	ret := strings.Split(string(buf[:n]), "$")
-	return ret
+	return ret, err
+}
+
+// Abstruct Professor type
+type Professor struct {
+	PID 				string 	`json: "pid" form: "pid`
+	Prof_name 			string 	`json: "prof_name" form:"prof_name`
+	Quality_score		string 	`json: "quality_score" form: "quality_score"`
+	Difficulty_score 	string 	`json: "difficulty_score" form: "difficulty_score"`
+	Would_take_again 	string 	`json: "would_take_again" form: "would_take_again"`
+}
+
+// Obtain professors list by school and department name
+func ObtainProfessorList(school, department string, db *sql.DB) ([]Professor, error) {
+	rows, err := db.Query("SELECT pid, prof_name, quality_score, difficulty_score, would_take_again FROM prof WHERE school = ? and department = ? ORDER BY quality_score DESC, difficulty_score ASC", school, department)
+	defer rows.Close()
+
+	ret := []Professor{}
+	for rows.Next() {
+		professor := Professor{}
+        err = rows.Scan(&professor.PID, &professor.Prof_name, &professor.Quality_score, &professor.Difficulty_score, &professor.Would_take_again)
+		if err != nil {
+            log.Fatal(err)
+        }
+		ret = append(ret, professor)
+	}
+
+	return ret, err
 }
 
 // fastHash function
