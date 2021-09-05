@@ -25,9 +25,23 @@ def get_prof(url, pid) -> tuple:
         department = info.select("span")[0].text.replace("Professor in the", "").replace("department at", "").strip()
         school = info.select("a")[0].text.strip()
 
+        # Check if this professor has any rating 
+        check_finder = dom.find('div', {'class': 'RatingValue__NumRatings-qw8sqy-0 jMkisx'})
+        if check_finder != None and check_finder.text[0:10] == 'No ratings':
+            return (pid, name, department, school, -1, -1, -1)
+        
+        # Overall quantitative scores of this professor
+        overall_score = float(dom.find('div', {'class': 'RatingValue__Numerator-qw8sqy-2 liyUjw'}).text)
+        temp_finder = dom.find_all('div', {'class': 'FeedbackItem__FeedbackNumber-uof32n-1 kkESWs'})
+        if len(temp_finder) == 1:
+            would_take_again = 0
+            difficulty = float(temp_finder[0].text)
+        else:
+            would_take_again = temp_finder[0].text
+            difficulty = float(temp_finder[1].text)
+
         # printing to stdout under massive concurrent/parallel processing will negatively affect the running speed
-        #print(pid, name, department, school) 
-        return (pid, name, department, school)
+        return (pid, name, department, school, overall_score, difficulty, would_take_again)
     
     except: 
         return
@@ -49,8 +63,8 @@ def work(start: int, end: int) -> list:
 def main() -> None:
     # initilization
     POOL_SIZE = 20
-    START = 1000000
-    END = 2000000
+    START = 0
+    END = 2718000
     SEP = (END - START) // POOL_SIZE
     pool = multiprocessing.Pool(processes = POOL_SIZE)
     out = []
@@ -74,19 +88,17 @@ def main() -> None:
         out[i] = out[i].get()
     et = time.time()
 
-    #print("Work done in {0} seconds. ".format(round(et - st, 3)))
-
     for entries in out:
         # dispatch
         for entry in entries:
-            pid, name, department, school = entry
+            pid, name, department, school, overall_score, difficulty, would_take_again = entry
             ds = d.get(school, {})
             dd = ds.get(department, [])
-            dd.append((pid, name))
+            dd.append((pid, name, overall_score, difficulty, would_take_again))
             d[school] = ds
             d[school][department] = dd
 
-    with open("out.json", "a") as outstream:
+    with open("out.json", "w") as outstream:
         outstream.write(json.dumps(d))
 
     return
