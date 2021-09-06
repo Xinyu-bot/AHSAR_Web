@@ -130,8 +130,9 @@ Server might be lagging, on and off, or unstable, because:
 ## A Bit More About NLP Server 关于NLP服务器
 For the full project (including datebase of __80k labeled RMP comments__ and other imported data, codebase of __RMP scraper__ and __N-gram algorithm__, and __reference__ list for the imported data) of the NLP Server behind the screen, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [GitHub Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
 
-Notice that Keywords Extraction (experiment feature) is implemented by `rake-nltk` module written by GitHub user *csurfer*, which also can be found on [GitHub](https://github.com/csurfer/rake-nltk)
-<br>
+Notice that Keywords Extraction (experiment feature) is implemented by `rake-nltk` module written by GitHub user *csurfer*, which also can be found at [this GitHub repository](https://github.com/csurfer/rake-nltk)
+
+
 关于NLP服务器背后的AHSAR项目（包括8万条标记过的RMP评论和其他引用数据的数据库，RMP爬虫和N-gram算法的代码库，以及引用数据的引用参考列表），我们称之为 __AHSAR__ _Ad-Hoc Sentiment Analysis on RateMyProfessors_，欢迎访问[此GitHub代码仓库](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP)。代码优化质量较差，敬请谅解。
 
 关键词提取功能是由GitHub用户*csurfer*的`rake-nltk`模组完成的。欢迎访问[他的GitHub代码仓库](https://github.com/csurfer/rake-nltk)。
@@ -257,23 +258,21 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 Notice that this TODO list is not ordered by any factor (estimated finish time, importance, difficulty, etc.) and is not guaranteed to be implemented either:
 *   ...
 *   Optimization, Modularization, Robustness...
+*   More features, functions, tools...
 *   Continuous and automatic update SDP model slowly
-*   Concurrent Scraper written in Go and split up the python scraper and NLP analyzer. 
 *   Server auto-recovering from fatal error of NLP or Redis processes. 
-*   Login / Registration (don't see a reason for that at the moment). 
 *   Allow user to submit a paragraph of commentary and obtain sentiment analysis result. 
-*   More features / functions / tools...
 *   TCP/Redis Connection pool. 
 *   Usage of Goroutine... Multi-everything! But where to use it? 
 *   Human-readable domain address: maybe `www.ahsar.*` is a good name. 
 *   Auto-restart Tencent Cloud Server when server is down because of internal issue: resource shortage, flood attack, etc. 
-*   ... 
-*   更多功能（排序不分先后且仅供参考，完成时间无保证）
+
+
+待完成事项（排序不分先后且仅供参考，完成时间无保证）
+*   更多功能
 *   代码优化、模块化、提升健壮性
 *   慢慢地、持续地、自动化更新SDP模型
-*   多线程Goroutine爬虫，拆分爬虫和NLP分析部分
 *   服务器自动恢复，应对TCP或者Redis连接断开的情况
-*   注册和登录（感觉不是很需要）
 *   用户可以上传一段评论，服务器处理之后返回该评论的情绪分析结果
 *   TCP/Redis连接使用连接池（现在是用后即弃）
 *   更多Goroutine的应用，并发搞起来
