@@ -20,7 +20,7 @@ func GetSchoolsByInitial(c *gin.Context) {
 		so as for now, no Redis (as cache database) is involved
 	*/
 	ret, err := ObtainSchoolList(initial, db)
-	if err != nil {
+	if err != nil || len(ret) == 0 {
 		hasResult = "false"
 	} else {
 		hasResult = "true"

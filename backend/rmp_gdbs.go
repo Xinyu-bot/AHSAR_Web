@@ -20,7 +20,7 @@ func GetDepartmentsBySchool(c *gin.Context) {
 		so as for now, no Redis (as cache database) is involved
 	*/
 	ret, err := ObtainDepartmentList(school, db)
-	if err != nil {
+	if err != nil || len(ret) == 0 {
 		hasResult = "false"
 	} else {
 		hasResult = "true"
