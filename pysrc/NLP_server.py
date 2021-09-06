@@ -53,7 +53,7 @@ def analyze(comm_socket: socket.socket, pid: str) -> None:
         ret = ("-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1") 
     else:
         if comments == -1: 
-            ret = (name, quality_score, difficulty_score, "-1", "-1", would_take_again, pid)
+            ret = (name, quality_score, difficulty_score, "-1", "-1", "-1", would_take_again, pid)
         else:
             ret = list(analyze_sentiment(
                 comments, trigram_model, bigram_model, unigram_model, 
