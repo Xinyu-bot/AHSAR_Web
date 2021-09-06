@@ -75,9 +75,10 @@ Server might be lagging, on and off, or unstable, because:
     *   NLP Server: Modified Version of AHSAR NLP project (Language: Python) 
     *   Internal Communication between Backend Server and NLP Server: Naive Socket TCP Connection
 *   Language Environment Setup: 
-    *   C, Go, Python (please choose from the most-recent/latest versions). 
-    *   Check source file in this repository to find the actual Packages/Modules involved. 
-    *   Python: `pip install nltk` and `pip install bs4` should be enough
+    *   C, Go, Python, JavaScript (please choose from the most-recent/latest versions). 
+    *   Check source file in this repository to find the actual Packages/Modules involved, but basically:
+    *   JavaScript: in `/frontend` directory, `npm install`
+    *   Python: `pip install nltk`, `pip install bs4`, and `pip install rake-nltk` should be enough
     *   Go: in `/backend` directory, `go mod download` should be enough
     *   C: should not need any extra package
 *   ...
@@ -89,9 +90,10 @@ Server might be lagging, on and off, or unstable, because:
     *   NLP处理服务器（下称NLP服务器，Python语言）
     *   后端服务器和NLP服务器的内部通信方式：简易的Socket TCP连接
 *   语言环境
-    *   C, Go, Python (请选用最新的几个版本之一)
+    *   C, Go, Python, JavaScript (请选用最新的几个版本之一)
     *   可以阅读代码仓库中的源码并且找到真正需要下载的包、模组，不过一般来说：
-    *   Python: 需要执行`pip install nltk`和`pip install bs4`
+    *   JavaScript: 需要在`/frontend`目录下执行`npm install`
+    *   Python: 需要执行`pip install nltk`, `pip install bs4`, 和`pip install rake-nltk`
     *   Go: 需要在`/backend`目录下执行`go mod download`自动下载需要的包
     *   C: 不需要额外的包
 
@@ -114,14 +116,8 @@ Server might be lagging, on and off, or unstable, because:
 
 ## Public API (To be Expanded) 公开调用的API
 *   ...
-*   `GET http://1.14.137.215:8080/get_prof_by_id?input={numeric}&noCache={bool}`:
-    *   Get sentiment analysis result by PID
-    *   parameters: `input` should be numeric PID and is __*mandatory*__, `noCache` means "do not use cached result but fetch latest data" and is __*optional*__. 
-    *   sample usage: `/get_pid_by_name?input=2105994&noCache=true` --> returns sentiment analysis result of newly fetched professor data of PID 2105994 on RMP website
-*   `GET http://1.14.137.215:8080/get_pid_by_name?input={alphabetic}&noCache={bool}`:
-    *   Get list of Professor Info and PID by Name
-    *   parameters: `input` should be alphabetic professor name and is __*mandatory*__, `noCache` means "do not use cached result but fetch latest data" and is __*optional*__. 
-    *   sample usage: `/get_pid_by_name?input=adam%20meyers&noCache=true` --> returns newly fetched professor entries on RMP website with name like "adam meyers", and user can choose from the entries
+*   `GET http://1.14.137.215:8080/get_pid_by_name?input=2105994`
+*   `GET http://1.14.137.215:8080/get_pid_by_name?input=adam%20meyers`
 *   `GET http://1.14.137.215:8080/get_schools_by_initial?initial=N`
 *   `GET http://1.14.137.215:8080/get_departments_by_school?school=New%20York%20University`
 *   `GET http://1.14.137.215:8080/get_prof_by_department?school=New%20York%20University&department=Computer%20Science`
@@ -133,15 +129,18 @@ Server might be lagging, on and off, or unstable, because:
 
 ## A Bit More About NLP Server 关于NLP服务器
 For the full project (including datebase of __80k labeled RMP comments__ and other imported data, codebase of __RMP scraper__ and __N-gram algorithm__, and __reference__ list for the imported data) of the NLP Server behind the screen, called __AHSAR__ *Ad-Hoc Sentiment Analysis on RateMyProfessors*, please check this [GitHub Repository](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP). Bear with the badly optimized code ^^. 
+
+Notice that Keywords Extraction (experiment feature) is implemented by `rake-nltk` module written by GitHub user *csurfer*, which also can be found on [GitHub](https://github.com/csurfer/rake-nltk)
 <br>
 关于NLP服务器背后的AHSAR项目（包括8万条标记过的RMP评论和其他引用数据的数据库，RMP爬虫和N-gram算法的代码库，以及引用数据的引用参考列表），我们称之为 __AHSAR__ _Ad-Hoc Sentiment Analysis on RateMyProfessors_，欢迎访问[此GitHub代码仓库](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP)。代码优化质量较差，敬请谅解。
 
+关键词提取功能是由GitHub用户*csurfer*的`rake-nltk`模组完成的。欢迎访问[他的GitHub代码仓库](https://github.com/csurfer/rake-nltk)。
 [Back to top 回到顶部](#ahsar-web)
 
 ## License 授权证书
 Project under MIT License. Basically, feel free to adopt anything (codebase, database, reference list, paper, etc. ) from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
 
-项目授权MIT证书。只要不犯法，随便玩。但是本代码仓库的拥有者、管理员、贡献者不对项目的内容作出任何拥有法律效益的保证和担保。如果能在您的项目中提到我们，不胜感激。
+项目授权MIT证书。只要不犯法，随便玩。但是本代码仓库的拥有者、管理员、贡献者不对项目的内容作出任何拥有法律效力的保证和担保。如果能在您的项目中提到我们，不胜感激。
 
 [Back to top 回到顶部](#ahsar-web)
 
@@ -153,10 +152,16 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
             *   remove SDP-related code from NLP Server; also larger pool size of 10 since the removal of SDP frees some CPU and RAM resources
             *   remove Redis involvement from SDP, since MySQL connection pool and indexed query make the response time (< 5ms) short enough (as for now)
             *   add SDP-relatede code in Backend Server
+        *   Keywords Extraction Feature:
+            *   using `rake-nltk` module
+            *   provides 10 keywords with top 10 "significant value" to the entire list of commentary of a specific professor
         *   使用MySQL提供SDP功能的支持 —— 系统解耦：
             *   从NLP服务器中移除了SDP相关代码，并且由于移除之后空余了更多系统资源，进程池扩大到10
             *   从Redis缓存中移除SDP相关代码，因为MySQL连接池和索引查询已经让响应时间(< 5ms)足够快（目前来看）
             *   SDP相关代码已经被移到后端HTTP响应服务器
+        *   关键词提取功能：
+            *   使用了`rake-nltk`模组
+            *   从某个教授的所有评论中提取出10个最具价值的关键词组
 *   2021/09/05:
     *   Deployment has been moved to Tencent Cloud at http://1.14.137.215:5000/
     *   SDP model updated with difficulty score, quality score, and would take again percentage information
