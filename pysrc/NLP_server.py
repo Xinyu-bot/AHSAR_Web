@@ -5,6 +5,7 @@ import socket
 import multiprocessing
 from nltk import PorterStemmer
 from time import time
+from rake_nltk import Rake
 
 # load the pre-trained models
 def load_models() -> tuple: 
@@ -17,7 +18,7 @@ def load_models() -> tuple:
 
 # analyze sentiment given comments retrieved from RMP
 def analyze_sentiment(comments: list, trigram_model: dict, bigram_model: dict, unigram_model: dict, 
-porterStemmer: PorterStemmer, quality_score: float, difficulty_score: float, name: str) -> None: 
+porterStemmer: PorterStemmer, quality_score: float, difficulty_score: float, name: str) -> tuple: 
     pos, neg, count = 0, 0, 0
     weight = [0, 0]
     # loop through the comments
@@ -37,7 +38,10 @@ porterStemmer: PorterStemmer, quality_score: float, difficulty_score: float, nam
     sentiment_score_disc = round(3.0 + (4.0 * ((pos / (pos + neg)) - 0.5)), 1)
     sentiment_score_cont = round(3.0 + (4.0 * ((weight[0] / count) - 0.5)), 1)
 
-    return name, str(quality_score), str(difficulty_score), str(sentiment_score_disc), str(sentiment_score_cont)
+    r.extract_keywords_from_sentences(comments)
+    keywords = r.get_ranked_phrases()[:10]
+
+    return name, str(quality_score), str(difficulty_score), str(sentiment_score_disc), str(sentiment_score_cont), '#@$'.join([x.replace(' ', '`') for x in keywords])
 
 # retrieve comments from RMP, analyze sentimenet, and return result to Backend Server
 def analyze(comm_socket: socket.socket, pid: str) -> None:
@@ -46,7 +50,7 @@ def analyze(comm_socket: socket.socket, pid: str) -> None:
     try:
         comments, quality_score, difficulty_score, name, would_take_again = scraper.get_comments(pid) 
     except scraper.UrlException:
-        ret = ("-1", "-1", "-1", "-1", "-1", "-1", "-1") 
+        ret = ("-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1") 
     else:
         if comments == -1: 
             ret = (name, quality_score, difficulty_score, "-1", "-1", would_take_again, pid)
@@ -69,6 +73,7 @@ def analyze(comm_socket: socket.socket, pid: str) -> None:
 gv_start = time()
 # load models
 trigram_model, bigram_model, unigram_model, porterStemmer = load_models()
+r = Rake()
 # start TCP server socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(("localhost", 5005))
