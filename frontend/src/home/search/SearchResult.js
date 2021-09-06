@@ -47,11 +47,13 @@ export default function SearchResult(props) {
 	}
 
 	console.log('in searchresult', props)
+	/*
 	const splitName = (item, index) => {
 		const nameStr = item.split(' ')[index]
 		const newStr = nameStr.replaceAll('?', ' ') //replace只replace第一个。要用replaceAll。
 		return newStr
 	}
+	*/
 	return (
 		<div className='searched2'>
 			{(() => {
@@ -62,11 +64,13 @@ export default function SearchResult(props) {
 							{props.searchedListByName.map((item) => (
 								<SearchedItem
 									className='resultList'
-									key={item.split(' ')[3]}
-									name={splitName(item, 0)}
-									filed={splitName(item, 1)}
-									school={splitName(item, 2)}
-									pid={item.split(' ')[3]}
+									key={item.PID}
+									name={item.Prof_name}
+									filed={item.Department} // filed是什么？
+									school={item.School}
+									pid={item.PID}
+									// Quality_score, Difficulty_score, Would_take_again 还没有使用 
+									// Department也没有使用
 								/>
 							))}
 						</ul>
