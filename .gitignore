@@ -1,9 +1,6 @@
 # JavaScript
 package-lock.json
 
-# Big Files
-./pysrc/SDP.json
-
 ##########################################
 # Go
 # Binaries for programs and plugins
