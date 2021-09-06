@@ -65,22 +65,6 @@ def analyze(comm_socket: socket.socket, pid: str) -> None:
         comm_socket.close()
     return
 
-def fetchPID(comm_socket: socket.socket, name: str) -> None:
-    func_start = time()
-    ret = None
-    try:
-        ret = scraper.get_url(name)
-    except:
-        pass
-    finally:
-        if ret == None or ret == []:
-            comm_socket.send("-1 -1".encode())
-        else:
-            comm_socket.send(' '.join(ret).encode())
-        print("Task name#{0} done in {1} seconds".format(name, round(time() - func_start, 3)))
-        comm_socket.close()
-    return
-
 ''' gloabl variables '''
 gv_start = time()
 # load models
@@ -105,8 +89,6 @@ def main() -> None:
         print("Received mode:", mode + ", query:", query)
         if mode == "0":
             pool.apply_async(analyze, (comm_socket, query, ))
-        elif mode == "1":
-            pool.apply_async(fetchPID, (comm_socket, query, ))
 
     # quit elegantly
     pool.close()
