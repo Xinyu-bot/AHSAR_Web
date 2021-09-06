@@ -67,6 +67,6 @@ func GetProfByID(c *gin.Context) {
 	c.JSON(200, gin.H{
 		profAttr[0]: res[0], profAttr[1]: res[1], profAttr[2]: res[2], 
 		profAttr[3]: res[3], profAttr[4]: res[4], profAttr[5]: res[5], 
-		profAttr[6]: res[6], "queryHash": hash,
+		profAttr[6]: res[6], profAttr[7]: res[7], "queryHash": hash,
 	})
 }

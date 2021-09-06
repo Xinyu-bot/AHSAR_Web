@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-var profAttr = [7]string{"professor_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous", "would_take_again", "pid"}
+var profAttr = [8]string{"professor_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous", "keywords", "would_take_again", "pid"}
 var profPIDAttr = [4]string{"professor_name", "department", "school", "pid"}
 var NLP_server_port = "localhost:5005"
 // Abstruct Professor type
@@ -22,7 +22,6 @@ type Professor struct {
 	School 				string 	`json: "school" form: "school"`	
 	Department 			string 	`json: "department" form: "department"`
 }
-
 
 // Obtain Professor result by PID
 func ObtainProfessor(input string) ([]string) {
@@ -38,7 +37,7 @@ func ObtainProfessor(input string) ([]string) {
 	conn.Write([]byte("0" + input))
 
 	// read result from NLP Server
-	buf := make([]byte, 2048)
+	buf := make([]byte, 4096)
 	n, errRead := conn.Read(buf)
 	if errRead != nil {
 		log.Fatalf("errRead:", errRead)
@@ -47,6 +46,7 @@ func ObtainProfessor(input string) ([]string) {
 	// format the read result
 	ret := strings.Split(string(buf[:n]), " ")
 	ret[0] = strings.Replace(ret[0], "?", " ", -1)
+	ret[5] = strings.Replace(ret[5], "`", " ", -1)
 	return ret
 }
 
