@@ -95,6 +95,16 @@ export default function Result(props) {
 		}
 		return false
 	}
+
+	// TODO: extremely naive implementation
+	function keywordsSpliter(string) {
+		let ret = string.split('#@$')
+		for (let i = 0; i < ret.length - 1; i ++) {
+			ret[i] += ', '
+		}
+		return ret
+	}
+
 	const _setRet = (data) => {
 		//pid不存在
 		if (data.professor_name === '-1') {
@@ -223,6 +233,9 @@ export default function Result(props) {
 									<p>Would Take Again: {ret.would_take_again}</p>
 									<p>Sentiment Analysis Score (Discrete): {ret.sentiment_score_discrete}</p>
 									<p>Sentiment Analysis Score (Continuous): {ret.sentiment_score_continuous}</p>
+									<p>Extracted Keywords (experiment feature): </p>
+									<p>{keywordsSpliter(ret.keywords).slice(0, 5)}</p>
+									<p>{keywordsSpliter(ret.keywords).slice(5, 10)}</p>
 								</span>
 							)
 						// prof has no comment, so no sentiment analysis score, but the professor has quality score and difficulty score
@@ -238,6 +251,7 @@ export default function Result(props) {
 									<p>(This professor has no commentary from any student yet!)</p>
 									<p>Sentiment Analysis Score (Discrete): N/A</p>
 									<p>Sentiment Analysis Score (Continuous): N/A</p>
+									<p>Extracted Keywords (experiment feature): N/A</p>
 								</span>
 							)
 						// PID does not exist
@@ -262,6 +276,7 @@ export default function Result(props) {
 									<p>(This professor has no comment yet!)</p>
 									<p>Sentiment Analysis Score (Discrete): N/A</p>
 									<p>Sentiment Analysis Score (Continuous): N/A</p>
+									<p>Extracted Keywords (experiment feature): N/A</p>
 								</span>
 							)
 						case 5: //pid存在，有评论，没有difficulty_score，没有quality_score
@@ -275,6 +290,9 @@ export default function Result(props) {
 									<p>Would Take Again: {ret.would_take_again}</p>
 									<p>Sentiment Analysis Score (Discrete): {ret.sentiment_score_discrete}</p>
 									<p>Sentiment Analysis Score (Continuous): {ret.sentiment_score_continuous}</p>
+									<p>Extracted Keywords (experiment feature): </p>
+									<p>{keywordsSpliter(ret.keywords).slice(0, 5)}</p>
+									<p>{keywordsSpliter(ret.keywords).slice(5, 10)}</p>
 								</span>
 							)
 
