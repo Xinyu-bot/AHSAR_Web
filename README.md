@@ -15,7 +15,7 @@ Development In Progress
 ## Introduction 介绍
 Web Application for AHSAR
 
-Temporary Website at Tencent Cloud: http://1.14.137.215:5000/
+Temporary Website at Tencent Cloud: http://ahsar.club:5000/
 
 AHSAR intends to provide students with a different perspective on quatitatively evaluating their professors. Check the sentiment analysis result (in scale of 1 to 5) of other students' commentary on the professor of your choice by entering the `tid`(in AHSAR, it is called PID) in a professor URL from RateMyProfessors.com website, or the name (preferably full name) of professor. 
 
@@ -34,7 +34,7 @@ For example, a professor having Sentiment Score (continuous) of 2.0 and Sentimen
 
 AHSAR网页应用
 
-运行在腾讯云服务器上的临时网址：http://1.14.137.215/:5000
+运行在腾讯云服务器上的临时网址：http://ahsar.club:5000/
 
 AHSAR旨在为在美大学生提供一个量化评估教授的新角度。通过输入RateMyProfessors.com网站上教授URL末位的`tid`或者教授名字（最好是全名），用户就可以得到其他学生对于该教授的评语的情绪分析结果。得分从低到高是1到5分。
 
@@ -55,12 +55,12 @@ AHSAR旨在为在美大学生提供一个量化评估教授的新角度。通过
 ## Notice on Server Status 服务器状态
 Server might be lagging, on and off, or unstable, because:
 *   ... 
-*   Server is under manual deployment. This usually takes only a few minutes. 
+*   Server is under deployment of new code. This usually takes only a few minutes. 
 *   Server is temporarily down because of flood requests, concurrency test, etc. Fix time is not guaranteed, but auto-recover is on the development schedule. 
 *   Server is permanently down because of internal issue on Tencent Cloud side, maybe due to CPU/Memory shortage. Fix time is not guaranteed, but auto-restart is on the development schedule. 
 
 服务器可能会卡顿、时好时坏、或者不稳定，因为以下几种原因：
-*   正在手动部署最新版本的代码（自动部署功能在计划中，但不确定完成时间），这一般只需要几分钟时间。
+*   正在部署最新版本的代码，这一般只需要几分钟时间。
 *   服务器因为大量的访问或者并发测试而短暂挂起。修复时间不确定，但是自动恢复的功能也在计划中。
 *   服务器因为腾讯云服务方面的问题而宕机，比如内存或者CPU不够用了。修复时间不确定，但是自动重启的功能也在计划中。
 
@@ -70,32 +70,30 @@ Server might be lagging, on and off, or unstable, because:
 *   Frontend (Language: JavaScript, Framework: React.js) 
 *   Backend
     *   HTTP Response Server, or in the project, simply called Backend Server (Language: Go, Framework: Gin) 
-    *   Query & Result Cache (MiddleWare: Redis, written in C) 
-    *   Partial Mirror of RMP Database (Relational Database: MySQL, written in C)
-    *   NLP Server: Modified Version of AHSAR NLP project (Language: Python) 
+    *   Query & Result Cache (Redis, written in C) 
+    *   Partial Mirror of RMP Database (MySQL, written in C++)
+    *   NLP Server: Enhanced Version of AHSAR NLP project (Language: Python, Module: bs4, nltk) 
     *   Internal Communication between Backend Server and NLP Server: Naive Socket TCP Connection
 *   Language Environment Setup: 
-    *   C, Go, Python, JavaScript (please choose from the most-recent/latest versions). 
+    *   Go, Python, JavaScript (please choose from the most-recent/latest versions). 
     *   Check source file in this repository to find the actual Packages/Modules involved, but basically:
     *   JavaScript: in `/frontend` directory, `npm install`
     *   Python: `pip install nltk`, `pip install bs4`, and `pip install rake-nltk` should be enough
     *   Go: in `/backend` directory, `go mod download` should be enough
-    *   C: should not need any extra package
 *   ...
 *   前端 （JavaScript语言的React.js框架）
 *   后端
     *   HTTP响应服务器（下称后端服务器，Go语言的Gin框架）
-    *   查询请求和响应结果的缓存（用C编写的中间件Redis）
-    *   RMP网站的部分镜像数据（用C编写的关系型数据库MySQL）
-    *   NLP处理服务器（下称NLP服务器，Python语言）
+    *   查询请求和响应结果的缓存（用C编写的Redis）
+    *   RMP网站的部分镜像数据（用C++编写的MySQL）
+    *   NLP处理服务器（下称NLP服务器，Python语言，bs4和nltk模组）
     *   后端服务器和NLP服务器的内部通信方式：简易的Socket TCP连接
 *   语言环境
-    *   C, Go, Python, JavaScript (请选用最新的几个版本之一)
+    *   Go, Python, JavaScript (请选用最新的几个版本之一)
     *   可以阅读代码仓库中的源码并且找到真正需要下载的包、模组，不过一般来说：
     *   JavaScript: 需要在`/frontend`目录下执行`npm install`
     *   Python: 需要执行`pip install nltk`, `pip install bs4`, 和`pip install rake-nltk`
     *   Go: 需要在`/backend`目录下执行`go mod download`自动下载需要的包
-    *   C: 不需要额外的包
 
 [Back to top 回到顶部](#ahsar-web)
 
@@ -116,11 +114,11 @@ Server might be lagging, on and off, or unstable, because:
 
 ## Public API (To be Expanded) 公开调用的API
 *   ...
-*   `GET http://1.14.137.215:8080/get_pid_by_name?input=2105994`
-*   `GET http://1.14.137.215:8080/get_pid_by_name?input=adam%20meyers`
-*   `GET http://1.14.137.215:8080/get_schools_by_initial?initial=N`
-*   `GET http://1.14.137.215:8080/get_departments_by_school?school=New%20York%20University`
-*   `GET http://1.14.137.215:8080/get_prof_by_department?school=New%20York%20University&department=Computer%20Science`
+*   `GET /get_pid_by_name?input={pid}`
+*   `GET /get_pid_by_name?input={professor_name}`
+*   `GET /get_schools_by_initial?initial={initial_letter}`
+*   `GET /get_departments_by_school?school={school_name}`
+*   `GET /get_prof_by_department?school={school_name}&department={department_name}`
 
 *   ...
 *   不翻译了，懂的都懂
@@ -147,6 +145,11 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 
 ## Project History 项目历史
 *   ... 只做简单的翻译
+*   2021/09/07:
+    *   Human-readable Domain Name: http://ahsar.club:5000/
+    *   port number will be removed from the accessible url after an official government record has been filed. 
+    *   新的域名地址：http://ahsar.club:5000/
+    *   备案通过后就可以不输入端口号直接访问了
 *   2021/09/06:
     *   Backend:
         *   Use MySQL for SDP -- decoupling: 
@@ -264,7 +267,6 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   Allow user to submit a paragraph of commentary and obtain sentiment analysis result. 
 *   TCP/Redis Connection pool. 
 *   Usage of Goroutine... Multi-everything! But where to use it? 
-*   Human-readable domain address: maybe `www.ahsar.*` is a good name. 
 *   Auto-restart Tencent Cloud Server when server is down because of internal issue: resource shortage, flood attack, etc. 
 
 
@@ -276,7 +278,6 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   用户可以上传一段评论，服务器处理之后返回该评论的情绪分析结果
 *   TCP/Redis连接使用连接池（现在是用后即弃）
 *   更多Goroutine的应用，并发搞起来
-*   更好记的域名，比如`www.ahsar.*`
 *   持续部署
 *   服务器内部错误后的自动重启
 
