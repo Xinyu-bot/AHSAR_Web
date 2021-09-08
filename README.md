@@ -70,7 +70,6 @@ Server might be lagging, on and off, or unstable, because:
 *   Frontend (Language: JavaScript, Framework: React.js) 
 *   Backend
     *   HTTP Response Server, or in the project, simply called Backend Server (Language: Go, Framework: Gin) 
-    *   Query & Result Cache (Redis, written in C) 
     *   Partial Mirror of RMP Database (MySQL, written in C++)
     *   NLP Server: Enhanced Version of AHSAR NLP project (Language: Python, Module: bs4, nltk) 
     *   Internal Communication between Backend Server and NLP Server: Naive Socket TCP Connection
@@ -84,7 +83,6 @@ Server might be lagging, on and off, or unstable, because:
 *   前端 （JavaScript语言的React.js框架）
 *   后端
     *   HTTP响应服务器（下称后端服务器，Go语言的Gin框架）
-    *   查询请求和响应结果的缓存（用C编写的Redis）
     *   RMP网站的部分镜像数据（用C++编写的MySQL）
     *   NLP处理服务器（下称NLP服务器，Python语言，bs4和nltk模组）
     *   后端服务器和NLP服务器的内部通信方式：简易的Socket TCP连接
@@ -98,13 +96,11 @@ Server might be lagging, on and off, or unstable, because:
 [Back to top 回到顶部](#ahsar-web)
 
 ## Application Setup (Locally) 本地如何运行
-*   Start Redis `redis-server`
 *   Start MySQL `service MySQL start`
 *   Start NLP Server (in repository `/pysrc` directory, `python3 NLP_server.py`)
 *   Start Backend Server (in repository `/backend` directory, `./app`, or, to recompile again, `bash run.bash`)
 *   Start Frontend (in repository `/frontend` directory, for development mode `npm start`, or, for production mode first `npm run build` then follow the instruction on terminal)
 *   ...
-*   启动Redis `redis-server`
 *   启动MySQL `service MySQL start`
 *   启动NLP服务器（在`/pysrc`目录下执行`python3 NLP_Server.py`）
 *   启动后端服务器（在`/backend`目录下执行`./app`，或者如果想重新编译的话，执行`bash run.bash`）
@@ -145,11 +141,34 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 
 ## Project History 项目历史
 *   ... 只做简单的翻译
+
+*   2021/09/08:
+    *   Frontend:
+        *   Minor syntax change due to API tweak that changes the returned values
+        *   Allow user to fetch latest data from RMP website, provided the last updated time to user
+    *   Backend:
+        *   Removal of Redis dependency:
+            *   MySQL with connection pool is fast enough as for now
+            *   Redis might come back to handle flood attack or continuous request on not-exists professor
+        *   API `GET /get_prof_by_id`, or the underlying function `GetProfessorByID` now retrieve data from MySQL database:
+        *   Automatic update MySQL database if new data has been fetched and analyzed from RMP website
+    *   前端：
+        *   针对后端API返回值的改变进行一些修改
+        *   用户可以在看到上次更新的时间之后选择是否获取最新信息
+    *   后端：
+        *   去除对Redis的依赖：
+            *   MySQL连接池已经足够快了，目前来看
+            *   将来也许会重新使用Redis来处理flood attack或大量无效请求
+        *   API `GET /get_prof_by_id`现在从MySQL数据库中获取数据
+        *   在从RMP网站获取新数据并且计算分数之后，自动更新MySQL数据库中的数据
+
 *   2021/09/07:
-    *   Human-readable Domain Name: http://ahsar.club:5000/
-    *   port number will be removed from the accessible url after an official government record has been filed. 
-    *   新的域名地址：http://ahsar.club:5000/
-    *   备案通过后就可以不输入端口号直接访问了
+    *   New Doman Name: 
+        *   Human-readable Domain Name: http://ahsar.club:5000/
+        *   port number will be removed from the accessible url after an official government record has been filed. 
+        *   新的域名地址：http://ahsar.club:5000/
+        *   备案通过后就可以不输入端口号直接访问了
+
 *   2021/09/06:
     *   Backend:
         *   Use MySQL for SDP -- decoupling: 
@@ -166,12 +185,14 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
         *   关键词提取功能：
             *   使用了`rake-nltk`模组
             *   从某个教授的所有评论中提取出10个最具价值的关键词组
+
 *   2021/09/05:
     *   Deployment has been moved to Tencent Cloud at http://1.14.137.215:5000/
     *   SDP model updated with difficulty score, quality score, and would take again percentage information
     *   Professor list by searching school and department is now returned sorted by quality score then difficulty score
     *   迁移至腾讯云新地址：http://1.14.137.215:5000/
     *   全网站重爬，教授列表将以quality和difficulty两个分数进行预排序。
+
 *   2021/09/04: 
     *   Backend:
         *   Implementation of Searching by School and Department:
@@ -187,6 +208,7 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
         *   rework and optimization
         *   home page picture
         *   in the future, frontend updates will be explained in a more detailed way
+        *   
 *   2021/08/24:
     *   Backend:
         *   Redis usage rework: 
@@ -265,10 +287,10 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   Continuous and automatic update SDP model slowly
 *   Server auto-recovering from fatal error of NLP or Redis processes. 
 *   Allow user to submit a paragraph of commentary and obtain sentiment analysis result. 
+*   Redis comeback to handle flood attack or continuous request on not-exist professor
 *   TCP/Redis Connection pool. 
 *   Usage of Goroutine... Multi-everything! But where to use it? 
 *   Auto-restart Tencent Cloud Server when server is down because of internal issue: resource shortage, flood attack, etc. 
-
 
 待完成事项（排序不分先后且仅供参考，完成时间无保证）
 *   更多功能
@@ -276,10 +298,9 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   慢慢地、持续地、自动化更新SDP模型
 *   服务器自动恢复，应对TCP或者Redis连接断开的情况
 *   用户可以上传一段评论，服务器处理之后返回该评论的情绪分析结果
+*   Redis回归，处理flood attack或大量无效请求
 *   TCP/Redis连接使用连接池（现在是用后即弃）
 *   更多Goroutine的应用，并发搞起来
-*   持续部署
 *   服务器内部错误后的自动重启
-
 
 [Back to top 回到顶部](#ahsar-web)
