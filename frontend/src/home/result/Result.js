@@ -50,8 +50,8 @@ export default function Result(props) {
 	function addToSearchedList(data) {
 		const obj = {
 			id: data.queryHash,
-			name: data.professor_name,
-			pid: data.pid,
+			name: data.professor.Prof_name,
+			pid: data.professor.PID,
 		}
 		//把返回的有效pid相关内容，加入搜索历史记录。用到了id，提高react渲染效率
 		// Don't use JS array methods such as pop, push, shift, unshift
@@ -98,7 +98,7 @@ export default function Result(props) {
 
 	// TODO: extremely naive implementation
 	function keywordsSpliter(string) {
-		let ret = string.split('#@$')
+		let ret = string.split('|')
 		for (let i = 0; i < ret.length - 1; i ++) {
 			ret[i] += ', '
 		}
@@ -107,15 +107,14 @@ export default function Result(props) {
 
 	const _setRet = (data) => {
 		//pid不存在
-		if (data.professor_name === '-1') {
+		if (data.hasResult == "false") {
 			setReady(3)
 			//ready must before ret 如果显示searchbyname，然后变成searchbyid
 			setRet('')
 			console.log('pid not')
-			//pid存在
-		} else {
-			if (data.sentiment_score_discrete === '-1') {
-				if (data.difficulty_score === '-1' && data.quality_score === '-1') {
+		} else { //pid存在
+			if (data.professor.Sentiment_score_discrete === '-1') {
+				if (data.professor.Difficulty_score === '-1' && data.professor.Quality_score === '-1') {
 					//difficulty_score，quality_score都没有
 					//console.log(4)
 					setReady(4)
@@ -125,7 +124,7 @@ export default function Result(props) {
 					setReady(2)
 				}
 				//pid存在，有评论，没有difficulty_score，没有quality_score
-			} else if (data.difficulty_score === '-1' && data.quality_score === '-1') {
+			} else if (data.professor.Difficulty_score === '-1' && data.professor.Quality_score === '-1') {
 				setReady(5)
 			} else {
 				//全都有
@@ -190,14 +189,41 @@ export default function Result(props) {
 		}
 	}
 
+	const GetProfByID_NoCache = () => {
+		// retrieve from backend API /get_prof_by_id
+		axios
+		.get('http://1.14.137.215:8080/get_prof_by_id', {
+			params: {
+				input: pid,
+				noCache: "true", 
+			},
+		})
+		// process returned result3w4
+		.then((r) => {
+			if (r.status === 200) {
+				//正确的数据从服务器返回，Header重新渲染。
+				console.log('inter then', r.data)
+				_setRet(r.data)
+				console.log('returned data', r.data)
+			} else {
+				setReady(-1)
+			}
+		})
+		// catch error
+		.catch((err) => {
+			//上面的then block里面有问题
+			console.log('why', err)
+			setReady(-1)
+		})
+	}
+
+
 	return (
 		<div className='result'>
 			<Header />
 
 			{(() => {
 				if (ret !== undefined) {
-					// evil switch case here, Oops
-
 					if (ret === 'loading') {
 						return (
 							<div>
@@ -210,6 +236,7 @@ export default function Result(props) {
 						return <p>Please enter a valid pid or name</p>
 					}
 					//如果用户输入内容符合条件，并且收到了服务器的返回内容。
+					// evil switch case here, Oops
 					switch (ready) {
 						// user changes input or there is no input at all
 						case 0:
@@ -226,16 +253,24 @@ export default function Result(props) {
 							return (
 								<span>
 									<h2 id='result'>Result for {pid}</h2>
-									<p>Professor: {ret.professor_name}</p>
-									<p>PID: {ret.pid}</p>
-									<p>Difficulty Score: {ret.difficulty_score}</p>
-									<p>Quality Score: {ret.quality_score}</p>
-									<p>Would Take Again: {ret.would_take_again}</p>
-									<p>Sentiment Analysis Score (Discrete): {ret.sentiment_score_discrete}</p>
-									<p>Sentiment Analysis Score (Continuous): {ret.sentiment_score_continuous}</p>
-									<p>Extracted Keywords (experiment feature): </p>
-									<p>{keywordsSpliter(ret.keywords).slice(0, 5)}</p>
-									<p>{keywordsSpliter(ret.keywords).slice(5, 10)}</p>
+									<p>Professor: {ret.professor.Prof_name}</p>
+									<p>PID: {ret.professor.PID}</p>
+									<p>School / Department: {ret.professor.School} / {ret.professor.Department}</p>
+									<p>Difficulty Score: {ret.professor.Difficulty_score}</p>
+									<p>Quality Score: {ret.professor.Quality_score}</p>
+									<p>Would Take Again: {ret.professor.Would_take_again}</p>
+									<p>Sentiment Analysis Score (Discrete): {ret.professor.Sentiment_score_discrete}</p>
+									<p>Sentiment Analysis Score (Continuous): {ret.professor.Sentiment_score_continuous}</p>
+									<p>Extracted Keywords (experimental feature, some keywords may not make sense): </p>
+									<p>{keywordsSpliter(ret.professor.Keywords).slice(0, 5)}</p>
+									<p>{keywordsSpliter(ret.professor.Keywords).slice(5, 10)}</p>
+									<p>Updated at {Date(ret.professor.Update_time).toLocaleString()}</p>
+									<p>
+										Not happy with the last updated time? &nbsp;
+										<button onClick = {GetProfByID_NoCache}>Fetch Latest Info! </button>
+										&nbsp; This may take some time...
+									</p>
+									
 								</span>
 							)
 						// prof has no comment, so no sentiment analysis score, but the professor has quality score and difficulty score
@@ -244,14 +279,21 @@ export default function Result(props) {
 							return (
 								<span>
 									<h2 id='result'>Result for {pid}</h2>
-									<p>Professor: {ret.professor_name}</p>
-									<p>Difficulty Score: {ret.difficulty_score}</p>
-									<p>Quality Score: {ret.quality_score}</p>
-									<p>Would Take Again: {ret.would_take_again}</p>
+									<p>Professor: {ret.professor.Prof_name}</p>
+									<p>PID: {ret.professor.PID}</p>
+									<p>School / Department: {ret.professor.School} / {ret.professor.Department}</p>
+									<p>Difficulty Score: {ret.professor.Difficulty_score}</p>
+									<p>Quality Score: {ret.professor.Quality_score}</p>
+									<p>Would Take Again: {ret.professor.Would_take_again}</p>
 									<p>(This professor has no commentary from any student yet!)</p>
 									<p>Sentiment Analysis Score (Discrete): N/A</p>
 									<p>Sentiment Analysis Score (Continuous): N/A</p>
-									<p>Extracted Keywords (experiment feature): N/A</p>
+									<p>Extracted Keywords (experimental feature): N/A</p>
+									<p>Last Update at {Date(ret.professor.Update_time).toLocaleString()}</p>
+									<p>
+										Not happy with the last update time? &nbsp;
+										<button onClick = {GetProfByID_NoCache}>Fetch Latest Info</button>
+									</p>
 								</span>
 							)
 						// PID does not exist
@@ -268,31 +310,45 @@ export default function Result(props) {
 							return (
 								<span>
 									<h2 id='result'>Result for {pid}</h2>
-									<p>Professor: {ret.professor_name}</p>
+									<p>Professor: {ret.professor.Professor_name}</p>
 									<p>(This professor has no difficulty score and no quality score yet!)</p>
+									<p>PID: {ret.professor.PID}</p>
+									<p>School / Department: {ret.professor.School} / {ret.professor.Department}</p>
 									<p>Difficulty Score: N/A</p>
 									<p>Quality Score: N/A</p>
 									<p>Would Take Again: N/A</p>
 									<p>(This professor has no comment yet!)</p>
 									<p>Sentiment Analysis Score (Discrete): N/A</p>
 									<p>Sentiment Analysis Score (Continuous): N/A</p>
-									<p>Extracted Keywords (experiment feature): N/A</p>
+									<p>Extracted Keywords (experimental feature): N/A</p>
+									<p>Last Update at {Date(ret.professor.Update_time).toLocaleString()}</p>
+									<p>
+										Not happy with the last update time? &nbsp;
+										<button onClick = {GetProfByID_NoCache}>Fetch Latest Info</button>
+									</p>
 								</span>
 							)
 						case 5: //pid存在，有评论，没有difficulty_score，没有quality_score
 							return (
 								<span>
 									<h2 id='result'>Result for {pid}</h2>
-									<p>Professor: {ret.professor_name}</p>
+									<p>Professor: {ret.professor.Professor_name}</p>
 									<p>(This professor has no difficulty score and no quality score yet!)</p>
+									<p>PID: {ret.professor.PID}</p>
+									<p>School / Department: {ret.professor.School} / {ret.professor.Department}</p>
 									<p>Difficulty Score: N/A</p>
 									<p>Quality Score: N/A</p>
-									<p>Would Take Again: {ret.would_take_again}</p>
-									<p>Sentiment Analysis Score (Discrete): {ret.sentiment_score_discrete}</p>
-									<p>Sentiment Analysis Score (Continuous): {ret.sentiment_score_continuous}</p>
-									<p>Extracted Keywords (experiment feature): </p>
-									<p>{keywordsSpliter(ret.keywords).slice(0, 5)}</p>
-									<p>{keywordsSpliter(ret.keywords).slice(5, 10)}</p>
+									<p>Would Take Again: {ret.professor.Would_take_again}</p>
+									<p>Sentiment Analysis Score (Discrete): {ret.professor.Sentiment_score_discrete}</p>
+									<p>Sentiment Analysis Score (Continuous): {ret.professor.Sentiment_score_continuous}</p>
+									<p>Extracted Keywords (experimental feature): </p>
+									<p>{keywordsSpliter(ret.professor.Keywords).slice(0, 5)}</p>
+									<p>{keywordsSpliter(ret.professor.Keywords).slice(5, 10)}</p>
+									<p>Last Update at {Date(ret.professor.Update_time).toLocaleString()}</p>
+									<p>
+										Not happy with the last update time? &nbsp;
+										<button onClick = {GetProfByID_NoCache}>Fetch Latest Info</button>
+									</p>
 								</span>
 							)
 

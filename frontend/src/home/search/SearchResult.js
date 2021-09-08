@@ -67,6 +67,7 @@ export default function SearchResult(props) {
 									key={item.PID}
 									name={item.Prof_name}
 									filed={item.Department} // filed是什么？
+									department={item.Department}
 									school={item.School}
 									pid={item.PID}
 									// Quality_score, Difficulty_score, Would_take_again 还没有使用 

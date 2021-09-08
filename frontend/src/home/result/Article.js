@@ -7,7 +7,11 @@ function Article(props) {
 		<div className='article'>
 			<section id='main'>
 				<span>
-					Visit <a href='https://github.com/Xinyu-bot/AHSAR_Web'>this GitHub repository</a> for the full project: Codebase, Database, Reference List, etc.
+					New Feature that RMP does not have WILL COME SOON! 			
+				</span>
+
+				<span>
+					Visit this GitHub repository for the full project: Codebase, Database, Reference List, etc.: <a href='https://github.com/Xinyu-bot/AHSAR_Web'>Link to GitHub Repo</a>
 				</span>
 				<p id='searchByID_Intro'>
 					AHSAR intends to provide students with a different perspective on quatitatively evaluating their professors. Check the sentiment analysis result (in scale of 1 to 5) of other
@@ -27,11 +31,11 @@ function Article(props) {
 					Sentiment Score (continuous) and Sentiment Score (discrete) are usually:
 					<br /> 1. close to each other in numbers, but sometimes they differ a lot... be cautious when it happens.
 					<br /> 2. can be undeterministic in different queries, because of randomized tie-breaking.
-					<br />
+					<br /><br />
 					Notice that Sentiment Score (discrete) is computed based on individual comments, while Sentiment Score (continuous) is computed based on all comments. In other words, the higher
 					the discrete score is, the more individual comments are positive. The higher the continuous score is, the larger proportion of all comments are positive. The sentiment score can be
 					undeterministic, because of random tie-breaking.
-					<br />
+					<br /><br />
 					For example, a professor having Sentiment Score (continuous) of 2.0 and Sentiment Score (discrete) of 4.0 might imply that more individual comments are classified as positive, but
 					maybe the positive comments have really close weight on positivity and negativity, while the negative comments significantly skew to negativity. Why? Check the actual comments to
 					find the reason. Maybe the professor gives easy A, but the course is bad in many ways... or the other way around...

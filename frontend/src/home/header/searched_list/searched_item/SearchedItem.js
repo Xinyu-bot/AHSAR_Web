@@ -6,12 +6,13 @@ SearchedItem.prototype = {
 	name: PropTypes.string.isRequired,
 	pid: PropTypes.string.isRequired,
 	school: PropTypes.string.isRequired,
+	department: PropTypes.string.isRequired,
 }
 
 export default function SearchedItem(props) {
 	return (
 		<li className='searchedItem'>
-			{props.name} &nbsp; {props.pid} &nbsp; {props.school}
+			{props.name} &nbsp; {props.pid} &nbsp;&nbsp;&nbsp;&nbsp; {props.department} &nbsp;&nbsp;&nbsp;&nbsp; {props.school}
 		</li>
 	)
 }
