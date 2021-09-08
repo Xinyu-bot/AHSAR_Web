@@ -9,6 +9,9 @@ import (
 	"math/rand"
 )
 
+var profAttr = [10]string{"professor_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous", "keywords", "would_take_again", "pid", "school", "department"}
+var profPIDAttr = [4]string{"professor_name", "department", "school", "pid"}
+
 // Check and Try to retrieve query entry from Redis
 func RedisCheckResultCache(redisClient *redis.Client, input string, ctx context.Context) map[string]string {
 	// check Redis (as a fast RAM-based cache) if the input query exists
