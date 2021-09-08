@@ -294,7 +294,7 @@ export default function Result(props) {
 									<p>Sentiment Analysis Score (Discrete): N/A</p>
 									<p>Sentiment Analysis Score (Continuous): N/A</p>
 									<p>Extracted Keywords (experimental feature): N/A</p>
-									<p>Last Update at {Date(ret.professor.Update_time).toLocaleString()}</p>
+									<p>Last Update at {showTime(ret.professor.Update_time)}</p>
 									<p>
 										Not happy with the last update time? &nbsp;
 										<button onClick = {GetProfByID_NoCache}>Fetch Latest Info</button>
@@ -326,7 +326,7 @@ export default function Result(props) {
 									<p>Sentiment Analysis Score (Discrete): N/A</p>
 									<p>Sentiment Analysis Score (Continuous): N/A</p>
 									<p>Extracted Keywords (experimental feature): N/A</p>
-									<p>Last Update at {Date(ret.professor.Update_time).toLocaleString()}</p>
+									<p>Last Update at {showTime(ret.professor.Update_time)}</p>
 									<p>
 										Not happy with the last update time? &nbsp;
 										<button onClick = {GetProfByID_NoCache}>Fetch Latest Info</button>
@@ -349,7 +349,7 @@ export default function Result(props) {
 									<p>Extracted Keywords (experimental feature): </p>
 									<p>{keywordsSpliter(ret.professor.Keywords).slice(0, 5)}</p>
 									<p>{keywordsSpliter(ret.professor.Keywords).slice(5, 10)}</p>
-									<p>Last Update at {Date(ret.professor.Update_time).toLocaleString()}</p>
+									<p>Last Update at {showTime(ret.professor.Update_time)}</p>
 									<p>
 										Not happy with the last update time? &nbsp;
 										<button onClick = {GetProfByID_NoCache}>Fetch Latest Info</button>
