@@ -217,6 +217,11 @@ export default function Result(props) {
 		})
 	}
 
+	// temporary fix on time display issue
+	const showTime = (time) => {
+		let d = new Date(time)
+		return d.toUTCString().slice(0, -3) + "China Time(UTC +8)"
+	}
 
 	return (
 		<div className='result'>
@@ -264,7 +269,7 @@ export default function Result(props) {
 									<p>Extracted Keywords (experimental feature, some keywords may not make sense): </p>
 									<p>{keywordsSpliter(ret.professor.Keywords).slice(0, 5)}</p>
 									<p>{keywordsSpliter(ret.professor.Keywords).slice(5, 10)}</p>
-									<p>Updated at {Date(ret.professor.Update_time).toLocaleString()}</p>
+									<p>Updated at {showTime(ret.professor.Update_time)}</p>
 									<p>
 										Not happy with the last updated time? &nbsp;
 										<button onClick = {GetProfByID_NoCache}>Fetch Latest Info! </button>
