@@ -38,22 +38,26 @@ porterStemmer: PorterStemmer, quality_score: float, difficulty_score: float, nam
     sentiment_score_disc = round(3.0 + (4.0 * ((pos / (pos + neg)) - 0.5)), 1)
     sentiment_score_cont = round(3.0 + (4.0 * ((weight[0] / count) - 0.5)), 1)
 
-    r.extract_keywords_from_sentences(comments)
-    keywords = r.get_ranked_phrases()[:10]
+    keywords = []
+    try:
+        r.extract_keywords_from_sentences(comments)
+        keywords = [x for x in r.get_ranked_phrases() if len(x) <= 25][:10]
+    except:
+        keywords = ["No Keywords"]
 
-    return name, str(quality_score), str(difficulty_score), str(sentiment_score_disc), str(sentiment_score_cont), '#@$'.join([x.replace(' ', '`') for x in keywords])
+    return name, str(quality_score), str(difficulty_score), str(sentiment_score_disc), str(sentiment_score_cont), '|'.join([x.replace(' ', '`') for x in keywords])
 
 # retrieve comments from RMP, analyze sentimenet, and return result to Backend Server
 def analyze(comm_socket: socket.socket, pid: str) -> None:
     func_start = time()
     ret = None
     try:
-        comments, quality_score, difficulty_score, name, would_take_again = scraper.get_comments(pid) 
+        comments, quality_score, difficulty_score, name, would_take_again, school, department = scraper.get_comments(pid) 
     except scraper.UrlException:
-        ret = ("-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1") 
+        ret = ("-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1") 
     else:
         if comments == -1: 
-            ret = (name, quality_score, difficulty_score, "-1", "-1", "-1", would_take_again, pid)
+            ret = (name, quality_score, difficulty_score, "-1", "-1", "-1", would_take_again, pid, school, department)
         else:
             ret = list(analyze_sentiment(
                 comments, trigram_model, bigram_model, unigram_model, 
@@ -61,6 +65,8 @@ def analyze(comm_socket: socket.socket, pid: str) -> None:
                 ))
             ret.append(would_take_again)
             ret.append(pid)
+            ret.append(school)
+            ret.append(department)
     finally:
         ret = [str(x) for x in ret]
         print(ret)

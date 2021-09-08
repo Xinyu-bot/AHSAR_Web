@@ -16,11 +16,16 @@ def get_prof(url):
         # Professor name
         name = dom.select("div span")[2].text.strip() + ' ' + dom.select("div span")[3].text.strip()
         name = name.replace(' ', '?')
+        # professor info about department and school
+        info = dom.find("div", {"class": "NameTitle__Title-dowf0z-1 iLYGwn"})
+        # extract department and school name only
+        department = info.select("span")[0].text.replace("Professor in the", "").replace("department at", "").strip().replace(' ', '`')
+        school = info.select("a")[0].text.strip().replace(' ', '`')
 
         # Check if this professor has any rating 
         check_finder = dom.find('div', {'class': 'RatingValue__NumRatings-qw8sqy-0 jMkisx'})
         if check_finder != None and check_finder.text[0:10] == 'No ratings':
-            prof = {'name': name, 'overall_score': -1, 'would_take_again': -1, 'difficulty': -1, 'comments': -1}
+            prof = {'name': name, 'overall_score': -1, 'would_take_again': -1, 'difficulty': -1, 'comments': -1, "school": school, "department": department}
             return prof
         
         # Overall quantitative scores of this professor
@@ -58,7 +63,7 @@ def get_prof(url):
         # Each professor is stored as a dictionary in the following form:
         # {name: Adam Meyers, overall_score: 3.3, would_take_again: 0.67, difficulty: 3, comments: [a_list_of_comments]}
         # "comments" stores all the comments for this professor. Each comment is stored as a list in the form of [quality, difficulty, verbal_comment].
-        prof = {'name': name, 'overall_score': overall_score, 'would_take_again': would_take_again, 'difficulty': difficulty, 'comments': comments}
+        prof = {'name': name, 'overall_score': overall_score, 'would_take_again': would_take_again, 'difficulty': difficulty, 'comments': comments, "school": school, "department": department}
         return prof
     
     except: 
@@ -73,7 +78,7 @@ def get_comments(user_in: str) -> list:
     comments = -1
     if prof['comments'] != -1:
         comments = [x[2] for x in prof['comments']]
-    return [comments, prof['overall_score'], prof['difficulty'], prof['name'], prof['would_take_again']]
+    return [comments, prof['overall_score'], prof['difficulty'], prof['name'], prof['would_take_again'], prof["school"], prof["department"]]
 
 # This function takes a professor name as input, 
 # and returns the url of the RMP rating page of this professor
