@@ -95,7 +95,7 @@ func ObtainProfessorByPID(input, noCache string, db *sql.DB) ([]Professor, error
 					1. if professor is already in the table, update scores and keywords
 					2. if not, insert as a new row
 			*/
-			stmt, errQuery := db.Prepare("INSERT INTO prof (pid, prof_name, quality_score, difficulty_score, would_take_again, school, department, sentiment_score_continuous, sentiment_score_discrete, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE quality_score = ?, difficulty_score = ?, would_take_again = ?, sentiment_score_continuous = ?, sentiment_score_discrete = ?, keywords = ?")
+			stmt, errQuery := db.Prepare("INSERT INTO prof (pid, prof_name, quality_score, difficulty_score, would_take_again, school, department, sentiment_score_continuous, sentiment_score_discrete, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE quality_score = ?, difficulty_score = ?, would_take_again = ?, sentiment_score_continuous = ?, sentiment_score_discrete = ?, keywords = ?, update_time = current_timestamp")
 			if errQuery != nil {
 				log.Fatalf("errQuery:", errQuery)
 			}
@@ -134,7 +134,7 @@ func ObtainProfessorByPID(input, noCache string, db *sql.DB) ([]Professor, error
 
 // Obtain professor list by name
 func ObtainProfessorByName(name string, db *sql.DB) ([]Professor, error) {
-	rows, err := db.Query("SELECT pid, prof_name, quality_score, difficulty_score, would_take_again, school, department, sentiment_score_continuous, sentiment_score_discrete, keywords, create_time, update_time FROM prof WHERE MATCH(prof_name) AGAINST(?) LIMIT 10", name)
+	rows, err := db.Query("SELECT pid, prof_name, quality_score, difficulty_score, would_take_again, school, department, sentiment_score_continuous, sentiment_score_discrete, keywords, create_time, update_time FROM prof WHERE MATCH(prof_name) AGAINST(?) LIMIT 20", name)
 	defer rows.Close()
 
 	ret := []Professor{}
