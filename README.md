@@ -67,44 +67,61 @@ Server might be lagging, on and off, or unstable, because:
 [Back to top 回到顶部](#ahsar-web)
 
 ## Application Structure 服务器架构
-*   Frontend (Language: JavaScript, Framework: React.js) 
+*   Frontend 
+    *   Frontend Process (Language: JavaScript, Framework: React.js)
 *   Backend
     *   HTTP Response Server, or in the project, simply called Backend Server (Language: Go, Framework: Gin) 
     *   Partial Mirror of RMP Database (MySQL, written in C++)
-    *   NLP Server: Enhanced Version of AHSAR NLP project (Language: Python, Module: bs4, nltk) 
+    *   NLP Server: Enhanced Version of AHSAR NLP project (Language: Python, Module: `bs4`, `nltk`) 
     *   Internal Communication between Backend Server and NLP Server: Naive Socket TCP Connection
-*   Language Environment Setup: 
-    *   Go, Python, JavaScript (please choose from the most-recent/latest versions). 
-    *   Check source file in this repository to find the actual Packages/Modules involved, but basically:
-    *   JavaScript: in `/frontend` directory, `npm install`
-    *   Python: `pip install nltk`, `pip install bs4`, and `pip install rake-nltk` should be enough
-    *   Go: in `/backend` directory, `go mod download` should be enough
+
 *   ...
-*   前端 （JavaScript语言的React.js框架）
+*   前端 
+    *   前端进程（JavaScript语言的React.js框架）
 *   后端
-    *   HTTP响应服务器（下称后端服务器，Go语言的Gin框架）
-    *   RMP网站的部分镜像数据（用C++编写的MySQL）
-    *   NLP处理服务器（下称NLP服务器，Python语言，bs4和nltk模组）
+    *   HTTP响应服务器进程（下称后端服务器，Go语言的Gin框架）
+    *   RMP网站的部分镜像数据的数据库（用C++编写的MySQL）
+    *   NLP处理服务器进程（下称NLP服务器，Python语言，`bs4`和`nltk`模组）
     *   后端服务器和NLP服务器的内部通信方式：简易的Socket TCP连接
-*   语言环境
-    *   Go, Python, JavaScript (请选用最新的几个版本之一)
-    *   可以阅读代码仓库中的源码并且找到真正需要下载的包、模组，不过一般来说：
-    *   JavaScript: 需要在`/frontend`目录下执行`npm install`
-    *   Python: 需要执行`pip install nltk`, `pip install bs4`, 和`pip install rake-nltk`
-    *   Go: 需要在`/backend`目录下执行`go mod download`自动下载需要的包
 
 [Back to top 回到顶部](#ahsar-web)
 
 ## Application Setup (Locally) 本地如何运行
-*   Start MySQL `service MySQL start`
-*   Start NLP Server (in repository `/pysrc` directory, `python3 NLP_server.py`)
-*   Start Backend Server (in repository `/backend` directory, `./app`, or, to recompile again, `bash run.bash`)
-*   Start Frontend (in repository `/frontend` directory, for development mode `npm start`, or, for production mode first `npm run build` then follow the instruction on terminal)
+*   __Default setting that must comply if not modifying the code__: 
+    *   __Make Sure These Localhost's Ports Are Free__: 
+        *   3306 (MySQL), 3000 and 5000 (React.js), 8080 (Go-Gin), and 5005 (Internal TCP)
+    *   __MySQL Database Recover__:
+        *   First, in MySQL, create user `root` with password `123`; also create new database `ahsar`
+        *   Then, `gunzip` the SQL dump file in `/pysrc` directory, and recover the database using `mysql -u root -p ahsar < {unzipped_file_name}`
+        *   Or, maybe use `/pysrc/SDP_scraper.py` as a reference to construct a new database on your own
+    *   __Language Environment Setup__ - Go, Python, JavaScript (please choose from the most-recent/latest versions): 
+        *   Check source file in this repository to find the actual Packages/Modules involved, but basically...
+        *   JavaScript: in `/frontend` directory, `npm install`
+        *   Python: `pip install nltk`, `pip install bs4`, and `pip install rake-nltk` should be enough
+        *   Go: in `/backend` directory, `go mod download` should be enough
+*   Procedure to Start the Web App (commands just for reference, usually would work but no guarantee):
+    *   Start MySQL `service MySQL start`
+    *   Start NLP Server (in repository `/pysrc` directory, `python3 NLP_server.py`)
+    *   Start Backend Server (in repository `/backend` directory, `./app`, or, to recompile again, `bash run.bash`)
+    *   Start Frontend (in repository `/frontend` directory, for development mode `npm start`, or, for production mode first `npm run build` then follow the instruction on terminal)
 *   ...
-*   启动MySQL `service MySQL start`
-*   启动NLP服务器（在`/pysrc`目录下执行`python3 NLP_Server.py`）
-*   启动后端服务器（在`/backend`目录下执行`./app`，或者如果想重新编译的话，执行`bash run.bash`）
-*   启动前端（在`/frontend`目录下执行`npm start`来开启开发模式的前端进程，或者如果想开启生产模式的进程，执行`npm run build`再根据命令行中显示的指引进行下一步操作）
+*   __不改动源码的情况下必需的设定__：
+    *   __确保以下本地端口未被占用__：
+        *   3306 (MySQL), 3000 和 5000 (React.js), 8080 (Go-Gin), and 5005 (内部TCP通信)
+    *   __MySQL数据库恢复__：
+        *   首先，在MySQL中创建名为`root`, 密码为`123`的用户，并且新建名为`ahsar`的数据库
+        *   然后，用`gunzip`解压`/pysrc`目录下的SQL备份文件，执行`mysql -u root -p ahsar < {解压后的备份文件名}`来恢复数据库
+        *   也可以参考`/pysrc/SDP_scraper.py`来自行从零建立自己的数据库
+    *   __语言环境__ Go, Python, JavaScript (请选用最新的几个版本之一)：
+        *   可以阅读代码仓库中的源码并且找到真正需要下载的包、模组，不过一般来说...
+        *   JavaScript: 需要在`/frontend`目录下执行`npm install`
+        *   Python: 需要执行`pip install nltk`, `pip install bs4`, 和`pip install rake-nltk`
+        *   Go: 需要在`/backend`目录下执行`go mod download`自动下载需要的包 
+*   启动应用的流程（指令仅供参考）：
+    *   启动MySQL `service MySQL start`
+    *   启动NLP服务器（在`/pysrc`目录下执行`python3 NLP_Server.py`）
+    *   启动后端服务器（在`/backend`目录下执行`./app`，或者如果想重新编译的话，执行`bash run.bash`）
+    *   启动前端（在`/frontend`目录下执行`npm start`来启动调试模式下的前端进程；如果想以生产模式启动，执行`npm run build`再根据命令行中新显示的指引进行下一步操作）
 
 [Back to top 回到顶部](#ahsar-web)
 
@@ -129,13 +146,14 @@ Notice that Keywords Extraction (experiment feature) is implemented by `rake-nlt
 
 关于NLP服务器背后的AHSAR项目（包括8万条标记过的RMP评论和其他引用数据的数据库，RMP爬虫和N-gram算法的代码库，以及引用数据的引用参考列表），我们称之为 __AHSAR__ _Ad-Hoc Sentiment Analysis on RateMyProfessors_，欢迎访问[此GitHub代码仓库](https://github.com/Xinyu-bot/NLP_SentimentAnalysis_RMP)。代码优化质量较差，敬请谅解。
 
-关键词提取功能是由GitHub用户*csurfer*的`rake-nltk`模组完成的。欢迎访问[他的GitHub代码仓库](https://github.com/csurfer/rake-nltk)。
+“关键词提取”功能使用了GitHub用户*csurfer*的`rake-nltk`模组。欢迎访问[他的GitHub代码仓库](https://github.com/csurfer/rake-nltk)。
+
 [Back to top 回到顶部](#ahsar-web)
 
 ## License 授权证书
-Project under MIT License. Basically, feel free to adopt anything (codebase, database, reference list, paper, etc. ) from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. But a little bit of credit/reference is very appreciated. 
+Project under MIT License. Basically, feel free to adopt anything (codebase, database, reference list, paper, etc. ) from here for any usage, with no warranty, promise, or liability from the repository owners and collaborators. A little bit of credit/reference is very appreciated. 
 
-项目授权MIT证书。只要不犯法，随便玩。但是本代码仓库的拥有者、管理员、贡献者不对项目的内容作出任何拥有法律效力的保证和担保。如果能在您的项目中提到我们，不胜感激。
+项目授权MIT证书。简单来说，只要不犯法就可以随便玩，但是本代码仓库的拥有者、管理员、贡献者不对项目的内容作出任何拥有法律效力的保证和担保。如果能在您的项目中提到我们，不胜感激。
 
 [Back to top 回到顶部](#ahsar-web)
 
