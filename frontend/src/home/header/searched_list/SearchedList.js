@@ -17,7 +17,7 @@ export default function SearchedList(props) {
 			setA(JSON.parse(localStorage.getItem('searchedList')))
 		}
 		const token = PubSub.subscribe('searchedList', (msg, data) => {
-			console.log('pubsub', data)
+			// // console.log('pubsub', data)
 			setA(data)
 		})
 		//componentWillUnmount
@@ -29,7 +29,7 @@ export default function SearchedList(props) {
 	const handleClick1 = (e) => {
 		//首先利用事件委托，把事件委托给ul，要得到li里面点值，就得用e.target,而不是e.currentTarget。所以点击了谁就返回谁的innerHTML，这对英文版是没有任何问题的
 		//但是如果用户翻译了页面，页面的结构就会发生改变。这时候，最小的可点击元素不是li了。因为翻译后，li节点中会被新增font节点。。。
-		console.log('here', e.target.innerHTML, '-----------')
+		// console.log('here', e.target.innerHTML, '-----------')
 		let pid = ''
 		//当用户点击了翻译页面后，页面的结构发生了改变，之前有英文的地方，都会被加上<font>标签。虽然因为事件冒泡机制，ul的click事件还是会执行，但是他获取到的innerHTML变化了。里面多了很多font标签
 
@@ -54,7 +54,7 @@ export default function SearchedList(props) {
 			pid = e.target.innerHTML.split('&nbsp;')[1]
 		}
 
-		console.log('pid', pid) //pid是string类型，我们要数字类型
+		// console.log('pid', pid) //pid是string类型，我们要数字类型
 		history.push({
 			pathname: `/result`,
 			search: `?pid=${parseInt(pid)}`,

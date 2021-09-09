@@ -13,7 +13,7 @@ export default function Result(props) {
 	const [pid, setPid] = useState(props.location.search) // user input
 
 	useEffect(() => {
-		console.log('props', props)
+		// // console.log('props', props)
 		//接收search参数
 		const { search } = props.location
 		const { pid } = qs.parse(search.slice(1))
@@ -24,7 +24,7 @@ export default function Result(props) {
 	const [searchedList, setSearchedList] = useState(JSON.parse(localStorage.getItem('searchedList')) || []) //如果localStorage里有，就用localStorage里的.现在Result是路由组件，之前在Home普通组件里写可以只写([]),现在不能直接用【】，只有localstorage里面没有的时候才行，这是什么毛病？？？
 
 	useEffect(() => {
-		console.log('props', props)
+		// // console.log('props', props)
 		//接收search参数
 		const { search } = props.location
 		const { pid } = qs.parse(search.slice(1))
@@ -41,7 +41,7 @@ export default function Result(props) {
 	//监听searchedList是否通过setSearchedList改变成功。如果是，把改变成功的searchedList存到localStorage里
 	//must useEffect! setSearchedList会被异步执行，在主线程里面使用searchedList都不是更新过后的值。但是setSearchedList里面不能写callback，所以用useEffect
 	useEffect(() => {
-		//console.log('before', searchedList)
+		//// // console.log('before', searchedList)
 		localStorage.setItem('searchedList', JSON.stringify(searchedList))
 		PubSub.publishSync('searchedList', searchedList)
 	}, [searchedList]) //注意这里searchedList是一个object，地址没有变就不会触发useEffect
@@ -111,16 +111,16 @@ export default function Result(props) {
 			setReady(3)
 			//ready must before ret 如果显示searchbyname，然后变成searchbyid
 			setRet('')
-			console.log('pid not')
+			// // console.log('pid not')
 		} else { //pid存在
 			if (data.professor.Sentiment_score_discrete === '-1') {
 				if (data.professor.Difficulty_score === '-1' && data.professor.Quality_score === '-1') {
 					//difficulty_score，quality_score都没有
-					//console.log(4)
+					//// // console.log(4)
 					setReady(4)
 				} else {
 					//difficulty_score，quality_score都有
-					//console.log(2)
+					//// // console.log(2)
 					setReady(2)
 				}
 				//pid存在，有评论，没有difficulty_score，没有quality_score
@@ -139,7 +139,7 @@ export default function Result(props) {
 			//pid存在，但是没有评论
 			setRet(data)
 			//把符合条件的data以object的形式添加到searchedList
-			console.log('addtosearchlist')
+			// console.log('addtosearchlist')
 			addToSearchedList(data)
 		}
 	}
@@ -147,14 +147,14 @@ export default function Result(props) {
 	//Home传给Header一个函数，为了Header把pid传给Home
 	const getSearchedPid = (pid) => {
 		setPid(pid)
-		//console.log('here')
+		// console.log('here')
 		//下面axios发送请求，返回ret有延迟。在ret state被set之前，把ret state的内容设置为loading，触发一次render渲染页面。ret被返回，在setRet，再触发render重新渲染
 		//用户输入了非空的内容，Header重新渲染，显示正在加载。
 		setRet('loading')
 
 		// input validation
 		if (isNum(pid)) {
-			//console.log(pid, typeof pid)
+			//// console.log(pid, typeof pid)
 
 			// retrieve from backend API /get_prof_by_id
 			axios
@@ -167,9 +167,9 @@ export default function Result(props) {
 				.then((r) => {
 					if (r.status === 200) {
 						//正确的数据从服务器返回，Header重新渲染。
-						console.log('inter then', r.data)
+						// console.log('inter then', r.data)
 						_setRet(r.data)
-						console.log('returned data', r.data)
+						// console.log('returned data', r.data)
 					} else {
 						setReady(-1)
 					}
@@ -177,7 +177,7 @@ export default function Result(props) {
 				// catch error
 				.catch((err) => {
 					//上面的then block里面有问题
-					console.log('why', err)
+					// console.log('why', err)
 					setReady(-1)
 				})
 		}
@@ -202,9 +202,9 @@ export default function Result(props) {
 		.then((r) => {
 			if (r.status === 200) {
 				//正确的数据从服务器返回，Header重新渲染。
-				console.log('inter then', r.data)
+				// // console.log('inter then', r.data)
 				_setRet(r.data)
-				console.log('returned data', r.data)
+				// // // console.log('returned data', r.data)
 			} else {
 				setReady(-1)
 			}
@@ -212,7 +212,7 @@ export default function Result(props) {
 		// catch error
 		.catch((err) => {
 			//上面的then block里面有问题
-			console.log('why', err)
+			// // console.log('why', err)
 			setReady(-1)
 		})
 	}

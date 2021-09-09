@@ -12,7 +12,7 @@ export default function Search(props) {
 	const [pid, setPid] = useState(props.location.search) // user input
 
 	useEffect(() => {
-		console.log('props', props)
+		// console.log('props', props)
 		//接收search参数
 		const { search } = props.location
 		const { name } = qs.parse(search.slice(1))
@@ -51,7 +51,7 @@ export default function Search(props) {
 				.then((r) => {
 					if (r.status === 200) {
 						//正确的数据从服务器返回，Header重新渲染。
-						console.log(r.data)
+						// // console.log(r.data)
 						_setRetByName(r.data)
 					} else {
 						setReady(-1)
@@ -60,7 +60,7 @@ export default function Search(props) {
 				// catch error
 				.catch((err) => {
 					//上面的then block里面有问题
-					console.log(err)
+					// console.log(err)
 					setReady(-1)
 				})
 		} else {
@@ -107,6 +107,10 @@ export default function Search(props) {
 								<span>
 									<h2 id='result'>Result for {pid}</h2>
 									<p>Sorry, this name is invalid. There is no such name on RateMyProfessors.com!</p>
+									<p>
+										Notice that it is possible that RMP simply does not include the professor of your choice in their database, 
+										or that the professor has required RMP to remove his/her information. 
+									</p>
 								</span>
 							)
 						case 7:
@@ -115,6 +119,10 @@ export default function Search(props) {
 									<h2 id='result'>Result for {pid}</h2>
 
 									<SearchResult searchedListByName={ret} />
+									<p>
+										Notice that it is possible that RMP simply does not include the professor of your choice in their database, 
+										or that the professor has required RMP to remove his/her information. 
+									</p>
 								</span>
 							)
 

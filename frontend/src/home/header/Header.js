@@ -63,7 +63,7 @@ export default function Header(props) {
 				current = 'pid'
 			}
 		}
-		console.log(current)
+		// console.log(current)
 		let result = current === 'name' ? 'name' : 'pid'
 		setCategory(result)
 		let a = result === 'name' ? 'Please enter a name eg: Adam Meyers' : 'Please enter a PID eg: 2105994' //这里要用result，不用category（还没更新呢）
@@ -92,7 +92,7 @@ export default function Header(props) {
 		}
 		if (searchBy === 'pid') {
 			// 把Header组件里，用户输入的pid传给Home组件。把用户输入string前后的空格去掉。
-			console.log(searchBy, 'huiche')
+			// console.log(searchBy, 'huiche')
 
 			//props.getSearchedPid(target.value.trim())
 			history.push({
@@ -101,7 +101,7 @@ export default function Header(props) {
 			})
 		} else {
 			//search by name
-			console.log(searchBy)
+			// console.log(searchBy)
 			//props.getSearchedName(target.value.trim())
 
 			history.push({
@@ -119,7 +119,7 @@ export default function Header(props) {
 
 	//Header传给SearchedList一个函数，为了SearchedList把pid传给Header,然后Header再传给Home
 	const getClickedPid = (pid) => {
-		console.log('here', pid)
+		// console.log('here', pid)
 		props.getSearchedPid(pid)
 	}
 

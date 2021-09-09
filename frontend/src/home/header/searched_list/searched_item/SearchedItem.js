@@ -12,7 +12,7 @@ SearchedItem.prototype = {
 export default function SearchedItem(props) {
 	return (
 		<li className='searchedItem'>
-			{props.name} &nbsp; {props.pid} &nbsp;&nbsp;&nbsp;&nbsp; {props.department} &nbsp;&nbsp;&nbsp;&nbsp; {props.school}
+			{props.name} &nbsp; {props.pid} &nbsp; {props.school} &nbsp; {props.department}
 		</li>
 	)
 }
