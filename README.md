@@ -4,7 +4,7 @@ Development In Progress
 - [AHSAR Web](#ahsar-web)
   - [Introduction 介绍](#introduction-介绍)
   - [Notice on Server Status 服务器状态](#notice-on-server-status-服务器状态)
-  - [Application Structure 服务器架构](#application-structure-服务器架构)
+  - [Application Structure 应用架构](#application-structure-应用架构)
   - [Application Setup (Locally) 本地如何运行](#application-setup-locally-本地如何运行)
   - [Public API (To be Expanded) 公开调用的API](#public-api-to-be-expanded-公开调用的api)
   - [A Bit More About NLP Server 关于NLP服务器](#a-bit-more-about-nlp-server-关于nlp服务器)
@@ -66,7 +66,7 @@ Server might be lagging, on and off, or unstable, because:
 
 [Back to top 回到顶部](#ahsar-web)
 
-## Application Structure 服务器架构
+## Application Structure 应用架构
 *   Frontend 
     *   Frontend Process (Language: JavaScript, Framework: React.js)
 *   Backend
