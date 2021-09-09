@@ -142,6 +142,15 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 ## Project History 项目历史
 *   ... 只做简单的翻译
 
+*   2021/09/09:
+    *   Frontend:
+        *   Remove console message from completed components
+        *   Minor refinement on display and layout
+    *   Backend:
+        *   Update time, or the underlying field name in MySQL `update_time`: 
+            *   is now correctly updated with `current_timestamp`, regardless of the actual data has been updated or not
+            *   we want to keep track of the time we fetch and analyze data from RMP website and show it to user so that user can know the info is newly fetched
+
 *   2021/09/08:
     *   Frontend:
         *   Minor syntax change due to API tweak that changes the returned values
