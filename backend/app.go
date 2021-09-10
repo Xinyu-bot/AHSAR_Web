@@ -4,7 +4,9 @@ import (
 	"log"
 	//"context"
 	"database/sql"
+
 	"github.com/gin-gonic/gin"
+
 	//"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -24,7 +26,7 @@ func main() {
 
 	db.SetMaxIdleConns(10)
 	db.SetMaxOpenConns(20)
-	if err := db.Ping(); err != nil{
+	if err := db.Ping(); err != nil {
 		log.Fatal("Failed to connect MySQL")
 	}
 
@@ -37,12 +39,7 @@ func main() {
 		APIs avail for frontend
 	*/
 	// default GET for main page
-	r.GET("/", func(c *gin.Context) {
-		// return default response to frontend
-		c.JSON(200, gin.H{
-			"message": "Welcome to AHSAR web page! ",
-		})
-	})
+	r.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "Welcome to AHSAR web page! "}) }) // return default response to frontend
 	// get professor sentiment analysis score by professor ID
 	r.GET("/get_prof_by_id", GetProfByID)
 	// get professor's PID from RMP website by professor name
@@ -55,23 +52,23 @@ func main() {
 	r.GET("/get_prof_by_department", GetProfByDepartment)
 
 	// serve on port 8080
-	r.Run(":8080") 
+	r.Run(":8080")
 }
 
 // CORS for all origins
 func CORSMiddleware() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        c.Writer.Header().Set("Content-Type", "application/json")
-        c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-        c.Writer.Header().Set("Access-Control-Max-Age", "86400")
-        c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
-        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-Max")
-        c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Content-Type", "application/json")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Max-Age", "86400")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-Max")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 
-        if c.Request.Method == "OPTIONS" {
-            c.AbortWithStatus(200)
-        } else {
-            c.Next()
-        }
-    }
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(200)
+		} else {
+			c.Next()
+		}
+	}
 }

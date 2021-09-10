@@ -15,9 +15,9 @@ func GetPidByName(c *gin.Context) {
 	fmt.Println("[LOG] query input: " + input)
 
 	/*
-	fetch from MySQL directly using indexed qeury
-	response time in 5ms, which is fast enough
-	so as for now, no Redis (as cache database) is involved
+		fetch from MySQL directly using indexed qeury
+		response time in 5ms, which is fast enough
+		so as for now, no Redis (as cache database) is involved
 	*/
 	ret, err := ObtainProfessorByName(input, db)
 	if err != nil || len(ret) == 0 {
@@ -29,8 +29,8 @@ func GetPidByName(c *gin.Context) {
 	// return response to frontend with unique hash for each query
 	hash := fastHash(c.ClientIP(), input)
 	c.JSON(200, gin.H{
-		"queryHash": hash, 
-		"hasResult": hasResult, 
-		"ret": ret, 
+		"queryHash": hash,
+		"hasResult": hasResult,
+		"ret":       ret,
 	})
 }

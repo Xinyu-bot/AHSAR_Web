@@ -9,7 +9,7 @@ import (
 func GetSchoolsByInitial(c *gin.Context) {
 	// extract school name from request query
 	initial := c.Query("initial")
-	
+
 	// initialize hasResult storing boolean value whether there is actual result or not
 	var hasResult string
 	log.Println("query input: initial = {" + initial + "}")
@@ -25,12 +25,12 @@ func GetSchoolsByInitial(c *gin.Context) {
 	} else {
 		hasResult = "true"
 	}
-	
+
 	// return response to frontend with unique hash for each query
 	hash := fastHash(c.ClientIP(), initial)
 	c.JSON(200, gin.H{
-		"queryHash": hash,
+		"queryHash":  hash,
 		"schoolList": ret,
-		"hasResult": hasResult,
+		"hasResult":  hasResult,
 	})
 }

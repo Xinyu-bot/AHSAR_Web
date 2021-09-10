@@ -10,7 +10,7 @@ func GetProfByDepartment(c *gin.Context) {
 	// extract school name from request query
 	school := c.Query("school")
 	department := c.Query("department")
-	
+
 	// initialize hasResult storing boolean value whether there is actual result or not
 	var hasResult string
 	log.Println("query input: school = {" + school + "}, department = {" + department + "}")
@@ -28,10 +28,10 @@ func GetProfByDepartment(c *gin.Context) {
 	}
 
 	// return response to frontend with unique hash for each query
-	hash := fastHash(c.ClientIP(), school + department)
+	hash := fastHash(c.ClientIP(), school+department)
 	c.JSON(200, gin.H{
 		"queryHash": hash,
-		"pList": ret,
+		"pList":     ret,
 		"hasResult": hasResult,
 	})
 }

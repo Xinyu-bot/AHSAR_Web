@@ -1,12 +1,13 @@
 package main
 
 import (
-	"log"
 	"context"
-	"github.com/go-redis/redis/v8"
-	"time"
-	"strconv"
+	"log"
 	"math/rand"
+	"strconv"
+	"time"
+
+	"github.com/go-redis/redis/v8"
 )
 
 var profAttr = [10]string{"professor_name", "quality_score", "difficulty_score", "sentiment_score_discrete", "sentiment_score_continuous", "keywords", "would_take_again", "pid", "school", "department"}
@@ -17,7 +18,7 @@ func RedisCheckResultCache(redisClient *redis.Client, input string, ctx context.
 	// check Redis (as a fast RAM-based cache) if the input query exists
 	res, err := redisClient.HGetAll(ctx, input).Result()
 	if err != nil {
-		log.Fatalf("CheckCache err:", err)
+		log.Fatal("CheckCache err:", err)
 	}
 
 	return res
@@ -33,14 +34,14 @@ func RedisUpdateResultCache(redisClient *redis.Client, input string, values []st
 	// store the query result into Redis
 	ok, err := redisClient.HSet(ctx, input, m).Result()
 	if err != nil {
-		log.Fatalf("UpdateCache err:", err)
+		log.Fatal("UpdateCache err:", err)
 	}
 
 	// set the expiration time of cache --> random in range of 1 to 6 hours
 	rand.Seed(time.Now().Unix())
-	_, expErr := redisClient.Expire(ctx, input, time.Duration((rand.Intn(6) + 1)) * 60 * 60 * time.Second).Result()
+	_, expErr := redisClient.Expire(ctx, input, time.Duration((rand.Intn(6)+1))*60*60*time.Second).Result()
 	if expErr != nil {
-		log.Fatalf("SetExpire err:", expErr)
+		log.Fatal("SetExpire err:", expErr)
 	}
 
 	return ok
@@ -51,7 +52,7 @@ func RedisCheckNameCache(redisClient *redis.Client, input string, ctx context.Co
 	// check Redis (as a fast RAM-based cache) if the input query exists
 	res, err := redisClient.HGetAll(ctx, input).Result()
 	if err != nil {
-		log.Fatalf("CheckCache err:", err)
+		log.Fatal("CheckCache err:", err)
 	}
 
 	return res
@@ -68,14 +69,14 @@ func RedisUpdateNameCache(redisClient *redis.Client, input string, values []stri
 	// store the query result into Redis
 	ok, err := redisClient.HSet(ctx, input, m).Result()
 	if err != nil {
-		log.Fatalf("UpdateCache err:", err)
+		log.Fatal("UpdateCache err:", err)
 	}
 
 	// set the expiration time of cache --> random in range of 1 to 6 hours
 	rand.Seed(time.Now().Unix())
-	_, expErr := redisClient.Expire(ctx, input, time.Duration((rand.Intn(6) + 1)) * 60 * 60 * time.Second).Result()
+	_, expErr := redisClient.Expire(ctx, input, time.Duration((rand.Intn(6)+1))*60*60*time.Second).Result()
 	if expErr != nil {
-		log.Fatalf("SetExpire err:", expErr)
+		log.Fatal("SetExpire err:", expErr)
 	}
 
 	return ok
@@ -86,7 +87,7 @@ func RedisCheckDepartmentList(redisClient *redis.Client, input string, ctx conte
 	// check Redis (as a fast RAM-based cache) if the input query exists
 	res, err := redisClient.HGetAll(ctx, input).Result()
 	if err != nil {
-		log.Fatalf("CheckCache err:", err)
+		log.Fatal("CheckCache err:", err)
 	}
 
 	return res
@@ -103,17 +104,17 @@ func RedisUpdateDepartmentList(redisClient *redis.Client, input string, values [
 	// store the query result into Redis
 	ok, err := redisClient.HSet(ctx, input, m).Result()
 	if err != nil {
-		log.Fatalf("UpdateCache err:", err)
+		log.Fatal("UpdateCache err:", err)
 	}
 
 	// no expiration time because there is no way to retrive RMP's department data JIT...
 	/*
-	// set the expiration time of cache --> random in range of 1 to 6 hours
-	rand.Seed(time.Now().Unix())
-	_, expErr := redisClient.Expire(ctx, input, time.Duration((rand.Intn(6) + 1)) * 60 * 60 * time.Second).Result()
-	if expErr != nil {
-		log.Fatalf("SetExpire err:", expErr)
-	}
+		// set the expiration time of cache --> random in range of 1 to 6 hours
+		rand.Seed(time.Now().Unix())
+		_, expErr := redisClient.Expire(ctx, input, time.Duration((rand.Intn(6) + 1)) * 60 * 60 * time.Second).Result()
+		if expErr != nil {
+			log.Fatal("SetExpire err:", expErr)
+		}
 	*/
 
 	return ok

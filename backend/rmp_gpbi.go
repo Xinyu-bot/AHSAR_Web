@@ -30,11 +30,10 @@ func GetProfByID(c *gin.Context) {
 		res = ret[0]
 	}
 
-	
 	// return response to frontend with unique hash for each query
 	hash := fastHash(c.ClientIP(), input)
 	c.JSON(200, gin.H{
-		"queryHash": hash, 
+		"queryHash": hash,
 		"hasResult": hasResult,
 		"professor": res,
 	})
