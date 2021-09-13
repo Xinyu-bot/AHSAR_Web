@@ -315,7 +315,7 @@ export default function Result(props) {
 							return (
 								<span>
 									<h2 id='result'>Result for {pid}</h2>
-									<p>Professor: {ret.professor.Professor_name}</p>
+									<p>Professor: {ret.professor.Prof_name}</p>
 									<p>(This professor has no difficulty score and no quality score yet!)</p>
 									<p>PID: {ret.professor.PID}</p>
 									<p>School / Department: {ret.professor.School} / {ret.professor.Department}</p>
@@ -337,7 +337,7 @@ export default function Result(props) {
 							return (
 								<span>
 									<h2 id='result'>Result for {pid}</h2>
-									<p>Professor: {ret.professor.Professor_name}</p>
+									<p>Professor: {ret.professor.Prof_name}</p>
 									<p>(This professor has no difficulty score and no quality score yet!)</p>
 									<p>PID: {ret.professor.PID}</p>
 									<p>School / Department: {ret.professor.School} / {ret.professor.Department}</p>
