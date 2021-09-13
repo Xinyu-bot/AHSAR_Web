@@ -160,6 +160,28 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 ## Project History 项目历史
 *   ... 只做简单的翻译
 
+* 2021/09/14:
+    *   Frontend:
+        *   Fix on info display - legacy problem from last API rework 
+    *   Backend:
+        *   Continuous Mirroring of RMP:
+            *   Periodically fetch data about all newly added professors on RMP and analyzed
+            *   Update MySQL database with the new data
+            *   6 hours per round, for now
+            *   Using gorountine for concurrency, of course
+    *   Automation:
+        *   Bash scripts for automation on shutdown, recompile, and deploy processes. 
+    *   前端：
+        *   修复了因为上次API重做所导致的部分数据的显示问题
+    *   后端：
+        *   持续镜像备份RMP：
+            *   周期性地从RMP网站上读取所有新增加教授的数据，并且进行NLP分析处理
+            *   更新MySQL数据库
+            *   目前设定为6小时进行一次
+            *   使用goroutine并发处理
+    *   自动化：
+        *   增加了关闭、重编译、以及启动进程的Bash脚本
+
 *   2021/09/09:
     *   Frontend:
         *   Remove console message from completed components
@@ -311,18 +333,16 @@ Notice that this TODO list is not ordered by any factor (estimated finish time, 
 *   ...
 *   Optimization, Modularization, Robustness...
 *   More features, functions, tools...
-*   Continuous and automatic update SDP model slowly
 *   Server auto-recovering from fatal error of NLP or Redis processes. 
 *   Allow user to submit a paragraph of commentary and obtain sentiment analysis result. 
 *   Redis comeback to handle flood attack or continuous request on not-exist professor
 *   TCP/Redis Connection pool. 
-*   Usage of Goroutine... Multi-everything! But where to use it? 
+*   Usage of Goroutine... Multi-everything! 
 *   Auto-restart Tencent Cloud Server when server is down because of internal issue: resource shortage, flood attack, etc. 
 
 待完成事项（排序不分先后且仅供参考，完成时间无保证）
-*   更多功能
 *   代码优化、模块化、提升健壮性
-*   慢慢地、持续地、自动化更新SDP模型
+*   更多功能
 *   服务器自动恢复，应对TCP或者Redis连接断开的情况
 *   用户可以上传一段评论，服务器处理之后返回该评论的情绪分析结果
 *   Redis回归，处理flood attack或大量无效请求
