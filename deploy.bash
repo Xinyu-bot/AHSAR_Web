@@ -6,6 +6,7 @@ serve -s build &
 cd ../
 cd pysrc/ # must move to ./pysrc/ directory for NLP-related files to be loaded successfully
 python3 NLP_server.py &
+sleep 5s
 
 # run backend
 cd ../
