@@ -3,14 +3,10 @@ package main
 import (
 	"database/sql"
 	"log"
-	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
-
-	//"github.com/go-redis/redis/v8"
-	//"context"
 	_ "github.com/go-sql-driver/mysql"
+	//"github.com/go-redis/redis/v8"
 )
 
 var db *sql.DB
@@ -35,41 +31,7 @@ func main() {
 	/*
 		Periodically update MySQL database with newly added Professors on RMP
 	*/
-	go func() {
-		for {
-			// fetch max PID existed in MySQL database
-			maxPID, err_max := ObtainMaxPID(db)
-			if err_max != nil {
-				log.Fatal("err_max:", err_max)
-			}
-			log.Println(maxPID)
-
-			// initialize varibales for the loop
-			var prof []Professor
-			var err_prof error
-			var nextPID string
-			// fetch and update next professor info
-			maxPID += 1
-			nextPID = strconv.Itoa(maxPID)
-			prof, err_prof = ObtainProfessorByPID(nextPID, "false", db)
-
-			// while there is something new on RMP, continue to fetch more!
-			for len(prof) == 1 && err_prof == nil {
-				// fetch and update next professor info
-				maxPID += 1
-				nextPID = strconv.Itoa(maxPID)
-				prof, err_prof = ObtainProfessorByPID(nextPID, "false", db)
-			}
-
-			// now that all newly added professors have been fetched and added to MySQL database,
-			// compute next timestamp and wait
-			now := time.Now()
-			next := now.Add(time.Hour * 6)
-			next = time.Date(next.Year(), next.Month(), next.Day(), next.Hour(), next.Minute(), next.Second(), 0, next.Location())
-			t := time.NewTimer(next.Sub(now))
-			<-t.C
-		}
-	}()
+	go PeriodicUpdate()
 
 	/*
 		MiddleWare
