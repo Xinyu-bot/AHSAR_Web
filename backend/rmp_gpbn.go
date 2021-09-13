@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
-	//"time"
+
 	"github.com/gin-gonic/gin"
-	//"strings"
 )
 
 func GetPidByName(c *gin.Context) {
