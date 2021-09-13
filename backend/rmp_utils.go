@@ -28,6 +28,25 @@ type Professor struct {
 	Update_time                string // `json: "upate_time" form: "upate_time"`
 }
 
+// Obtain maximum PID in the Database
+func ObtainMaxPID(db *sql.DB) (int, error) {
+	rows, err := db.Query("SELECT MAX(pid) FROM prof")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	var ret int
+	for rows.Next() {
+		err = rows.Scan(&ret)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	return ret, err
+}
+
 // Obtain Professor result by PID
 func ObtainProfessorByPID(input, noCache string, db *sql.DB) ([]Professor, error) {
 	/*
@@ -61,7 +80,6 @@ func ObtainProfessorByPID(input, noCache string, db *sql.DB) ([]Professor, error
 	}
 	// if all good... return the result
 	if len(ret_t) == 1 && ret_t[0].Sentiment_score_discrete != "-2" && noCache != "true" {
-		log.Println(ret_t[0])
 		return ret_t, err_t
 	}
 
