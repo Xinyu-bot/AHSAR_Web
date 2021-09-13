@@ -220,7 +220,7 @@ export default function Result(props) {
 	// temporary fix on time display issue
 	const showTime = (time) => {
 		let d = new Date(time)
-		return d.toUTCString().slice(0, -3) + "China Time(UTC +8)"
+		return d.toString() + ' or ' +  d.toUTCString()
 	}
 
 	return (
