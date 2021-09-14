@@ -12,6 +12,8 @@ import (
 var db *sql.DB
 
 func main() {
+	// set gin Framework to release mode
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
 	// Simple MySQL connection
@@ -39,20 +41,25 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	/*
-		APIs avail for frontend
+		default GET for main page
 	*/
-	// default GET for main page
 	r.GET("/", func(c *gin.Context) { c.JSON(200, gin.H{"message": "Welcome to AHSAR web page! "}) }) // return default response to frontend
-	// get professor sentiment analysis score by professor ID
-	r.GET("/get_prof_by_id", GetProfByID)
-	// get professor's PID from RMP website by professor name
-	r.GET("/get_pid_by_name", GetPidByName)
-	// TOOD: get schools list by initial
-	r.GET("/get_schools_by_initial", GetSchoolsByInitial)
-	// get departments list by school name
-	r.GET("/get_departments_by_school", GetDepartmentsBySchool)
-	// get professors list by school and department names
-	r.GET("/get_prof_by_department", GetProfByDepartment)
+
+	/*
+		Static File
+	*/
+	r.StaticFile("/favicon.ico", "./src/static/favicon/favicon.ico")
+	r.StaticFile("/logo.png", "./src/static/logo/logo.png")
+	r.StaticFile("/logo.svg", "./src/static/logo/logo.svg")
+
+	/*
+		Actual Service
+	*/
+	r.GET("/get_prof_by_id", GetProfByID)                       // get professor sentiment analysis score by professor ID
+	r.GET("/get_pid_by_name", GetPidByName)                     // get professor's PID from RMP website by professor name
+	r.GET("/get_schools_by_initial", GetSchoolsByInitial)       // get schools list by initial
+	r.GET("/get_departments_by_school", GetDepartmentsBySchool) // get departments list by school name
+	r.GET("/get_prof_by_department", GetProfByDepartment)       // get professors list by school and department names
 
 	// serve on port 8080
 	r.Run(":8080")
