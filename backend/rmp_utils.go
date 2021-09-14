@@ -30,13 +30,23 @@ type Professor struct {
 }
 
 func PeriodicUpdate() {
+	// fetch max PID existed in MySQL database
+	maxPID, err_max := ObtainMaxPID(db)
+	if err_max != nil {
+		log.Fatal("err_max:", err_max)
+	}
+	/*
+		check for newly added professors starting from the maxPID retrieved at the deployment of server,
+		using the maxPID by the end of last periodic update, instead of dynamically fetching the maxPID from MySQL database...
+		maybe some newly added professors have been inserted into the database because users have searched them by ID,
+		but consider a case if we use dynamically fetched maxPID for each periodic update:
+			1. assume PID #10 is the maxPID by the end of last periodic update, and #11 and after are all non-exist at that moment
+			2. RMP adds #11 and #12 professors on their website
+			3. user searches about #12 professor, so data about #12 professor is fetched from RMP, analyzed by NLP Server, and inserted into MySQL database
+			4. the dynamically fetched maxPID is now #12, and next periodic update will start from #12 + 1 = #13
+			5. notice that #11 is skipped and won't be able to be searched by users in SDP or by name, until someone searches #11 by ID
+	*/
 	for {
-		// fetch max PID existed in MySQL database
-		maxPID, err_max := ObtainMaxPID(db)
-		if err_max != nil {
-			log.Fatal("err_max:", err_max)
-		}
-
 		// initialize varibales for the loop
 		var prof []Professor
 		var err_prof error
