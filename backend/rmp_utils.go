@@ -35,6 +35,7 @@ func PeriodicUpdate() {
 	if err_max != nil {
 		log.Fatal("err_max:", err_max)
 	}
+
 	/*
 		check for newly added professors starting from the maxPID retrieved at the deployment of server,
 		using the maxPID by the end of last periodic update, instead of dynamically fetching the maxPID from MySQL database...
