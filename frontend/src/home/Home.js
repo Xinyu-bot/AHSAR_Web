@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { Switch, Route, useHistory } from 'react-router-dom'
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
 import Search from './search/Search'
-import Header from './header/Header'
 import Result from './result/Result'
-import Article from './result/Article'
 import Content from './content/Content'
 import './Home.css'
 function Home() {
