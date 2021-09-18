@@ -54,14 +54,10 @@ export default function Content() {
 			<div className='header-wrap'>
 				<div className='header2'>
 					<span id='home'>
-						<a  href='#'>
-							Home
-						</a>
+						<a href='#'>Home</a>
 					</span>
 					<span id='about'>
-						<a href='#main'>
-							ABOUT
-						</a>
+						<a href='#main'>ABOUT</a>
 					</span>
 				</div>
 			</div>
@@ -69,12 +65,14 @@ export default function Content() {
 			<div className='content-wrap'>
 				<div className='search-wrap'>
 					<div className='search'>
-						<div>Search professor by {category}</div>
+						<div>
+							<span className='default'>Search professor by {category}</span>
+						</div>
 
 						<input onKeyUp={handleKeyUp} className='search-box' autoComplete='off' placeholder='Please enter a PID eg: 2105994' />
 
 						<div className='select_name' onClick={handleClick5}>
-							I want to search professor by {category === 'name' ? 'pid' : 'name'}
+							<span className='pointer'>I want to search professor by {category === 'name' ? 'pid' : 'name'}</span>
 						</div>
 					</div>
 				</div>

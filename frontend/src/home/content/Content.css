@@ -7,6 +7,12 @@
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
+.content .pointer {
+	cursor: pointer;
+}
+.content .default {
+	cursor: default;
+}
 
 .content .header-wrap .header2 {
 	position: fixed;
