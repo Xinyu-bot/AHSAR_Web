@@ -79,6 +79,7 @@ func PeriodicUpdate() {
 
 		// after #FETCH_FAIL_TOLERANCE consecutive failure on fetching new PID, conservatively backoff maxPID by #FETCH_FAIL_TOLERANCE
 		maxPID -= FETCH_FAIL_TOLERANCE
+		invalidPID = 0
 
 		// now that all newly added professors have been fetched and added to MySQL database,
 		// compute next timestamp and wait
