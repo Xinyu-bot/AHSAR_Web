@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/unrolled/secure"
 	//"github.com/go-redis/redis/v8"
 )
 
@@ -38,6 +39,7 @@ func main() {
 	/*
 		MiddleWare
 	*/
+	r.Use(TlsHandler())
 	r.Use(CORSMiddleware())
 
 	/*
@@ -62,7 +64,7 @@ func main() {
 	r.GET("/get_prof_by_department", GetProfByDepartment)       // get professors list by school and department names
 
 	// serve on port 8080
-	r.Run(":8080")
+	r.RunTLS(":8080", "ahsar.pem", "ahsar.key")
 }
 
 // CORS for all origins
@@ -80,5 +82,21 @@ func CORSMiddleware() gin.HandlerFunc {
 		} else {
 			c.Next()
 		}
+	}
+}
+
+// TSL handler #https://www.jianshu.com/p/01057d2c37e4
+func TlsHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		secureMiddleware := secure.New(secure.Options{
+			SSLRedirect: true,
+			SSLHost:     "localhost:8080",
+		})
+		err := secureMiddleware.Process(c.Writer, c.Request)
+		// If there was an error, do not continue.
+		if err != nil {
+			return
+		}
+		c.Next()
 	}
 }
