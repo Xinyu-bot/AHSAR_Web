@@ -15,7 +15,7 @@ Development In Progress
 ## Introduction 介绍
 Web Application for AHSAR
 
-Temporary Website at Tencent Cloud: http://ahsar.club:5000/
+https://www.ahsar.club/
 
 AHSAR intends to provide students with a different perspective on quatitatively evaluating their professors. Check the sentiment analysis result (in scale of 1 to 5) of other students' commentary on the professor of your choice by entering the `tid`(in AHSAR, it is called PID) in a professor URL from RateMyProfessors.com website, or the name (preferably full name) of professor. 
 
@@ -34,7 +34,7 @@ For example, a professor having Sentiment Score (continuous) of 2.0 and Sentimen
 
 AHSAR网页应用
 
-运行在腾讯云服务器上的临时网址：http://ahsar.club:5000/
+https://www.ahsar.club/
 
 AHSAR旨在为在美大学生提供一个量化评估教授的新角度。通过输入RateMyProfessors.com网站上教授URL末位的`tid`或者教授名字（最好是全名），用户就可以得到其他学生对于该教授的评语的情绪分析结果。得分从低到高是1到5分。
 
@@ -159,6 +159,32 @@ Project under MIT License. Basically, feel free to adopt anything (codebase, dat
 
 ## Project History 项目历史
 *   ... 只做简单的翻译
+
+* 2021/09/20:
+    *   Chinese Government ICP record approved! Security and Validity of AHSAR Web is largely promoted because now illegal activity will result in serious consequences.  
+    *   Frontend:
+        *   API callings are now HTTPS
+        *   As per requested, ICP record is now shown at the bottom of home page
+    *   Backend:
+        *   HTTPS handler middleware
+        *   Fix a problem where no newly added professors have been fetched:
+            *   now, there is a tolerant number of 20 of failed fetching attempts before the periodic update stops
+            *   when limit is reached, `maxPID` will be backoffed by 20 for the next periodic update - to be a bit more conservative and try to re-fetch some of the previously-failed PID
+    *   SSL certificates from TrustAsia TLS RSA CA:
+        *   named as `ahsar.pem` and `ahsar.key` in `/backend` and `/frontend` directories... could be put in the root though
+        *   ignored by `.gitignore` so will not be tracked by version control or be uploaded into this GitHub repository
+    *   中国工信部ICP备案通过 - 粤ICP备2021131165号 - 提升网站安全性和可靠度
+    *   前端：
+        *   API调用升级为HTTPS
+        *   应工信部要求，备案号显示在首页最下方
+    *   后端：
+        *   HTTPS处理中间件
+        *   修复了一个周期性更新新增教授不再更新的问题：
+            *   现在，服务器只会在获取信息失败的PID达到20个的时候停止这次周期性更新
+            *   停止之后，出于保守考虑，`maxPID`会回退20，这样下次周期性更新的时候可以尝试再次获取上次失败的PID的信息
+    *   SSL证书签发自TrustAsia TLS RSA CA：
+        *   SSL证书命名为`ahsar.pem`和`ahsar.key`，放在`/backend`和`/frontend`目录下
+        *   已经被`.gitignore`文件给忽略了，所以不会被上传到GitHub仓库里
 
 * 2021/09/14:
     *   Frontend:
