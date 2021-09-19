@@ -79,6 +79,11 @@ export default function Content() {
 			</div>
 
 			<Article />
+			<div id='footer'>
+				<span> 粤ICP备2021131165号-1 | 粤ICP备2021131165号 | </span> 
+				<a href='https://beian.miit.gov.cn/#/Integrated/recordQuery'> 工信部查询 | </a>
+				<a href = 'https://github.com/Xinyu-bot/AHSAR_Web'> GitHub Repository </a>
+			</div>
 		</div>
 	)
 }

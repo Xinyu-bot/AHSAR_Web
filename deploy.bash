@@ -1,6 +1,6 @@
 # run frontend
 cd frontend/
-nohup serve -s build &
+nohup serve -l 80 -s build &
 
 # run NLP Server
 cd ../

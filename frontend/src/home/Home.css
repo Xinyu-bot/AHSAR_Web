@@ -3,19 +3,3 @@
 	padding-bottom: 20px;
 }
 
-.Home #footer {
-	position: fixed;
-	bottom: 0;
-	background-color: rgb(242, 242, 243);
-	width: 100%;
-	text-align: center;
-}
-
-.Home #footer a {
-	color: black;
-	font-weight: 300;
-}
-.Home #footer a:visited {
-	color: black;
-	font-weight: 300;
-}

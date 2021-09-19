@@ -158,7 +158,7 @@ export default function Result(props) {
 
 			// retrieve from backend API /get_prof_by_id
 			axios
-				.get('http://1.14.137.215:8080/get_prof_by_id', {
+				.get('/get_prof_by_id', {
 					params: {
 						input: pid,
 					},
@@ -192,7 +192,7 @@ export default function Result(props) {
 	const GetProfByID_NoCache = () => {
 		// retrieve from backend API /get_prof_by_id
 		axios
-		.get('http://1.14.137.215:8080/get_prof_by_id', {
+		.get('/get_prof_by_id', {
 			params: {
 				input: pid,
 				noCache: "true", 

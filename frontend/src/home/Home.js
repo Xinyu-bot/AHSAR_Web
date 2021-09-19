@@ -12,9 +12,7 @@ function Home() {
 				<Route path='/search_by_name' component={Search}></Route>
 				<Route path='/' component={Content}></Route>
 			</Switch>
-			<div id='footer'>
-				粤ICP备2021131165号-1 | 粤ICP备2021131165号 | <a href='https://beian.miit.gov.cn/#/Integrated/recordQuery'>工信部查询</a>{' '}
-			</div>
+
 		</div>
 	)
 }

@@ -42,7 +42,7 @@ export default function Search(props) {
 		if (!hasNumber(name)) {
 			// retrieve from backend API /get_prof_by_id
 			axios
-				.get('http://1.14.137.215:8080/get_pid_by_name', {
+				.get('/get_pid_by_name', {
 					params: {
 						input: name,
 					},
