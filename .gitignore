@@ -1,6 +1,11 @@
 # JavaScript
 package-lock.json
 
+# SSL certificate and permission files
+*.key
+*.pem
+*.csr
+
 ##########################################
 # Go
 # Binaries for programs and plugins
