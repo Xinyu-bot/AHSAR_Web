@@ -29,6 +29,9 @@ type Professor struct {
 	Update_time                string // `json: "upate_time" form: "upate_time"`
 }
 
+// this is just an arbitrary number, because RMP sometimes registers new professors with non-consecutive IDs...
+const FETCH_FAIL_TOLERANCE int = 20
+
 func PeriodicUpdate() {
 	// fetch max PID existed in MySQL database
 	maxPID, err_max := ObtainMaxPID(db)
@@ -52,18 +55,30 @@ func PeriodicUpdate() {
 		var prof []Professor
 		var err_prof error
 		var nextPID string
+		var invalidPID int
 		// fetch and update next professor info
 		maxPID += 1
 		nextPID = strconv.Itoa(maxPID)
 		prof, err_prof = ObtainProfessorByPID(nextPID, "false", db)
+		// if professor does not exist or fetching process failed, increment the counter by 1
+		if len(prof) < 1 || err_prof != nil {
+			invalidPID += 1
+		}
 
-		// while there is something new on RMP, continue to fetch more!
-		for len(prof) == 1 && err_prof == nil {
+		// try for an arbitrary number of #FETCH_FAIL_TOLERANCE of posterior PID
+		for invalidPID < FETCH_FAIL_TOLERANCE {
 			// fetch and update next professor info
 			maxPID += 1
 			nextPID = strconv.Itoa(maxPID)
 			prof, err_prof = ObtainProfessorByPID(nextPID, "false", db)
+			// if professor does not exist or fetching process failed, increment the counter by 1
+			if len(prof) < 1 || err_prof != nil {
+				invalidPID += 1
+			}
 		}
+
+		// after #FETCH_FAIL_TOLERANCE consecutive failure on fetching new PID, conservatively backoff maxPID by #FETCH_FAIL_TOLERANCE
+		maxPID -= FETCH_FAIL_TOLERANCE
 
 		// now that all newly added professors have been fetched and added to MySQL database,
 		// compute next timestamp and wait
