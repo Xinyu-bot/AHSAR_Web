@@ -64,7 +64,7 @@ func main() {
 	r.GET("/get_prof_by_department", GetProfByDepartment)       // get professors list by school and department names
 
 	// serve on port 8080
-	r.RunTLS(":8080", "ahsar.pem", "ahsar.key")
+	r.RunTLS(":8080", "./ahsar.pem", "./ahsar.key")
 }
 
 // CORS for all origins
