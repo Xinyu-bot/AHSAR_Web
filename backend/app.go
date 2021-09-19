@@ -95,7 +95,7 @@ func TlsHandler() gin.HandlerFunc {
 		err := secureMiddleware.Process(c.Writer, c.Request)
 		// If there was an error, do not continue.
 		if err != nil {
-			return
+			log.Fatal("TLS Handler Failure...")
 		}
 		c.Next()
 	}
