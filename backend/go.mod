@@ -3,7 +3,7 @@ module app
 go 1.16
 
 require (
-	github.com/gin-gonic/gin v1.7.3
+	github.com/gin-gonic/gin v1.7.7
 	github.com/go-playground/validator/v10 v10.9.0 // indirect
 	github.com/go-redis/redis/v8 v8.11.3
 	github.com/go-sql-driver/mysql v1.6.0
@@ -13,7 +13,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/onsi/gomega v1.16.0 // indirect
 	github.com/ugorji/go v1.2.6 // indirect
-	github.com/unrolled/secure v1.0.9 // indirect
+	github.com/unrolled/secure v1.0.9
 	golang.org/x/crypto v0.0.0-20210813211128-0a44fdfbc16e // indirect
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	golang.org/x/sys v0.0.0-20210809222454-d867a43fc93e // indirect
